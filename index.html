@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S B Madhav — Application Tech Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a38;
+    --accent: #5b8cff;
+    --accent2: #7cf0c8;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #7878a0;
+    --dim: #3a3a55;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ---- NOISE TEXTURE ---- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ---- GLOW ORBS ---- */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 12s ease-in-out infinite;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(91,140,255,0.07); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb2 { width: 300px; height: 300px; background: rgba(124,240,200,0.06); bottom: 200px; left: -80px; animation-delay: -4s; }
+  .orb3 { width: 200px; height: 200px; background: rgba(255,107,107,0.05); top: 50%; right: 20%; animation-delay: -8s; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(20px, -30px); }
+    66% { transform: translate(-15px, 20px); }
+  }
+
+  /* ---- LAYOUT ---- */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+
+  nav .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ---- HERO ---- */
+  .hero {
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--accent2);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 .line2 {
+    display: block;
+    color: var(--accent);
+    -webkit-text-stroke: 1px var(--accent);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .hero-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .contact-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    background: var(--surface);
+  }
+
+  .contact-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(91,140,255,0.07);
+  }
+
+  .contact-pill .icon { font-size: 0.9rem; }
+
+  /* ---- DIVIDER ---- */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 48px 0;
+  }
+
+  /* ---- SECTION HEADER ---- */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.3;
+  }
+
+  /* ---- SKILLS GRID ---- */
+  .skills-outer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .skill-card:hover { border-color: var(--dim); transform: translateY(-3px); }
+  .skill-card:hover::before { opacity: 1; }
+
+  .skill-card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* ---- PROJECTS ---- */
+  .project-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 20px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(91,140,255,0.05), transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover { border-color: var(--dim); }
+  .project-card:hover::after { opacity: 1; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    padding-top: 4px;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .project-desc li {
+    list-style: none;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .project-desc li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+    top: 2px;
+  }
+
+  /* ---- PUBLICATION ---- */
+  .pub-card {
+    background: linear-gradient(135deg, rgba(91,140,255,0.08), rgba(124,240,200,0.05));
+    border: 1px solid rgba(91,140,255,0.25);
+    border-radius: 14px;
+    padding: 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .pub-badge {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: rgba(91,140,255,0.15);
+    border: 1px solid rgba(91,140,255,0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+
+  .pub-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .pub-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .pub-venue {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ---- EDUCATION ---- */
+  .edu-list { display: grid; gap: 14px; }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .edu-card:hover { border-color: var(--dim); }
+
+  .edu-deg {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+
+  .edu-school {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .edu-right { text-align: right; flex-shrink: 0; }
+
+  .edu-grade {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ---- STRENGTHS ---- */
+  .strengths-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .strength-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.82rem;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .strength-item:hover { border-color: var(--accent2); color: var(--accent2); }
+  .strength-item .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); }
+
+  /* ---- CERTS ---- */
+  .cert-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cert-tag {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .cert-tag:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    margin-top: 80px;
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ---- ANIMATIONS ---- */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hero { padding: 56px 0 44px; }
+    .pub-card { flex-direction: column; }
+    .edu-card { flex-direction: column; }
+    .edu-right { text-align: left; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-num { display: none; }
+    .skills-outer { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 400px) {
+    .skills-outer { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="wrapper">
+    <div class="nav-logo">SB<span>.</span>MADHAV</div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#certs">Certs</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrapper">
+    <p class="hero-tag fade-up">Available for Opportunities</p>
+    <h1 class="fade-up delay-1">
+      S B Madhav
+      <span class="line2">Tech Support.</span>
+    </h1>
+    <p class="hero-subtitle fade-up delay-2">
+      BCA student (2023–26) passionate about Service Desk Management and Application Support. Skilled in troubleshooting, incident handling, and translating technical complexities into clear solutions.
+    </p>
+    <div class="hero-contacts fade-up delay-3">
+      <a href="mailto:madhavsb733@gmail.com" class="contact-pill">
+        <span class="icon">✉</span> madhavsb733@gmail.com
+      </a>
+      <a href="tel:+918590317439" class="contact-pill">
+        <span class="icon">✆</span> +91 85903 17439
+      </a>
+      <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank" class="contact-pill">
+        <span class="icon">in</span> linkedin.com/in/madhav-s-b
+      </a>
+      <a class="contact-pill">
+        <span class="icon">◎</span> Trivandrum, Kerala
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrapper">
+    <div class="section-divider"></div>
+    <p class="section-label">Technical Skills</p>
+    <div class="skills-outer">
+      <div class="skill-card">
+        <p class="skill-card-title">Service Support</p>
+        <div class="skill-tags">
+          <span class="tag">Service Desk</span>
+          <span class="tag">Voice Support</span>
+          <span class="tag">Incident Handling</span>
+          <span class="tag">Ticket Resolution</span>
+          <span class="tag">Client Communication</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Technical</p>
+        <div class="skill-tags">
+          <span class="tag">App Troubleshooting</span>
+          <span class="tag">System Debugging</span>
+          <span class="tag">Basic Networking</span>
+          <span class="tag">Software Installation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Database</p>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span>
+          <span class="tag">SQL Queries</span>
+          <span class="tag">Data Handling</span>
+          <span class="tag">Query Troubleshooting</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Tools & Platforms</p>
+        <div class="skill-tags">
+          <span class="tag">XAMPP</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Git</span>
+          <span class="tag">Ticketing Concepts</span>
+          <span class="tag">CRM Awareness</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <p class="section-label">Core Strengths</p>
+    <div class="strengths-grid">
+      <div class="strength-item"><span class="dot"></span>Verbal & Written Communication</div>
+      <div class="strength-item"><span class="dot"></span>Customer-Focused Approach</div>
+      <div class="strength-item"><span class="dot"></span>Analytical Thinking</div>
+      <div class="strength-item"><span class="dot"></span>Issue Diagnosis</div>
+      <div class="strength-item"><span class="dot"></span>Team Collaboration</div>
+      <div class="strength-item"><span class="dot"></span>Root Cause Identification</div>
+      <div class="strength-item"><span class="dot"></span>Documentation</div>
+      <div class="strength-item"><span class="dot"></span>Adaptability</div>
+      <div class="strength-item"><span class="dot"></span>Quick Learner</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrapper">
+    <div class="section-divider"></div>
+    <p class="section-label">Project Experience</p>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <span class="project-num">01</span>
+        <div>
+          <p class="project-title">Full-Stack Web Applications</p>
+          <ul class="project-desc">
+            <li>Developed database-driven web apps, gaining hands-on experience in identifying and resolving system and backend errors.</li>
+            <li>Performed debugging, validation, and troubleshooting to ensure smooth user experience.</li>
+            <li>Implemented authentication modules and resolved user access-related problems.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">02</span>
+        <div>
+          <p class="project-title">Banking & Rental Management Systems</p>
+          <ul class="project-desc">
+            <li>Designed structured workflows with proper validation and database operations.</li>
+            <li>Identified and fixed logic errors and database inconsistencies during testing.</li>
+            <li>Documented system functionality and issue resolutions for future reference.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">03</span>
+        <div>
+          <p class="project-title">Expense Tracker Application</p>
+          <ul class="project-desc">
+            <li>Built a user-specific expense tracking system and handled database connectivity and data retrieval issues.</li>
+            <li>Tested application reliability and ensured accurate data reporting.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="wrapper">
+    <div class="section-divider"></div>
+    <p class="section-label">Research & Publication</p>
+    <div class="pub-card">
+      <div class="pub-badge">📄</div>
+      <div>
+        <p class="pub-role">First Author — ICAISCS 2026</p>
+        <p class="pub-title">Gamification Fatigue: When Game Elements Reduce Learning Effectiveness in Educational Software</p>
+        <p class="pub-venue">5th International Conference on Advanced Information Science and Computing Systems (ICAISCS), 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrapper">
+    <div class="section-divider"></div>
+    <p class="section-label">Education</p>
+    <div class="edu-list">
+
+      <div class="edu-card">
+        <div>
+          <p class="edu-deg">Bachelor of Computer Applications</p>
+          <p class="edu-school">Christ Nagar College, Maranalloor</p>
+        </div>
+        <div class="edu-right">
+          <p class="edu-grade">CGPA 8.5+/10</p>
+          <p class="edu-year">2023 – 2026</p>
+        </div>
+      </div>
+
+      <div class="edu-card">
+        <div>
+          <p class="edu-deg">Higher Secondary (Class 12)</p>
+          <p class="edu-school">Sree Vidyadhiraja HSS, Neyyattinkara</p>
+        </div>
+        <div class="edu-right">
+          <p class="edu-grade">84.5%</p>
+          <p class="edu-year">2021 – 2023</p>
+        </div>
+      </div>
+
+      <div class="edu-card">
+        <div>
+          <p class="edu-deg">Secondary School (Class 10)</p>
+          <p class="edu-school">Christ Nagar School, Maranalloor</p>
+        </div>
+        <div class="edu-right">
+          <p class="edu-year">2021</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="wrapper">
+    <div class="section-divider"></div>
+    <p class="section-label">Training & Certifications</p>
+    <div class="cert-flow">
+      <span class="cert-tag">Service Desk Fundamentals</span>
+      <span class="cert-tag">IT Support Basics</span>
+      <span class="cert-tag">Full Stack Web Development</span>
+      <span class="cert-tag">PHP & MySQL</span>
+      <span class="cert-tag">Database Management</span>
+      <span class="cert-tag">Power BI</span>
+      <span class="cert-tag">Google Cloud – AI Analytics</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Crafted with care — <span>S B Madhav</span> © 2026 · Trivandrum, Kerala</p>
+</footer>
+
+<script>
+  // Intersection Observer for scroll-reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.skill-card, .project-card, .edu-card, .strength-item, .cert-tag').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

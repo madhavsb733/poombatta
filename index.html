@@ -4,512 +4,342 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S B Madhav — Backend Developer</title>
-<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #060810;
-    --bg2: #0b0e1a;
-    --card: #0f1220;
-    --border: #1e2340;
-    --border2: #2a3060;
-    --green: #00ff88;
-    --green-dim: rgba(0,255,136,0.12);
-    --green-glow: rgba(0,255,136,0.04);
-    --cyan: #00d4ff;
-    --yellow: #ffd166;
-    --red: #ff4d6d;
-    --text: #dde3ff;
-    --muted: #5a6490;
-    --dim: #2a3060;
+    --bg:#060810;--bg2:#0b0e1a;--card:#0f1220;--border:#1e2340;--border2:#2a3060;
+    --green:#00ff88;--cyan:#00d4ff;--yellow:#ffd166;--orange:#ff9d6c;--red:#ff4d6d;
+    --text:#dde3ff;--muted:#5a6490;--dim:#2a3060;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Bricolage Grotesque',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  /* CURSOR */
+  .cursor{position:fixed;width:10px;height:10px;background:var(--green);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;box-shadow:0 0 6px rgba(0,255,136,.8)}
+  #butterfly-cursor{position:fixed;pointer-events:none;z-index:9998;width:52px;height:52px;transform:translate(-50%,-50%);will-change:left,top}
+  #butterfly-cursor svg{width:100%;height:100%;filter:drop-shadow(0 0 4px rgba(0,255,136,0.5))}
+  .wing-left{transform-origin:right center;animation:flapL 0.22s ease-in-out infinite alternate}
+  .wing-right{transform-origin:left center;animation:flapR 0.22s ease-in-out infinite alternate}
+  @keyframes flapL{0%{transform:rotateY(0deg) scaleY(1)}100%{transform:rotateY(60deg) scaleY(0.85)}}
+  @keyframes flapR{0%{transform:rotateY(0deg) scaleY(1)}100%{transform:rotateY(-60deg) scaleY(0.85)}}
 
-  body {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    cursor: none;
-  }
+  /* PROGRESS */
+  #progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--green),var(--cyan));z-index:200;box-shadow:0 0 8px rgba(0,255,136,.6)}
 
-  /* CUSTOM CURSOR */
-  .cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--green);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,255,136,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: all 0.12s ease;
-  }
+  /* GRID + SCANLINE */
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(30,35,64,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(30,35,64,.4) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:0}
 
-  /* GRID BACKGROUND */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(30,35,64,0.4) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30,35,64,0.4) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* GLOWS */
+  .glow-blob{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+  .gb1{width:500px;height:500px;background:rgba(0,255,136,.04);top:-150px;left:-100px}
+  .gb2{width:350px;height:350px;background:rgba(0,212,255,.03);bottom:100px;right:-80px}
 
-  /* SCANLINE */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* GLOW */
-  .glow-blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .gb1 { width: 500px; height: 500px; background: rgba(0,255,136,0.04); top: -150px; left: -100px; }
-  .gb2 { width: 350px; height: 350px; background: rgba(0,212,255,0.03); bottom: 100px; right: -80px; }
-
-  /* LAYOUT */
-  .wrap { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 28px; }
+  .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 28px}
 
   /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    padding: 16px 0;
-    background: rgba(6,8,16,0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,8,16,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;justify-content:space-between;align-items:center}
+  .logo{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--green);letter-spacing:.05em}
+  .logo .at{color:var(--muted)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--muted);text-decoration:none;letter-spacing:.08em;transition:color .2s}
+  .nav-links a::before{content:'//';margin-right:5px;opacity:.4}
+  .nav-links a:hover,.nav-links a.active{color:var(--green)}
 
-  .logo {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    color: var(--green);
-    letter-spacing: 0.05em;
-  }
-  .logo .at { color: var(--muted); }
+  /* HERO */
+  .hero{padding:90px 0 70px}
+  .terminal-window{background:var(--card);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:48px;box-shadow:0 0 60px rgba(0,255,136,.04),0 24px 80px rgba(0,0,0,.5)}
+  .terminal-bar{background:#131628;padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+  .t-dot{width:11px;height:11px;border-radius:50%}
+  .t-dot.red{background:#ff5f57}.t-dot.yellow{background:#febc2e}.t-dot.green{background:#28c840}
+  .t-title{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--muted);margin-left:8px;letter-spacing:.05em}
+  .terminal-body{padding:28px 32px 32px}
+  .t-line{font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.9;display:block}
+  .t-prompt{color:var(--green)}.t-cmd{color:var(--text)}.t-key{color:var(--cyan)}.t-val{color:var(--yellow)}.t-str{color:var(--orange)}
+  .t-name{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1;display:block;margin:16px 0 4px}
+  .t-role{font-family:'Fira Code',monospace;font-size:.88rem;color:var(--green);display:block;margin-bottom:16px}
+  .cursor-blink{display:inline-block;width:9px;height:1.1em;background:var(--green);vertical-align:text-bottom;animation:blink 1s step-end infinite;margin-left:2px}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  #typed-summary{color:var(--muted);font-size:.82rem}
 
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    transition: color 0.2s;
-    position: relative;
-  }
-  .nav-links a::before { content: '//'; margin-right: 5px; opacity: 0.4; }
-  .nav-links a:hover { color: var(--green); }
+  /* CONTACTS */
+  .contact-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+  .c-pill{display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--card);border:1px solid var(--border2);border-radius:6px;font-family:'Fira Code',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;transition:border-color .2s,color .2s,box-shadow .2s;letter-spacing:.03em}
+  .c-pill:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.1)}
 
-  /* TERMINAL HERO */
-  .hero { padding: 90px 0 70px; }
+  section{padding:10px 0}
+  .section-head{display:flex;align-items:center;gap:16px;margin-bottom:32px}
+  .section-num{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--green);letter-spacing:.1em}
+  .section-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-.01em}
+  .section-line{flex:1;height:1px;background:var(--border)}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:52px 0}
 
-  .terminal-window {
-    background: var(--card);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 48px;
-    box-shadow: 0 0 60px rgba(0,255,136,0.04), 0 24px 80px rgba(0,0,0,0.5);
-  }
+  /* STATS */
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .stat-item{background:var(--card);padding:24px 20px;text-align:center;transition:background .2s}
+  .stat-item:hover{background:#13182e}
+  .stat-num{font-family:'Fira Code',monospace;font-size:1.9rem;font-weight:700;color:var(--green);display:block;line-height:1;margin-bottom:6px}
+  .stat-label{font-family:'Fira Code',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 
-  .terminal-bar {
-    background: #131628;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+  /* ABOUT */
+  .about-terminal{background:var(--card);border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+  .about-lines{padding:28px 32px;display:grid;gap:0}
+  .about-line{font-family:'Fira Code',monospace;font-size:.82rem;line-height:2;display:flex;gap:12px;align-items:baseline;opacity:0;transform:translateX(-12px);transition:opacity .4s ease,transform .4s ease}
+  .about-line.visible{opacity:1;transform:translateX(0)}
+  .abt-prompt{color:var(--green);flex-shrink:0}
+  .abt-key{color:var(--cyan)}
+  .abt-sep{color:var(--muted)}
+  .abt-val{color:var(--text);font-size:.8rem}
+  .abt-highlight{color:var(--yellow)}
+  .abt-comment{color:var(--muted);font-size:.75rem}
+  .about-divider{height:1px;background:var(--border);margin:4px 0}
 
-  .t-dot {
-    width: 11px; height: 11px;
-    border-radius: 50%;
-  }
-  .t-dot.red { background: #ff5f57; }
-  .t-dot.yellow { background: #febc2e; }
-  .t-dot.green { background: #28c840; }
+  /* STACK */
+  .stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .stack-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;transition:border-color .25s,box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+  .stack-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .stack-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+  .stack-card:hover::before{transform:scaleX(1)}
+  .stack-cat{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--green);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .stack-items{display:flex;flex-wrap:wrap;gap:6px}
+  .s-tag{font-family:'Fira Code',monospace;font-size:.65rem;padding:3px 9px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);opacity:.8}
 
-  .t-title {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    margin-left: 8px;
-    letter-spacing: 0.05em;
-  }
-
-  .terminal-body { padding: 28px 32px 32px; }
-
-  .t-line {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.82rem;
-    line-height: 1.9;
-    display: block;
-  }
-  .t-prompt { color: var(--green); }
-  .t-cmd { color: var(--text); }
-  .t-comment { color: var(--muted); }
-  .t-key { color: var(--cyan); }
-  .t-val { color: var(--yellow); }
-  .t-str { color: #ff9d6c; }
-
-  .t-name {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(2.4rem, 5.5vw, 4rem);
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    display: block;
-    margin: 16px 0 4px;
-  }
-  .t-role {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.88rem;
-    color: var(--green);
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .cursor-blink {
-    display: inline-block;
-    width: 9px; height: 1.1em;
-    background: var(--green);
-    vertical-align: text-bottom;
-    animation: blink 1s step-end infinite;
-    margin-left: 2px;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-  /* CONTACT STRIP */
-  .contact-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 32px;
-  }
-  .c-pill {
-    display: flex; align-items: center; gap: 7px;
-    padding: 8px 16px;
-    background: var(--card);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
-    letter-spacing: 0.03em;
-  }
-  .c-pill:hover {
-    border-color: var(--green);
-    color: var(--green);
-    box-shadow: 0 0 12px rgba(0,255,136,0.1);
-  }
-  .c-pill .ico { font-size: 0.75rem; }
-
-  /* SECTION */
-  section { padding: 10px 0; }
-  .section-head {
-    display: flex; align-items: center; gap: 16px;
-    margin-bottom: 32px;
-  }
-  .section-num {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    color: var(--green);
-    letter-spacing: 0.1em;
-  }
-  .section-title {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: -0.01em;
-  }
-  .section-line { flex: 1; height: 1px; background: var(--border); }
-
-  /* TECH STACK */
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-  }
-  .stack-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 20px;
-    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .stack-card::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--green);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
-  }
-  .stack-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-  .stack-card:hover::before { transform: scaleX(1); }
-
-  .stack-cat {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.6rem;
-    color: var(--green);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .stack-items {
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
-  .s-tag {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    padding: 3px 9px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    color: var(--text);
-    opacity: 0.8;
-  }
+  /* SKILL BARS */
+  .skill-bars{display:grid;gap:16px}
+  .skill-row{display:grid;gap:6px}
+  .skill-meta{display:flex;justify-content:space-between;align-items:center}
+  .skill-name{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--text)}
+  .skill-pct{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--green)}
+  .skill-track{height:4px;background:var(--border);border-radius:100px;overflow:hidden}
+  .skill-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 
   /* PROJECTS */
-  .projects-list { display: grid; gap: 20px; }
+  .proj-featured{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:36px;position:relative;overflow:hidden;margin-bottom:20px}
+  .proj-featured::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.07),transparent 70%);pointer-events:none}
+  .featured-label{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--green);letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .featured-label::before{content:'★';font-size:.7rem}
+  .projects-list{display:grid;gap:20px}
+  .proj-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px 30px;display:grid;grid-template-columns:1fr auto;gap:16px;transition:border-color .25s,box-shadow .25s,transform .2s;position:relative;overflow:hidden}
+  .proj-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);transform:scaleY(0);transform-origin:bottom;transition:transform .3s}
+  .proj-card:hover{border-color:var(--border2);box-shadow:0 4px 40px rgba(0,255,136,.05);transform:translateX(4px)}
+  .proj-card:hover::before{transform:scaleY(1)}
+  .proj-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .proj-idx{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--green);opacity:.6}
+  .proj-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+  .proj-badge{font-family:'Fira Code',monospace;font-size:.58rem;padding:3px 9px;border-radius:100px;border:1px solid rgba(0,255,136,.3);color:var(--green);background:rgba(0,255,136,.06);white-space:nowrap;align-self:start}
+  .proj-points{display:grid;gap:6px}
+  .proj-point{display:flex;gap:10px;font-size:.84rem;color:var(--muted);line-height:1.5}
+  .proj-point::before{content:'›';color:var(--green);font-size:1rem;flex-shrink:0;margin-top:-1px}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+  .p-tag{font-family:'Fira Code',monospace;font-size:.6rem;padding:3px 10px;border-radius:4px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15);color:var(--cyan)}
 
-  .proj-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 28px 30px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-    transition: border-color 0.25s, box-shadow 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .proj-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--green);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.3s;
-  }
-  .proj-card:hover { border-color: var(--border2); box-shadow: 0 4px 40px rgba(0,255,136,0.04); }
-  .proj-card:hover::before { transform: scaleY(1); }
+  /* BOOKS */
+  .books-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .book-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative}
+  .book-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .book-cover-wrap{position:relative;overflow:hidden;height:280px;background:#0a0d1a}
+  .book-cover-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;filter:saturate(0.9)}
+  .book-card:hover .book-cover-wrap img{transform:scale(1.04)}
+  .book-cover-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(6,8,16,.95) 100%);pointer-events:none}
+  .book-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f1428,#1a1f3a);flex-direction:column;gap:12px}
+  .book-placeholder-text{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .book-placeholder-icon{font-size:2.5rem;opacity:.3}
+  .book-info{padding:20px 22px 24px}
+  .book-status{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+  .book-status.published{color:var(--green)}
+  .book-status.writing{color:var(--yellow)}
+  .book-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;line-height:1.3;margin-bottom:6px}
+  .book-subtitle{font-size:.8rem;color:var(--muted);font-style:italic;margin-bottom:12px}
+  .book-lang{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:2px 8px;display:inline-block;margin-bottom:14px}
+  .book-link{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--green);text-decoration:none;border:1px solid rgba(0,255,136,.25);border-radius:4px;padding:6px 14px;display:inline-flex;align-items:center;gap:6px;transition:background .2s,box-shadow .2s}
+  .book-link:hover{background:rgba(0,255,136,.06);box-shadow:0 0 10px rgba(0,255,136,.1)}
+  .book-link-soon{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--muted);border:1px dashed var(--border);border-radius:4px;padding:6px 14px;display:inline-block}
+  .writing-badge{position:absolute;top:14px;right:14px;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.3);border-radius:6px;padding:4px 10px;font-family:'Fira Code',monospace;font-size:.58rem;color:var(--yellow);letter-spacing:.08em}
+  .writing-progress{margin-top:12px}
+  .wp-label{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+  .wp-track{height:3px;background:var(--border);border-radius:100px;overflow:hidden}
+  .wp-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:100px;width:0%;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
 
-  .proj-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .proj-idx {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    color: var(--green);
-    opacity: 0.6;
-  }
-  .proj-name {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
-  }
-  .proj-badge {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.58rem;
-    padding: 3px 9px;
-    border-radius: 100px;
-    border: 1px solid rgba(0,255,136,0.3);
-    color: var(--green);
-    background: rgba(0,255,136,0.06);
-    white-space: nowrap;
-    align-self: start;
-  }
+  /* CERTS */
+  .certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .cert-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s;cursor:default}
+  .cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+  .cert-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+  .cert-card:hover::before{transform:scaleX(1)}
+  .cert-icon-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .cert-ico{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+  .cert-ico.green{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.2)}
+  .cert-ico.cyan{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2)}
+  .cert-ico.yellow{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.2)}
+  .cert-ico.orange{background:rgba(255,157,108,.1);border:1px solid rgba(255,157,108,.2)}
+  .cert-ico.red{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2)}
+  .cert-hours{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:2px 7px}
+  .cert-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:4px}
+  .cert-issuer{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted)}
 
-  .proj-points { display: grid; gap: 6px; }
-  .proj-point {
-    display: flex; gap: 10px;
-    font-size: 0.84rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .proj-point::before {
-    content: '›';
-    color: var(--green);
-    font-size: 1rem;
-    flex-shrink: 0;
-    margin-top: -1px;
-  }
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:28px;display:grid;gap:0}
+  .timeline::before{content:'';position:absolute;left:7px;top:10px;bottom:10px;width:1px;background:var(--border)}
+  .tl-item{position:relative;padding:0 0 36px 24px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-dot{position:absolute;left:-21px;top:6px;width:14px;height:14px;border-radius:50%;border:2px solid var(--green);background:var(--bg);transition:background .2s,box-shadow .2s}
+  .tl-item:hover .tl-dot{background:var(--green);box-shadow:0 0 10px rgba(0,255,136,.4)}
+  .tl-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;transition:border-color .2s}
+  .tl-item:hover .tl-card{border-color:var(--border2)}
+  .tl-title{font-weight:700;font-size:.95rem;margin-bottom:4px}
+  .tl-school{font-size:.82rem;color:var(--muted)}
+  .tl-right{text-align:right;flex-shrink:0}
+  .tl-year{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--green)}
+  .tl-status{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted);margin-top:3px}
 
-  .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-  .p-tag {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.6rem;
-    padding: 3px 10px;
-    border-radius: 4px;
-    background: rgba(0,212,255,0.06);
-    border: 1px solid rgba(0,212,255,0.15);
-    color: var(--cyan);
-  }
+  /* LANGS */
+  .lang-list{display:grid;gap:10px}
+  .lang-row{display:flex;justify-content:space-between;align-items:center}
+  .lang-name{font-size:.88rem;font-weight:500}
+  .lang-level{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--green);padding:3px 10px;border:1px solid rgba(0,255,136,.2);border-radius:100px;background:rgba(0,255,136,.05)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 
-  /* EDUCATION */
-  .edu-cards { display: grid; gap: 14px; }
-  .edu-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    transition: border-color 0.2s;
-  }
-  .edu-card:hover { border-color: var(--border2); }
-  .edu-title {
-    font-weight: 700;
-    font-size: 0.95rem;
-    margin-bottom: 4px;
-  }
-  .edu-school { font-size: 0.82rem; color: var(--muted); }
-  .edu-right { text-align: right; flex-shrink: 0; }
-  .edu-year {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.68rem;
-    color: var(--green);
-  }
-  .edu-status {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.62rem;
-    color: var(--muted);
-    margin-top: 3px;
-  }
-
-  /* CERTS & LANGS */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-
-  .cert-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .cert-chip {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.67rem;
-    padding: 6px 13px;
-    border-radius: 5px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .cert-chip:hover { border-color: var(--yellow); color: var(--yellow); }
-
-  .lang-list { display: grid; gap: 10px; }
-  .lang-row { display: flex; justify-content: space-between; align-items: center; }
-  .lang-name { font-size: 0.88rem; font-weight: 500; }
-  .lang-level {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    color: var(--green);
-    padding: 3px 10px;
-    border: 1px solid rgba(0,255,136,0.2);
-    border-radius: 100px;
-    background: rgba(0,255,136,0.05);
-  }
-
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 52px 0;
-  }
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .6s ease,transform .6s ease}
+  .reveal-left.visible{opacity:1;transform:translateX(0)}
+  .reveal-right{opacity:0;transform:translateX(28px);transition:opacity .6s ease,transform .6s ease}
+  .reveal-right.visible{opacity:1;transform:translateX(0)}
+  .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .6s ease,transform .6s ease}
+  .reveal-scale.visible{opacity:1;transform:scale(1)}
 
   /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
-    text-align: center;
-  }
-  footer p {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-  }
-  footer span { color: var(--green); }
+  footer{margin-top:60px;border-top:1px solid var(--border);padding:36px 0}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  footer p{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--muted)}
+  footer span{color:var(--green)}
+  .footer-links{display:flex;gap:20px}
+  .footer-links a{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--muted);text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--green)}
 
-  /* SCROLL REVEAL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* BACK TO TOP */
+  #back-top{position:fixed;bottom:28px;right:28px;width:40px;height:40px;background:var(--card);border:1px solid var(--border2);border-radius:8px;z-index:50;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.7rem;color:var(--green);text-decoration:none;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s,border-color .2s,box-shadow .2s}
+  #back-top.show{opacity:1;pointer-events:all}
+  #back-top:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.15)}
 
-  /* RESPONSIVE */
-  @media (max-width: 680px) {
-    .nav-links { display: none; }
-    .proj-card { grid-template-columns: 1fr; }
-    .proj-badge { align-self: auto; }
-    .two-col { grid-template-columns: 1fr; }
-    .edu-card { flex-direction: column; align-items: flex-start; }
-    .edu-right { text-align: left; }
-    .t-name { font-size: 2.2rem; }
-    .terminal-body { padding: 20px; }
+  /* Idle hint tooltip */
+  #vine-hint {
+    position:fixed;bottom:70px;left:50%;transform:translateX(-50%);
+    font-family:'Fira Code',monospace;font-size:.6rem;color:var(--muted);
+    background:var(--card);border:1px solid var(--border);border-radius:6px;
+    padding:5px 14px;pointer-events:none;opacity:0;transition:opacity .5s ease;
+    white-space:nowrap;z-index:9985;
+  }
+  #vine-hint.show { opacity:1; }
+
+  /* Vine SVG container */
+  #vine-svg {
+    position:fixed;left:0;top:0;width:360px;height:100vh;
+    pointer-events:none;z-index:9990;overflow:visible;
+    opacity:0;transition:opacity 1.2s ease;
   }
 
-  @media (max-width: 420px) {
-    .stack-grid { grid-template-columns: 1fr 1fr; }
-    .hero { padding: 60px 0 50px; }
+  @media(max-width:680px){
+    .nav-links{display:none}.proj-card{grid-template-columns:1fr}
+    .two-col{grid-template-columns:1fr}.books-grid{grid-template-columns:1fr}
+    .stats-bar{grid-template-columns:1fr 1fr}.tl-card{flex-direction:column;align-items:flex-start}
+    .tl-right{text-align:left}.t-name{font-size:2.2rem}.terminal-body{padding:20px}
+    .certs-grid{grid-template-columns:1fr 1fr}
   }
+  @media(max-width:420px){.stack-grid{grid-template-columns:1fr 1fr}.hero{padding:60px 0 50px}.certs-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
+<div id="progress-bar"></div>
 <div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div id="butterfly-cursor">
+  <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+    <g class="wing-left">
+      <path d="M50,38 C42,20 18,8 8,18 C-2,28 10,52 28,52 C38,52 46,46 50,38Z" fill="url(#wl1)" opacity="0.92"/>
+      <path d="M50,42 C44,52 24,62 16,56 C8,50 18,36 32,38 C40,39 46,40 50,42Z" fill="url(#wl2)" opacity="0.88"/>
+      <circle cx="22" cy="28" r="3.5" fill="rgba(0,255,136,0.6)"/>
+      <circle cx="32" cy="20" r="2" fill="rgba(0,212,255,0.5)"/>
+      <circle cx="18" cy="42" r="2.5" fill="rgba(255,209,102,0.5)"/>
+    </g>
+    <g class="wing-right">
+      <path d="M50,38 C58,20 82,8 92,18 C102,28 90,52 72,52 C62,52 54,46 50,38Z" fill="url(#wr1)" opacity="0.92"/>
+      <path d="M50,42 C56,52 76,62 84,56 C92,50 82,36 68,38 C60,39 54,40 50,42Z" fill="url(#wr2)" opacity="0.88"/>
+      <circle cx="78" cy="28" r="3.5" fill="rgba(0,255,136,0.6)"/>
+      <circle cx="68" cy="20" r="2" fill="rgba(0,212,255,0.5)"/>
+      <circle cx="82" cy="42" r="2.5" fill="rgba(255,209,102,0.5)"/>
+    </g>
+    <ellipse cx="50" cy="42" rx="3" ry="14" fill="#00ff88" opacity="0.95"/>
+    <circle cx="50" cy="27" r="3.5" fill="#00ff88"/>
+    <path d="M50,24 Q44,14 40,10" stroke="#00d4ff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M50,24 Q56,14 60,10" stroke="#00d4ff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <circle cx="40" cy="10" r="2" fill="#00d4ff"/>
+    <circle cx="60" cy="10" r="2" fill="#00d4ff"/>
+    <defs>
+      <radialGradient id="wl1" cx="30%" cy="40%"><stop offset="0%" stop-color="#00ff88"/><stop offset="40%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#0a1428"/></radialGradient>
+      <radialGradient id="wl2" cx="40%" cy="30%"><stop offset="0%" stop-color="#ffd166"/><stop offset="60%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#060810"/></radialGradient>
+      <radialGradient id="wr1" cx="70%" cy="40%"><stop offset="0%" stop-color="#00ff88"/><stop offset="40%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#0a1428"/></radialGradient>
+      <radialGradient id="wr2" cx="60%" cy="30%"><stop offset="0%" stop-color="#ffd166"/><stop offset="60%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#060810"/></radialGradient>
+    </defs>
+  </svg>
+</div>
+
+<!-- VINE SVG — draping downward from top like the reference image -->
+<svg id="vine-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="vine-glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="leaf-glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="flower-glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="leafGrad1" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#7fff6a"/>
+      <stop offset="55%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </radialGradient>
+    <radialGradient id="leafGrad2" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#86efac"/>
+      <stop offset="55%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </radialGradient>
+    <radialGradient id="flowerGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#ff9d6c"/>
+    </radialGradient>
+    <radialGradient id="flowerGrad2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </radialGradient>
+  </defs>
+  <!-- Vines drawn here by JS -->
+  <g id="vine-group"></g>
+</svg>
+
+<div id="vine-hint">// stay still for 10s to see something ✦</div>
+
 <div class="glow-blob gb1"></div>
 <div class="glow-blob gb2"></div>
+<a href="#" id="back-top">↑</a>
 
 <!-- NAV -->
 <nav>
   <div class="wrap">
-    <div class="logo"><span class="at">~/</span>madhav<span class="at">.dev</span></div>
+    <div class="logo"><span class="at">~/</span>sb_madhav</div>
     <ul class="nav-links">
+      <li><a href="#about">about</a></li>
       <li><a href="#stack">stack</a></li>
       <li><a href="#projects">projects</a></li>
+      <li><a href="#books">books</a></li>
       <li><a href="#education">education</a></li>
       <li><a href="#certs">certs</a></li>
     </ul>
@@ -517,36 +347,77 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="wrap">
-
-    <div class="terminal-window">
+    <div class="terminal-window reveal-scale">
       <div class="terminal-bar">
-        <div class="t-dot red"></div>
-        <div class="t-dot yellow"></div>
-        <div class="t-dot green"></div>
-        <span class="t-title">madhav@dev ~ bash</span>
+        <div class="t-dot red"></div><div class="t-dot yellow"></div><div class="t-dot green"></div>
+        <span class="t-title">sb_madhav@dev ~ bash</span>
       </div>
       <div class="terminal-body">
-        <span class="t-line"><span class="t-prompt">❯ </span><span class="t-cmd">whoami</span></span>
+        <span class="t-line"><span class="t-prompt">&#10095; </span><span class="t-cmd">whoami</span></span>
         <span class="t-name">S B Madhav</span>
-        <span class="t-role">// Backend-Focused Web Developer</span>
-        <span class="t-line" style="margin-top:10px"><span class="t-prompt">❯ </span><span class="t-cmd">cat profile.json</span></span>
+        <span class="t-role">// Backend-Focused Web Developer &amp; Writer</span>
+        <span class="t-line" style="margin-top:10px"><span class="t-prompt">&#10095; </span><span class="t-cmd">cat profile.json</span></span>
         <span class="t-line">&nbsp;&nbsp;<span class="t-key">"status"</span>: <span class="t-val">"Fresher · Actively Seeking Internships"</span>,</span>
         <span class="t-line">&nbsp;&nbsp;<span class="t-key">"focus"</span>: <span class="t-val">"REST APIs · Auth Systems · DB Design"</span>,</span>
         <span class="t-line">&nbsp;&nbsp;<span class="t-key">"stack"</span>: <span class="t-str">["Node.js", "Express.js", "MySQL", "PHP"]</span>,</span>
-        <span class="t-line">&nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-val">"Trivandrum, Kerala"</span></span>
-        <span class="t-line"><span class="t-prompt">❯ </span><span class="cursor-blink"></span></span>
+        <span class="t-line">&nbsp;&nbsp;<span class="t-key">"also"</span>: <span class="t-str">["Hobby Writer", "Robotics", "Malayalam Writing"]</span>,</span>
+        <span class="t-line">&nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-val">"Trivandrum, Kerala"</span>,</span>
+        <span class="t-line">&nbsp;&nbsp;<span class="t-key">"motto"</span>: <span id="typed-summary">"<span class="cursor-blink"></span>"</span></span>
       </div>
     </div>
-
-    <div class="contact-strip">
-      <a href="mailto:madhavsb733@gmail.com" class="c-pill"><span class="ico">✉</span>madhavsb733@gmail.com</a>
-      <a href="tel:+918590317439" class="c-pill"><span class="ico">✆</span>+91 85903 17439</a>
-      <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank" class="c-pill"><span class="ico">in</span>linkedin.com/in/madhav-s-b</a>
-      <span class="c-pill"><span class="ico">◎</span>Trivandrum, Kerala</span>
+    <div class="contact-strip reveal">
+      <a href="mailto:sbmadhav@example.com" class="c-pill"><span>✓</span>sbmadhav@email.com</a>
+      <a href="tel:+918590317439" class="c-pill"><span>✆</span>+91 85903 17439</a>
+      <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank" class="c-pill"><span>in</span>linkedin.com/in/madhav-s-b</a>
+      <span class="c-pill"><span>⌘</span>Trivandrum, Kerala</span>
     </div>
+  </div>
+</section>
 
+<!-- STATS -->
+<section id="stats">
+  <div class="wrap">
+    <div class="divider"></div>
+    <div class="stats-bar reveal-scale">
+      <div class="stat-item"><span class="stat-num" data-target="5">0</span><span class="stat-label">Projects Built</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="2">0</span><span class="stat-label">Books Written</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="7">0</span><span class="stat-label">Certifications</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="3">0</span><span class="stat-label">Spoken Languages</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="divider"></div>
+    <div class="section-head reveal">
+      <span class="section-num">00</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-terminal reveal-scale">
+      <div class="terminal-bar">
+        <div class="t-dot red"></div><div class="t-dot yellow"></div><div class="t-dot green"></div>
+        <span class="t-title">sb_madhav — about.json</span>
+      </div>
+      <div class="about-lines" id="aboutLines">
+        <div class="about-line"><span class="abt-prompt">&#10095;</span><span>{</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"role"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"Backend-Focused Web Developer — I own the server-side, end to end."</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"currently"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"BCA 3rd Year @ Christ Nagar College, Trivandrum"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"seeking"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"Backend / Full-Stack internship or entry-level role"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"builds"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"REST APIs, auth systems, DB schemas, role-based access"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"projects"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-highlight">5 &nbsp;<span class="abt-comment">// banking, rentals, hiring, techfest, tracker</span></span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"author"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-highlight">true &nbsp;<span class="abt-comment">// writes Malayalam novels — personal, shared with friends</span></span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"robotics"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-highlight">"30hr certified"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"languages_spoken"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-str">["English", "Malayalam", "Tamil"]</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"location"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"Trivandrum, Kerala, India"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span>}</span></div>
+        <div class="about-line"><span class="abt-prompt">&#10095;</span><span class="abt-comment">// &nbsp;ready to build something great</span><span class="cursor-blink"></span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -559,57 +430,26 @@
       <h2 class="section-title">Tech Stack</h2>
       <div class="section-line"></div>
     </div>
-    <div class="stack-grid">
-      <div class="stack-card reveal">
-        <p class="stack-cat">Languages</p>
-        <div class="stack-items">
-          <span class="s-tag">JavaScript</span>
-          <span class="s-tag">PHP</span>
-          <span class="s-tag">C</span>
-          <span class="s-tag">C++</span>
-        </div>
-      </div>
-      <div class="stack-card reveal">
-        <p class="stack-cat">Backend</p>
-        <div class="stack-items">
-          <span class="s-tag">Node.js</span>
-          <span class="s-tag">Express.js</span>
-          <span class="s-tag">REST APIs</span>
-        </div>
-      </div>
-      <div class="stack-card reveal">
-        <p class="stack-cat">Database</p>
-        <div class="stack-items">
-          <span class="s-tag">MySQL</span>
-          <span class="s-tag">Schema Design</span>
-          <span class="s-tag">SQL</span>
-        </div>
-      </div>
-      <div class="stack-card reveal">
-        <p class="stack-cat">Frontend</p>
-        <div class="stack-items">
-          <span class="s-tag">HTML5</span>
-          <span class="s-tag">CSS3</span>
-          <span class="s-tag">JavaScript</span>
-        </div>
-      </div>
-      <div class="stack-card reveal">
-        <p class="stack-cat">Tools</p>
-        <div class="stack-items">
-          <span class="s-tag">VS Code</span>
-          <span class="s-tag">Figma</span>
-          <span class="s-tag">Wix Studio</span>
-          <span class="s-tag">Git</span>
-        </div>
-      </div>
-      <div class="stack-card reveal">
-        <p class="stack-cat">Analytics & Cloud</p>
-        <div class="stack-items">
-          <span class="s-tag">Power BI</span>
-          <span class="s-tag">Google Cloud</span>
-          <span class="s-tag">AI Analytics</span>
-        </div>
-      </div>
+    <div class="stack-grid" style="margin-bottom:40px">
+      <div class="stack-card reveal"><p class="stack-cat">Languages</p><div class="stack-items"><span class="s-tag">JavaScript</span><span class="s-tag">PHP</span><span class="s-tag">C</span><span class="s-tag">C++</span></div></div>
+      <div class="stack-card reveal"><p class="stack-cat">Backend</p><div class="stack-items"><span class="s-tag">Node.js</span><span class="s-tag">Express.js</span><span class="s-tag">REST APIs</span></div></div>
+      <div class="stack-card reveal"><p class="stack-cat">Database</p><div class="stack-items"><span class="s-tag">MySQL</span><span class="s-tag">Schema Design</span><span class="s-tag">SQL</span></div></div>
+      <div class="stack-card reveal"><p class="stack-cat">Frontend</p><div class="stack-items"><span class="s-tag">HTML5</span><span class="s-tag">CSS3</span><span class="s-tag">JavaScript</span></div></div>
+      <div class="stack-card reveal"><p class="stack-cat">Tools &amp; Design</p><div class="stack-items"><span class="s-tag">VS Code</span><span class="s-tag">Figma</span><span class="s-tag">Wix Studio</span></div></div>
+      <div class="stack-card reveal"><p class="stack-cat">Analytics &amp; Cloud</p><div class="stack-items"><span class="s-tag">Power BI</span><span class="s-tag">Google Cloud</span><span class="s-tag">AI Analytics</span></div></div>
+    </div>
+    <div class="section-head reveal" style="margin-top:8px">
+      <span class="section-num" style="opacity:.4">—</span>
+      <h3 class="section-title" style="font-size:1rem;font-weight:600">Proficiency</h3>
+      <div class="section-line"></div>
+    </div>
+    <div class="skill-bars reveal">
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">Node.js + Express.js</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" data-width="88"></div></div></div>
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">MySQL + Schema Design</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" data-width="85"></div></div></div>
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">REST API Development</span><span class="skill-pct">87%</span></div><div class="skill-track"><div class="skill-fill" data-width="87"></div></div></div>
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">JavaScript</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" data-width="80"></div></div></div>
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">PHP</span><span class="skill-pct">75%</span></div><div class="skill-track"><div class="skill-fill" data-width="75"></div></div></div>
+      <div class="skill-row"><div class="skill-meta"><span class="skill-name">HTML + CSS</span><span class="skill-pct">72%</span></div><div class="skill-track"><div class="skill-fill" data-width="72"></div></div></div>
     </div>
   </div>
 </section>
@@ -623,116 +463,74 @@
       <h2 class="section-title">Projects</h2>
       <div class="section-line"></div>
     </div>
+    <div class="proj-featured reveal-scale">
+      <p class="featured-label">Featured — Live Project</p>
+      <div class="proj-header"><span class="proj-idx">p.01</span><h3 class="proj-name" style="font-size:1.4rem">Official College Techfest Website</h3></div>
+      <div class="proj-points">
+        <div class="proj-point">Developed the official website for the college techfest — deployed and used live for real event promotion and attendee engagement.</div>
+        <div class="proj-point">Implemented backend logic for event data handling, content management, and dynamic page rendering.</div>
+        <div class="proj-point">Collaborated on frontend responsiveness and UI structure ensuring smooth cross-device experience.</div>
+      </div>
+      <div class="proj-tags" style="margin-top:18px"><span class="p-tag">Backend Logic</span><span class="p-tag">CMS</span><span class="p-tag">HTML/CSS</span><span class="p-tag">Live Deployment</span><span class="p-tag">Event Management</span></div>
+    </div>
     <div class="projects-list">
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.02</span><h3 class="proj-name">Full-Stack Land Rental Website</h3></div><div class="proj-points"><div class="proj-point">Complete end-to-end land rental platform — auth, listings, rental requests, and admin approval workflows.</div><div class="proj-point">Secure REST APIs with role-based access for tenants and admins. MySQL schemas with image upload handling.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">REST API</span><span class="p-tag">RBAC</span><span class="p-tag">Image Upload</span></div></div><span class="proj-badge">Full Stack</span></div>
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.03</span><h3 class="proj-name">Trustora — Banking Platform</h3></div><div class="proj-points"><div class="proj-point">Independently designed and built the complete backend architecture from scratch.</div><div class="proj-point">Secure auth, role-based access, transaction workflows. Normalized MySQL schemas and full REST APIs.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">Auth</span><span class="p-tag">RBAC</span><span class="p-tag">Transactions</span></div></div><span class="proj-badge">Solo Backend</span></div>
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.04</span><h3 class="proj-name">HireHive — Job Hiring Platform</h3></div><div class="proj-points"><div class="proj-point">Backend for job posting, application management, and admin approval flows.</div><div class="proj-point">REST APIs with Node.js + Express.js. Full DB schema for jobs, applicants, and companies.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">REST API</span><span class="p-tag">Job Board</span></div></div><span class="proj-badge">Backend</span></div>
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.05</span><h3 class="proj-name">Expense Tracker Web App</h3></div><div class="proj-points"><div class="proj-point">Complete backend for expense tracking with auth and full CRUD operations.</div><div class="proj-point">Category-based summaries and secure user-specific data isolation using MySQL.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">MySQL</span><span class="p-tag">Auth</span><span class="p-tag">CRUD</span><span class="p-tag">Categories</span></div></div><span class="proj-badge">Backend</span></div>
+    </div>
+  </div>
+</section>
 
-      <div class="proj-card reveal">
-        <div>
-          <div class="proj-header">
-            <span class="proj-idx">p.01</span>
-            <h3 class="proj-name">Trustora — Banking Platform</h3>
+<!-- BOOKS -->
+<section id="books">
+  <div class="wrap">
+    <div class="divider"></div>
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Books</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="books-grid">
+      <div class="book-card reveal-left">
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">
+            <div class="book-placeholder-icon">📖</div>
+            <p class="book-placeholder-text">Malayalam Novel</p>
           </div>
-          <div class="proj-points">
-            <div class="proj-point">Independently designed and built the complete backend architecture from scratch.</div>
-            <div class="proj-point">Implemented secure authentication, role-based access control, and full transaction workflows.</div>
-            <div class="proj-point">Designed normalized MySQL schemas and built REST APIs for all banking operations.</div>
-          </div>
-          <div class="proj-tags">
-            <span class="p-tag">Node.js</span>
-            <span class="p-tag">Express.js</span>
-            <span class="p-tag">MySQL</span>
-            <span class="p-tag">REST API</span>
-            <span class="p-tag">Auth</span>
-            <span class="p-tag">RBAC</span>
-          </div>
+          <div class="book-cover-overlay"></div>
         </div>
-        <span class="proj-badge">Solo Backend</span>
-      </div>
-
-      <div class="proj-card reveal">
-        <div>
-          <div class="proj-header">
-            <span class="proj-idx">p.02</span>
-            <h3 class="proj-name">Full-Stack Land Rental Website</h3>
-          </div>
-          <div class="proj-points">
-            <div class="proj-point">Built a complete end-to-end land rental platform — user auth, listing, rental requests, and admin approvals.</div>
-            <div class="proj-point">Implemented secure REST APIs with role-based access control for tenants and admins.</div>
-            <div class="proj-point">Managed MySQL schemas for users, listings, and transactions; handled image uploads and validations.</div>
-          </div>
-          <div class="proj-tags">
-            <span class="p-tag">Node.js</span>
-            <span class="p-tag">Express.js</span>
-            <span class="p-tag">MySQL</span>
-            <span class="p-tag">REST API</span>
-            <span class="p-tag">Image Upload</span>
-            <span class="p-tag">Admin Workflow</span>
-          </div>
+        <div class="book-info">
+          <p class="book-status" style="color:var(--cyan)">&#9632; Personal Writing</p>
+          <p class="book-title">A Promise She Kept Waiting For</p>
+          <p class="book-subtitle">അവൻ വരുമെന്ന്‍ പറഞ്ഞിരുന്നു</p>
+          <span class="book-lang">Malayalam Novel</span>
+          <br>
+          <span class="book-link-soon">&#128155; Written for friends, not for sale</span>
         </div>
-        <span class="proj-badge">Full Stack</span>
       </div>
-
-      <div class="proj-card reveal">
-        <div>
-          <div class="proj-header">
-            <span class="proj-idx">p.03</span>
-            <h3 class="proj-name">HireHive — Job Hiring Platform</h3>
+      <div class="book-card reveal-right">
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">
+            <div class="book-placeholder-icon">&#9997;</div>
+            <p class="book-placeholder-text">Cover Pending</p>
           </div>
-          <div class="proj-points">
-            <div class="proj-point">Fully implemented backend for job posting, application management, and admin approval flows.</div>
-            <div class="proj-point">Developed REST APIs using Node.js and Express.js with comprehensive server-side validation.</div>
-            <div class="proj-point">Managed complete database design and schema for jobs, applicants, and company data.</div>
-          </div>
-          <div class="proj-tags">
-            <span class="p-tag">Node.js</span>
-            <span class="p-tag">Express.js</span>
-            <span class="p-tag">MySQL</span>
-            <span class="p-tag">REST API</span>
-            <span class="p-tag">Validation</span>
-          </div>
+          <div class="book-cover-overlay"></div>
         </div>
-        <span class="proj-badge">Backend</span>
-      </div>
-
-      <div class="proj-card reveal">
-        <div>
-          <div class="proj-header">
-            <span class="proj-idx">p.04</span>
-            <h3 class="proj-name">Official College Techfest Website</h3>
+        <div class="writing-badge">In Progress</div>
+        <div class="book-info">
+          <p class="book-status writing">&#9632; Currently Writing</p>
+          <p class="book-title">Untitled</p>
+          <p class="book-subtitle">Second Malayalam novel — in progress.</p>
+          <span class="book-lang">Malayalam Novel</span>
+          <div class="writing-progress">
+            <div class="wp-label"><span>// writing progress</span><span id="wp-pct">0%</span></div>
+            <div class="wp-track"><div class="wp-fill" data-width="35" id="wp-fill"></div></div>
           </div>
-          <div class="proj-points">
-            <div class="proj-point">Developed the official website for the college techfest — used live for event promotion.</div>
-            <div class="proj-point">Implemented backend logic for event data handling and content management.</div>
-            <div class="proj-point">Assisted with frontend responsiveness and UI structure.</div>
-          </div>
-          <div class="proj-tags">
-            <span class="p-tag">Backend Logic</span>
-            <span class="p-tag">CMS</span>
-            <span class="p-tag">HTML/CSS</span>
-          </div>
+          <br>
+          <span class="book-link-soon">&#128274; Not yet released</span>
         </div>
-        <span class="proj-badge">Live Project</span>
       </div>
-
-      <div class="proj-card reveal">
-        <div>
-          <div class="proj-header">
-            <span class="proj-idx">p.05</span>
-            <h3 class="proj-name">Expense Tracker Web App</h3>
-          </div>
-          <div class="proj-points">
-            <div class="proj-point">Built complete backend for expense tracking with authentication and CRUD operations.</div>
-            <div class="proj-point">Implemented category-based summaries and secure user-specific data handling using MySQL.</div>
-          </div>
-          <div class="proj-tags">
-            <span class="p-tag">Node.js</span>
-            <span class="p-tag">MySQL</span>
-            <span class="p-tag">Auth</span>
-            <span class="p-tag">CRUD</span>
-          </div>
-        </div>
-        <span class="proj-badge">Backend</span>
-      </div>
-
     </div>
   </div>
 </section>
@@ -742,127 +540,421 @@
   <div class="wrap">
     <div class="divider"></div>
     <div class="section-head reveal">
-      <span class="section-num">03</span>
+      <span class="section-num">04</span>
       <h2 class="section-title">Education</h2>
       <div class="section-line"></div>
     </div>
-    <div class="edu-cards">
-      <div class="edu-card reveal">
-        <div>
-          <p class="edu-title">Bachelor of Computer Applications (BCA)</p>
-          <p class="edu-school">Christ Nagar College, Maranalloor</p>
-        </div>
-        <div class="edu-right">
-          <p class="edu-year">2023 – 2026</p>
-          <p class="edu-status">Currently · 3rd Year</p>
-        </div>
-      </div>
-      <div class="edu-card reveal">
-        <div>
-          <p class="edu-title">Higher Secondary — Class 12</p>
-          <p class="edu-school">Sree Vidyadhiraja HSS, Neyyattinkara</p>
-        </div>
-        <div class="edu-right">
-          <p class="edu-year">2021 – 2023</p>
-        </div>
-      </div>
+    <div class="timeline">
+      <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div><p class="tl-title">Bachelor of Computer Applications (BCA)</p><p class="tl-school">Christ Nagar College, Maranalloor</p></div><div class="tl-right"><p class="tl-year">2023 – 2026</p><p class="tl-status">Currently · 3rd Year</p></div></div></div>
+      <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div><p class="tl-title">Higher Secondary — Class 12</p><p class="tl-school">Sree Vidyadhiraja HSS, Neyyattinkara</p></div><div class="tl-right"><p class="tl-year">2021 – 2023</p></div></div></div>
+      <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div><p class="tl-title">Secondary School — Class 10</p><p class="tl-school">Christ Nagar School, Maranalloor</p></div><div class="tl-right"><p class="tl-year">2021</p></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- CERTS & LANGUAGES -->
+<!-- CERTS -->
 <section id="certs">
   <div class="wrap">
     <div class="divider"></div>
-    <div class="two-col">
-      <div>
-        <div class="section-head reveal">
-          <span class="section-num">04</span>
-          <h2 class="section-title">Certifications</h2>
-        </div>
-        <div class="cert-list reveal">
-          <span class="cert-chip">Full Stack Web Dev</span>
-          <span class="cert-chip">React.js</span>
-          <span class="cert-chip">Figma (UI/UX)</span>
-          <span class="cert-chip">Power BI</span>
-          <span class="cert-chip">Google Cloud – AI Analytics</span>
-        </div>
-      </div>
-      <div>
-        <div class="section-head reveal">
-          <span class="section-num">05</span>
-          <h2 class="section-title">Languages</h2>
-        </div>
-        <div class="lang-list reveal">
-          <div class="lang-row">
-            <span class="lang-name">English</span>
-            <span class="lang-level">Native</span>
-          </div>
-          <div class="lang-row">
-            <span class="lang-name">Malayalam</span>
-            <span class="lang-level">Native</span>
-          </div>
-          <div class="lang-row">
-            <span class="lang-name">Tamil</span>
-            <span class="lang-level">Proficient</span>
-          </div>
-        </div>
-      </div>
+    <div class="section-head reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Full Stack Web Development</p><p class="cert-issuer">// Web Dev · Complete course</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">React.js</p><p class="cert-issuer">// Frontend framework</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div><p class="cert-name">Figma (UI/UX)</p><p class="cert-issuer">// Design &amp; Prototyping</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico orange">&#9670;</div><span class="cert-hours">30 hrs</span></div><p class="cert-name">Robotics</p><p class="cert-issuer">// Hands-on · 30 Hour Program</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico red">&#9670;</div></div><p class="cert-name">Power BI</p><p class="cert-issuer">// Data Visualisation</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Innovating with Google Cloud AI</p><p class="cert-issuer">// Google Cloud · AI Analytics</p></div>
+      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">Google Cloud – AI Analytics</p><p class="cert-issuer">// Google Cloud Platform</p></div>
+    </div>
+
+    <div class="divider" style="margin:40px 0 32px"></div>
+    <div class="section-head reveal">
+      <span class="section-num" style="opacity:.5">—</span>
+      <h3 class="section-title" style="font-size:1rem;font-weight:600">Spoken Languages</h3>
+      <div class="section-line"></div>
+    </div>
+    <div class="lang-list reveal" style="max-width:400px">
+      <div class="lang-row"><span class="lang-name">English</span><span class="lang-level">Native</span></div>
+      <div class="lang-row"><span class="lang-name">Malayalam</span><span class="lang-level">Native</span></div>
+      <div class="lang-row"><span class="lang-name">Tamil</span><span class="lang-level">Proficient</span></div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>Built with care · <span>S B Madhav</span> © 2026 · Trivandrum, Kerala</p>
+  <div class="wrap">
+    <div class="footer-inner">
+      <p>Built with care · <span>S B Madhav</span> © 2026 · Trivandrum, Kerala</p>
+      <div class="footer-links">
+        <a href="mailto:sbmadhav@example.com">Email</a>
+        <a href="tel:+918590317439">Phone</a>
+        <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+// ══════════════════════════════════════════
+//  CURSOR
+// ══════════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const bfly = document.getElementById('butterfly-cursor');
+let mx=window.innerWidth/2, my=window.innerHeight/2;
+let bx=mx, by=my;
+let lastMx=mx, lastMy=my, idleTime=0;
+let wx=mx, wy=my, wanderTimer=0;
+const GAP = 38;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
+function pickWanderTarget(){
+  const r = 60 + Math.random()*60;
+  const a = Math.random()*Math.PI*2;
+  wx = mx + Math.cos(a)*r;
+  wy = my + Math.sin(a)*r;
+}
 
-  function animateRing() {
-    rx += (mx - rx) * 0.13;
-    ry += (my - ry) * 0.13;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+
+(function animBfly(){
+  const moved = Math.abs(mx-lastMx)+Math.abs(my-lastMy);
+  lastMx=mx; lastMy=my;
+  idleTime = moved<1 ? idleTime+1 : 0;
+
+  if(idleTime > 40){
+    wanderTimer++;
+    if(wanderTimer > 90){ wanderTimer=0; pickWanderTarget(); }
+    bx += (wx-bx)*0.018; by += (wy-by)*0.018;
+  } else {
+    const dx=bx-mx, dy=by-my;
+    const dist=Math.sqrt(dx*dx+dy*dy)||1;
+    bx += (mx+dx/dist*GAP - bx)*0.13;
+    by += (my+dy/dist*GAP - by)*0.13;
+    wx=bx; wy=by; wanderTimer=0;
   }
-  animateRing();
+  bfly.style.left=bx+'px'; bfly.style.top=by+'px';
+  requestAnimationFrame(animBfly);
+})();
 
-  document.querySelectorAll('a, button, .proj-card, .stack-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '16px';
-      cursor.style.height = '16px';
-      ring.style.width = '50px';
-      ring.style.height = '50px';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '10px';
-      cursor.style.height = '10px';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
-    });
+document.querySelectorAll('a,button,.proj-card,.proj-featured,.stack-card,.book-card,.cert-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='14px';cursor.style.height='14px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';});
+});
+
+// ══════════════════════════════════════════
+//  PROGRESS / SCROLL / COUNTERS / ETC
+// ══════════════════════════════════════════
+const bar=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>bar.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%');
+
+const bt=document.getElementById('back-top');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});});
+
+const secs=document.querySelectorAll('section[id]'),navAs=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.id;});navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));});
+
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);});},{threshold:0.07});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>obs.observe(el));
+
+const abtObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.about-line').forEach((line,i)=>{setTimeout(()=>line.classList.add('visible'),i*80);});abtObs.unobserve(entry.target);});},{threshold:0.1});
+document.querySelectorAll('#aboutLines').forEach(el=>abtObs.observe(el));
+
+const cntObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.stat-num').forEach(el=>{const t=+el.dataset.target;let c=0;const step=Math.ceil(t/30);const ti=setInterval(()=>{c+=step;if(c>=t){el.textContent=t;clearInterval(ti);}else el.textContent=c;},40);});cntObs.unobserve(entry.target);});},{threshold:0.3});
+document.querySelectorAll('.stats-bar').forEach(el=>cntObs.observe(el));
+
+const skObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.skill-fill').forEach(fill=>{setTimeout(()=>fill.style.width=fill.dataset.width+'%',200);});skObs.unobserve(entry.target);});},{threshold:0.2});
+document.querySelectorAll('.skill-bars').forEach(el=>skObs.observe(el));
+
+const wpObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const fill=document.getElementById('wp-fill');const pct=document.getElementById('wp-pct');if(fill){let p=0;const target=+fill.dataset.width;const t=setInterval(()=>{p++;pct.textContent=p+'%';if(p>=target)clearInterval(t);},30);fill.style.width=target+'%';}wpObs.unobserve(entry.target);});},{threshold:0.3});
+const wpEl=document.getElementById('wp-fill');if(wpEl)wpObs.observe(wpEl.closest('.book-card'));
+
+const typedEl=document.getElementById('typed-summary');
+const text='Building backends that just work."';
+let idx=0;
+function typeNext(){if(idx<=text.length){typedEl.innerHTML='"'+text.slice(0,idx)+'<span class="cursor-blink"></span>';idx++;setTimeout(typeNext,60);}else{setTimeout(()=>{idx=0;typeNext();},2000);}}
+typeNext();
+
+// ══════════════════════════════════════════════════════════════════
+//  VINE SYSTEM — Natural draping vines like the reference image
+//  Vines hang DOWN from the top, with gentle S-curves and oval leaves
+// ══════════════════════════════════════════════════════════════════
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const vineGroup = document.getElementById('vine-group');
+const vineSVGEl = document.getElementById('vine-svg');
+const vineHint = document.getElementById('vine-hint');
+
+let vineActive = false;
+let butterflyOnFlower = false;
+let vineIdleTimer = 0;
+let vineLastMx = -999, vineLastMy = -999;
+let hintShown = false;
+const VINE_IDLE_TICKS = 200; // × 50ms = 10s
+const MAIN_FLOWER_X = 80, MAIN_FLOWER_Y = 320;
+
+// ── Helpers ──────────────────────────────────────────────────────
+
+function svgEl(tag, attrs){
+  const el = document.createElementNS(SVG_NS, tag);
+  for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+// Generate a smooth draping vine path using cubic bezier curves
+// Starting from (startX, 0) and hanging downward with gentle S-curves
+function buildVinePath(startX, totalLength, amplitude, phaseOffset){
+  const pts = [];
+  const steps = 12;
+  for(let i=0; i<=steps; i++){
+    const t = i/steps;
+    const y = t * totalLength;
+    // Gentle sinusoidal side-to-side sway
+    const x = startX + Math.sin(t * Math.PI * 2.5 + phaseOffset) * amplitude * (0.4 + t*0.6);
+    pts.push({x, y});
+  }
+  // Build smooth catmull-rom style path
+  let d = `M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;
+  for(let i=1; i<pts.length; i++){
+    const p0 = pts[Math.max(0,i-2)];
+    const p1 = pts[i-1];
+    const p2 = pts[i];
+    const p3 = pts[Math.min(pts.length-1,i+1)];
+    const cp1x = p1.x + (p2.x - p0.x)/6;
+    const cp1y = p1.y + (p2.y - p0.y)/6;
+    const cp2x = p2.x - (p3.x - p1.x)/6;
+    const cp2y = p2.y - (p3.y - p1.y)/6;
+    d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+  }
+  return {d, pts};
+}
+
+// Get a point along the vine at fraction t
+function vinePointAt(pts, t){
+  const idx = Math.min(pts.length-2, Math.floor(t*(pts.length-1)));
+  const frac = t*(pts.length-1) - idx;
+  const p1 = pts[idx], p2 = pts[idx+1];
+  return {x: p1.x + (p2.x-p1.x)*frac, y: p1.y + (p2.y-p1.y)*frac,
+          dx: p2.x-p1.x, dy: p2.y-p1.y};
+}
+
+// Draw a single oval leaf at position, rotated to match vine direction + offset angle
+function makeLeaf(cx, cy, vdx, vdy, side, leafW, leafH, gradId, opacity, delay){
+  const g = svgEl('g',{});
+  // Angle: perpendicular to vine direction, flipped for each side
+  const baseAngle = Math.atan2(vdy, vdx) * 180/Math.PI;
+  const leafAngle = baseAngle + (side>0 ? 35 : -35) + 90;
+
+  const ellipse = svgEl('ellipse',{
+    cx: cx, cy: cy, rx: leafW, ry: leafH,
+    fill: `url(#${gradId})`,
+    opacity: opacity,
+    filter: 'url(#leaf-glow)',
+    transform: `rotate(${leafAngle.toFixed(1)},${cx.toFixed(1)},${cy.toFixed(1)})`
+  });
+  // Leaf midrib line
+  const midrib = svgEl('line',{
+    x1: cx, y1: cy - leafH*0.7,
+    x2: cx, y2: cy + leafH*0.7,
+    stroke: '#166534', 'stroke-width': '0.6', opacity: '0.5',
+    transform: `rotate(${leafAngle.toFixed(1)},${cx.toFixed(1)},${cy.toFixed(1)})`
   });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-      }
-    });
-  }, { threshold: 0.08 });
+  g.style.cssText = `opacity:0;transform-origin:${cx.toFixed(1)}px ${cy.toFixed(1)}px;transform:scale(0.1);transition:opacity 0.5s ease ${delay}s,transform 0.5s cubic-bezier(0.34,1.5,0.64,1) ${delay}s;`;
+  g.appendChild(ellipse);
+  g.appendChild(midrib);
+  return g;
+}
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Draw a flower at (cx,cy)
+function makeFlower(cx, cy, r, gradId, delay, isMain){
+  const g = svgEl('g',{});
+  g.style.cssText = `opacity:0;transition:opacity 0.6s ease ${delay}s,transform 0.6s cubic-bezier(0.34,1.56,0.64,1) ${delay}s;transform-origin:${cx}px ${cy}px;transform:scale(0.05) rotate(-90deg);transform-box:fill-box;`;
+
+  const np = isMain ? 8 : 5;
+  for(let i=0;i<np;i++){
+    const a = (i/np)*Math.PI*2;
+    const d = r*0.75;
+    const px = cx + Math.cos(a)*d, py = cy + Math.sin(a)*d;
+    const petal = svgEl('ellipse',{
+      cx:px.toFixed(1), cy:py.toFixed(1),
+      rx:(r*0.55).toFixed(1), ry:(r*0.28).toFixed(1),
+      fill:`url(#${gradId})`, opacity:'0.88',
+      transform:`rotate(${(a*180/Math.PI+90).toFixed(1)},${px.toFixed(1)},${py.toFixed(1)})`
+    });
+    g.appendChild(petal);
+  }
+  // Center disk
+  const center = svgEl('circle',{cx,cy,r:(r*0.3).toFixed(1),fill:isMain?'#ffd166':'#fffde7',filter:'url(#flower-glow)'});
+  g.appendChild(center);
+  if(isMain){
+    const shine = svgEl('circle',{cx:cx-r*0.1,cy:cy-r*0.1,r:(r*0.1).toFixed(1),fill:'white',opacity:'0.8'});
+    g.appendChild(shine);
+  }
+  return g;
+}
+
+// ── Main vine builder ─────────────────────────────────────────────
+
+function buildAndShowVines(){
+  // Clear old
+  while(vineGroup.firstChild) vineGroup.removeChild(vineGroup.firstChild);
+
+  const vh = window.innerHeight;
+
+  // Define 4 vine strands starting from top edge at various x positions
+  const vines = [
+    { startX: 28,  length: vh*0.82, amplitude: 28, phase: 0,    stemColor:'#1a7a3a', stemW:2.8, delay:0,   mainFlower:true },
+    { startX: 72,  length: vh*0.68, amplitude: 22, phase: 1.2,  stemColor:'#15692e', stemW:2.2, delay:0.4, mainFlower:false },
+    { startX: 118, length: vh*0.90, amplitude: 32, phase: 2.4,  stemColor:'#1d8040', stemW:2.5, delay:0.8, mainFlower:false },
+    { startX: 55,  length: vh*0.55, amplitude: 18, phase: 3.6,  stemColor:'#145e28', stemW:1.8, delay:1.2, mainFlower:false },
+    { startX: 95,  length: vh*0.72, amplitude: 26, phase: 0.8,  stemColor:'#1a7535', stemW:2.0, delay:0.6, mainFlower:false },
+  ];
+
+  vines.forEach(vine => {
+    const {d, pts} = buildVinePath(vine.startX, vine.length, vine.amplitude, vine.phase);
+
+    // Measure path for dash animation
+    const estimatedLen = vine.length * 1.3;
+
+    // Stem
+    const stem = svgEl('path',{
+      d, stroke: vine.stemColor,
+      'stroke-width': vine.stemW,
+      fill:'none', 'stroke-linecap':'round',
+      filter:'url(#vine-glow)', opacity:'0.85'
+    });
+    stem.style.cssText = `stroke-dasharray:${estimatedLen};stroke-dashoffset:${estimatedLen};transition:stroke-dashoffset 2s cubic-bezier(0.4,0,0.2,1) ${vine.delay}s;`;
+    vineGroup.appendChild(stem);
+
+    // Leaves — scatter along the vine at various fractions
+    const leafPositions = [];
+    const leafCount = Math.floor(vine.length / 65);
+    for(let i=0; i<leafCount; i++){
+      const t = 0.05 + (i/leafCount)*0.90 + (Math.random()-0.5)*0.06;
+      leafPositions.push(t);
+    }
+
+    const leafEls = [];
+    leafPositions.forEach((t, li) => {
+      const pt = vinePointAt(pts, t);
+      const side = li%2===0 ? 1 : -1;
+      const leafW = 8 + Math.random()*5;
+      const leafH = 5 + Math.random()*3;
+      const gradId = Math.random()>0.5 ? 'leafGrad1' : 'leafGrad2';
+
+      // Offset the leaf from the stem
+      const perpX = -pt.dy / (Math.sqrt(pt.dx*pt.dx+pt.dy*pt.dy)||1) * side * (10+Math.random()*8);
+      const perpY =  pt.dx / (Math.sqrt(pt.dx*pt.dx+pt.dy*pt.dy)||1) * side * (10+Math.random()*8);
+      const lx = pt.x + perpX, ly = pt.y + perpY;
+
+      const leafDelay = vine.delay + 1.0 + t * 1.2 + li*0.05;
+      const leaf = makeLeaf(lx, ly, pt.dx, pt.dy, side, leafW, leafH, gradId, 0.88, leafDelay);
+      vineGroup.appendChild(leaf);
+      leafEls.push({el:leaf, delay:leafDelay});
+    });
+
+    // Flower at the tip
+    const tipPt = pts[pts.length-1];
+    const flowerDelay = vine.delay + 2.2;
+    const flowerR = vine.mainFlower ? 18 : 10;
+    const flowerGrad = vine.mainFlower ? 'flowerGrad' : 'flowerGrad2';
+    const flower = makeFlower(tipPt.x, tipPt.y, flowerR, flowerGrad, flowerDelay, vine.mainFlower);
+    vineGroup.appendChild(flower);
+
+    // Small buds at a few random spots
+    const budCount = Math.floor(Math.random()*2)+1;
+    for(let b=0;b<budCount;b++){
+      const bt2 = 0.3 + Math.random()*0.5;
+      const bp = vinePointAt(pts, bt2);
+      const bud = makeFlower(bp.x, bp.y, 5+Math.random()*4, 'leafGrad1', vine.delay+1.6+b*0.3, false);
+      vineGroup.appendChild(bud);
+    }
+
+    // Trigger animations after paint
+    requestAnimationFrame(()=>setTimeout(()=>{
+      // Stem draws in
+      stem.style.strokeDashoffset = '0';
+      // Leaves pop in
+      leafEls.forEach(({el}) => {
+        el.style.opacity='1';
+        el.style.transform='scale(1)';
+      });
+      // Flower blooms
+      flower.style.opacity='1';
+      flower.style.transform='scale(1) rotate(0deg)';
+      // Buds
+      vineGroup.querySelectorAll('g').forEach(g=>{
+        if(g!==flower && !leafEls.find(l=>l.el===g)){
+          g.style.opacity='1';
+          g.style.transform='scale(1) rotate(0deg)';
+        }
+      });
+    }, 30));
+
+    // Track main flower position for butterfly
+    if(vine.mainFlower){
+      setTimeout(()=>{
+        if(vineActive){
+          butterflyOnFlower = true;
+          wx = tipPt.x; wy = tipPt.y - 20;
+          idleTime = 9999;
+        }
+      }, (vine.delay + 3.0)*1000);
+    }
+  });
+
+  vineSVGEl.style.opacity='1';
+}
+
+function collapseVines(){
+  vineSVGEl.style.opacity='0';
+  butterflyOnFlower = false;
+  setTimeout(()=>{ while(vineGroup.firstChild) vineGroup.removeChild(vineGroup.firstChild); }, 1200);
+}
+
+// ── Idle detection ────────────────────────────────────────────────
+function vineIdleTick(){
+  const moved = Math.abs(mx-vineLastMx)+Math.abs(my-vineLastMy);
+  if(moved < 2){
+    vineIdleTimer++;
+    if(vineIdleTimer===80 && !hintShown && !vineActive){
+      vineHint.classList.add('show');
+      setTimeout(()=>vineHint.classList.remove('show'),3000);
+      hintShown=true;
+    }
+    if(vineIdleTimer>=VINE_IDLE_TICKS && !vineActive){
+      vineActive=true; hintShown=false;
+      vineHint.classList.remove('show');
+      buildAndShowVines();
+    }
+  } else {
+    vineIdleTimer=0; hintShown=false;
+    vineHint.classList.remove('show');
+    if(vineActive){ vineActive=false; butterflyOnFlower=false; collapseVines(); }
+  }
+  vineLastMx=mx; vineLastMy=my;
+}
+setInterval(vineIdleTick,50);
+
+// Butterfly bobs on the flower
+let flowerBobAngle=0;
+(function flowerBob(){
+  if(butterflyOnFlower){
+    flowerBobAngle+=0.032;
+    wx = MAIN_FLOWER_X + Math.sin(flowerBobAngle)*7;
+    wy = MAIN_FLOWER_Y + Math.cos(flowerBobAngle*0.65)*5 - 24;
+    idleTime=9999;
+  }
+  requestAnimationFrame(flowerBob);
+})();
 </script>
 </body>
 </html>

@@ -224,14 +224,81 @@
   .amb-butterfly{position:fixed;pointer-events:none;z-index:9990;opacity:0;transition:opacity 0.8s ease;will-change:left,top}
   .amb-butterfly svg{filter:drop-shadow(0 0 3px rgba(0,255,136,0.4))}
 
-  @media(max-width:680px){
-    .nav-links{display:none}.proj-card{grid-template-columns:1fr}
+  @media(max-width:768px){
+    .wrap{padding:0 18px}
+    .nav-links{display:none}
+    .hero{padding:60px 0 48px}
+    .terminal-body{padding:20px 18px}
+    .t-name{font-size:2.4rem}
+    .t-line{font-size:.75rem}
+    .contact-strip{gap:8px}
+    .c-pill{font-size:.62rem;padding:7px 12px}
+    .stats-bar{grid-template-columns:1fr 1fr}
+    .stat-num{font-size:1.5rem}
+    .about-lines{padding:20px 18px}
+    .about-line{font-size:.76rem}
+    .stack-grid{grid-template-columns:1fr 1fr}
+    .proj-card{grid-template-columns:1fr}
+    .proj-badge{align-self:auto;margin-top:10px}
+    .proj-featured{padding:24px 20px}
     .books-grid{grid-template-columns:1fr}
-    .stats-bar{grid-template-columns:1fr 1fr}.tl-card{flex-direction:column;align-items:flex-start}
-    .tl-right{text-align:left}.t-name{font-size:2.2rem}.terminal-body{padding:20px}
-    .certs-grid{grid-template-columns:1fr 1fr}.lang-showcase{grid-template-columns:1fr}
+    .book-cover-wrap{height:260px}
+    .book-info{padding:16px 18px 20px}
+    .book-title{font-size:1rem}
+    .book-story{font-size:.76rem}
+    .tl-card{flex-direction:column;align-items:flex-start;gap:8px}
+    .tl-right{text-align:left}
+    .certs-grid{grid-template-columns:1fr 1fr}
+    .lang-showcase{grid-template-columns:1fr}
+    .lang-block{padding:20px 16px 18px}
+    .lang-script{font-size:1.5rem}
+    .section-title{font-size:1.1rem}
+    .divider{margin:36px 0}
+    .footer-inner{flex-direction:column;gap:12px;text-align:center}
+    .footer-links{justify-content:center}
   }
-  @media(max-width:420px){.stack-grid{grid-template-columns:1fr 1fr}.hero{padding:60px 0 50px}.certs-grid{grid-template-columns:1fr}}
+  @media(max-width:480px){
+    .wrap{padding:0 14px}
+    .hero{padding:44px 0 36px}
+    .t-name{font-size:1.9rem}
+    .terminal-body{padding:16px 14px}
+    .t-line{font-size:.7rem}
+    .contact-strip{flex-direction:column;gap:7px}
+    .c-pill{width:100%;justify-content:center}
+    .stats-bar{grid-template-columns:1fr 1fr;gap:1px}
+    .stat-item{padding:18px 12px}
+    .stat-num{font-size:1.3rem}
+    .stat-label{font-size:.52rem}
+    .stack-grid{grid-template-columns:1fr}
+    .certs-grid{grid-template-columns:1fr}
+    .proj-featured{padding:18px 16px}
+    .proj-name{font-size:.95rem}
+    .proj-point{font-size:.78rem}
+    .book-cover-wrap{height:220px}
+    .lang-showcase{grid-template-columns:1fr;gap:10px}
+    .lang-script{font-size:1.4rem}
+    .tl-card{padding:14px 16px}
+    .tl-title{font-size:.88rem}
+    .about-lines{padding:16px 14px}
+    .about-line{font-size:.7rem;line-height:1.8}
+    .skill-name{font-size:.68rem}
+    .section-title{font-size:1rem}
+    .divider{margin:28px 0}
+  }
+  /* HAMBURGER */
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:110}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--green);border-radius:2px;transition:transform .3s,opacity .3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:768px){.hamburger{display:flex}}
+
+  /* MOBILE NAV DRAWER */
+  .mobile-nav{position:fixed;top:53px;left:0;right:0;background:rgba(6,8,16,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:99;padding:0;max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .35s}
+  .mobile-nav.open{max-height:320px;padding:12px 0 16px}
+  .mob-link{display:block;font-family:'Fira Code',monospace;font-size:.8rem;color:var(--muted);padding:13px 24px;letter-spacing:.08em;text-decoration:none;border-bottom:1px solid rgba(30,35,64,.4);transition:color .2s,background .2s}
+  .mob-link:last-child{border-bottom:none}
+  .mob-link:hover,.mob-link:active{color:var(--green);background:rgba(0,255,136,.04)}
 </style>
 </head>
 <body>
@@ -277,7 +344,7 @@
 <nav>
   <div class="wrap">
     <div class="logo"><span class="at">~/</span>sb_madhav</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="#about">about</a></li>
       <li><a href="#stack">stack</a></li>
       <li><a href="#projects">projects</a></li>
@@ -285,8 +352,19 @@
       <li><a href="#certs">certs</a></li>
       <li><a href="#books">books</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" class="mob-link">// about</a>
+  <a href="#stack" class="mob-link">// stack</a>
+  <a href="#projects" class="mob-link">// projects</a>
+  <a href="#education" class="mob-link">// education</a>
+  <a href="#certs" class="mob-link">// certs</a>
+  <a href="#books" class="mob-link">// books</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="hero">
@@ -310,7 +388,7 @@
       </div>
     </div>
     <div class="contact-strip reveal">
-      <a href="mailto:sbmadhav@example.com" class="c-pill"><span>✓</span>sbmadhav@email.com</a>
+      <a href="/cdn-cgi/l/email-protection#1360717e72777b726553766b727e637f763d707c7e" class="c-pill"><span>✓</span><span class="__cf_email__" data-cfemail="becddcd3dfdad6dfc8fedbd3dfd7d290ddd1d3">[email&#160;protected]</span></a>
       <a href="tel:+918590317439" class="c-pill"><span>✆</span>+91 85903 17439</a>
       <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank" class="c-pill"><span>in</span>linkedin.com/in/madhav-s-b</a>
       <span class="c-pill"><span>⌘</span>Trivandrum, Kerala</span>
@@ -510,7 +588,7 @@
           <p class="book-subtitle">അവൻ വരുമെന്ന്‍ പറഞ്ഞിരുന്നു</p>
           <span class="book-lang">Malayalam Novel</span>
           <p class="book-story">She waited by the water every evening, watching the fireflies drift across the lake, holding on to a promise that may never return — a quiet story of longing, love, and the weight of waiting.</p>
-          <span class="book-link-soon">&#128274; Not for sale</span>
+          
         </div>
       </div>
       <div class="book-card reveal-right">
@@ -543,7 +621,7 @@
     <div class="footer-inner">
       <p>Built with care · <span>S B Madhav</span> &copy; 2026 · Trivandrum, Kerala</p>
       <div class="footer-links">
-        <a href="mailto:sbmadhav@example.com">Email</a>
+        <a href="/cdn-cgi/l/email-protection#6516070804010d041325001d04081509004b060a08">Email</a>
         <a href="tel:+918590317439">Phone</a>
         <a href="https://linkedin.com/in/madhav-s-b-566165278" target="_blank">LinkedIn</a>
       </div>
@@ -551,7 +629,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // CURSOR
 const cursor = document.getElementById('cursor');
 const bfly = document.getElementById('butterfly-cursor');
@@ -632,7 +710,7 @@ typeNext();
 //  AMBIENT BUTTERFLY SWARM — triggers after 10s of idle
 // ══════════════════════════════════════════════════════════
 
-const SWARM_COUNT = 18;
+const SWARM_COUNT = 32;
 const IDLE_TRIGGER = 200; // ticks × 50ms = 10s
 
 let ambIdleTimer = 0;
@@ -793,6 +871,34 @@ function ambIdleTick(){
   }
 }
 setInterval(ambIdleTick, 50);
+
+// HAMBURGER
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+document.querySelectorAll('.mob-link').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+  });
+});
+
+// TOUCH IDLE — butterfly swarm on mobile after 10s no touch
+let lastTouchTime = Date.now();
+document.addEventListener('touchstart', () => { lastTouchTime = Date.now(); if(swarmActive){swarmActive=false;dismissSwarm();} }, {passive:true});
+document.addEventListener('touchmove', () => { lastTouchTime = Date.now(); if(swarmActive){swarmActive=false;dismissSwarm();} }, {passive:true});
+setInterval(() => {
+  if(window.matchMedia('(pointer:coarse)').matches){
+    if(Date.now() - lastTouchTime > 10000 && !swarmActive){
+      swarmActive = true;
+      spawnSwarm();
+      requestAnimationFrame(animateSwarm);
+    }
+  }
+}, 1000);
 </script>
 </body>
 </html>

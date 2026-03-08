@@ -21,24 +21,14 @@
   }
 
   #fake-loader {
-    position: fixed;
-    inset: 0;
-    background: #060810;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
+    position: fixed; inset: 0; background: #060810; z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
   }
 
   .loader-title { font-size: clamp(1rem, 3vw, 1.4rem); color: #00ff88; letter-spacing: .15em; }
   .loader-sub { font-size: .75rem; color: #5a6490; letter-spacing: .1em; }
 
-  .progress-wrap {
-    width: min(360px, 80vw); height: 4px;
-    background: #1e2340; border-radius: 100px; overflow: hidden;
-  }
+  .progress-wrap { width: min(360px, 80vw); height: 4px; background: #1e2340; border-radius: 100px; overflow: hidden; }
   .progress-fill {
     height: 100%; width: 0%;
     background: linear-gradient(90deg, #00ff88, #00d4ff);
@@ -47,7 +37,6 @@
   }
 
   .loader-pct { font-size: .7rem; color: #00ff88; }
-
   .loader-steps { display: flex; flex-direction: column; gap: 6px; width: min(360px, 80vw); }
   .loader-step {
     font-size: .65rem; color: #5a6490; opacity: 0;
@@ -60,7 +49,6 @@
   .loader-step.active::before { content: '›'; animation: blink .6s step-end infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  /* ── RICKROLL SCREEN ── */
   #rickroll-screen {
     position: fixed; inset: 0;
     display: flex; flex-direction: column;
@@ -70,10 +58,7 @@
   }
   #rickroll-screen.show { opacity: 1; pointer-events: all; }
 
-  .rick-header {
-    text-align: center; margin-bottom: 20px;
-    animation: bounceIn .6s cubic-bezier(.36,.07,.19,.97) both;
-  }
+  .rick-header { text-align: center; margin-bottom: 20px; animation: bounceIn .6s cubic-bezier(.36,.07,.19,.97) both; }
   @keyframes bounceIn {
     0%  { transform:scale(.3); opacity:0; }
     50% { transform:scale(1.05); opacity:1; }
@@ -82,7 +67,6 @@
   }
 
   .rick-emoji { font-size: clamp(2.5rem,8vw,4rem); display:block; margin-bottom:8px; }
-
   .rick-title {
     font-size: clamp(1.2rem,4vw,2rem); font-weight:700; letter-spacing:-.01em;
     background: linear-gradient(90deg,#00ff88,#00d4ff,#ffd166);
@@ -91,11 +75,8 @@
   .rick-sub { font-size: clamp(.65rem,2vw,.8rem); color:#5a6490; margin-top:6px; letter-spacing:.08em; }
 
   .video-wrap {
-    position: relative;
-    width: min(720px, 92vw);
-    aspect-ratio: 16/9;
-    border-radius: 12px; overflow: hidden;
-    border: 1px solid #1e2340;
+    position: relative; width: min(720px, 92vw); aspect-ratio: 16/9;
+    border-radius: 12px; overflow: hidden; border: 1px solid #1e2340;
     box-shadow: 0 0 60px rgba(0,255,136,.08), 0 0 0 1px rgba(0,255,136,.06);
     animation: slideUp .7s .2s cubic-bezier(.4,0,.2,1) both;
   }
@@ -104,36 +85,21 @@
     to   { transform:translateY(0);    opacity:1; }
   }
 
-  /* video: no controls, fills box */
-  #rick-video {
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
-    pointer-events: none;           /* hides native controls on tap */
-  }
+  #rick-video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .video-overlay { position: absolute; inset: 0; z-index: 2; background: transparent; }
 
-  /* transparent overlay blocks right-click context menu & touch controls */
-  .video-overlay {
-    position: absolute; inset: 0; z-index: 2;
-    background: transparent;
-  }
+  .rick-footer { margin-top: 16px; font-size: .65rem; color: #2a3060; letter-spacing: .1em; animation: slideUp .7s .4s cubic-bezier(.4,0,.2,1) both; }
 
-  .rick-footer {
-    margin-top: 16px; font-size: .65rem; color: #2a3060; letter-spacing: .1em;
-    animation: slideUp .7s .4s cubic-bezier(.4,0,.2,1) both;
-  }
-
-  .note {
-    position: fixed; pointer-events: none;
-    animation: floatNote linear forwards; z-index: 200;
-  }
+  .note { position: fixed; pointer-events: none; animation: floatNote linear forwards; z-index: 200; }
   @keyframes floatNote {
-    0%   { transform:translateY(0) rotate(0deg);   opacity:1; }
+    0%   { transform:translateY(0) rotate(0deg); opacity:1; }
     100% { transform:translateY(-90vh) rotate(360deg); opacity:0; }
   }
 </style>
 </head>
 <body>
 
+<!-- FAKE LOADER -->
 <div id="fake-loader">
   <p class="loader-title">// Loading Project...</p>
   <p class="loader-sub" id="loader-sub-text">Initializing secure connection</p>
@@ -150,20 +116,21 @@
   </div>
 </div>
 
+<!-- RICKROLL SCREEN — all tags properly closed -->
 <div id="rickroll-screen">
   <div class="rick-header">
-  
+
+    <h1 class="rick-title">Watch Carefully!</h1>
+  </div>
   <div class="video-wrap">
     <video
       id="rick-video"
-      src="https://madhavsb.me/rick.mp4"
+      src="https://www.madhavsb.me/rick.mp4"
       autoplay
       loop
       playsinline
       preload="auto">
-      <!-- no "controls" attribute = control bar never shows -->
     </video>
-    <!-- blocks right-click "Show Controls" and mobile tap-to-show -->
     <div class="video-overlay" oncontextmenu="return false;"></div>
   </div>
   <p class="rick-footer">// congratulations · you clicked a link on the internet</p>
@@ -183,7 +150,21 @@
     { el: document.getElementById('step5'), at: 93, label: 'Almost there...' },
   ];
 
-  let progress = 0, activeStep = -1;
+  let progress = 0, activeStep = -1, audioUnlocked = false;
+
+  // Capture first user gesture on the loader to unlock audio
+  // so video plays with sound the moment it reveals
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    video.muted = false;
+    video.play().then(() => {
+      video.pause();
+      video.currentTime = 0;
+    }).catch(() => {});
+  }
+  document.addEventListener('click',      unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
 
   const interval = setInterval(() => {
     const nearStep = steps.some(s => Math.abs(progress - s.at) < 4);
@@ -219,13 +200,12 @@
       loader.style.display = 'none';
       document.getElementById('rickroll-screen').classList.add('show');
 
-      // Try unmuted autoplay first
       video.muted = false;
+      video.currentTime = 0;
       video.play().catch(() => {
-        // Browser blocked unmuted autoplay — play muted, unmute on first click
+        // last resort fallback
         video.muted = true;
         video.play();
-        document.addEventListener('click', () => { video.muted = false; }, { once: true });
       });
 
       spawnNotes();

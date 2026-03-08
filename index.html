@@ -16,7 +16,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
 
   html{scroll-behavior:smooth}
-  body{font-family:'Bricolage Grotesque',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+  /* FIX 1: Lock scroll on body while intro is visible */
+  body{font-family:'Bricolage Grotesque',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;overflow-y:hidden}
+  body.unlocked{overflow-y:auto}
 
   .cursor {
     position:fixed;width:10px;height:10px;background:var(--green);border-radius:50%;
@@ -40,7 +42,7 @@
   .click-ripple-2 { position:fixed; border-radius:50%; pointer-events:none; z-index:99998; transform:translate(-50%,-50%) scale(0); border:1px solid rgba(0,212,255,0.4); animation:rippleOut2 0.7s 0.07s cubic-bezier(.2,0,.6,1) forwards; }
   @keyframes rippleOut2 { 0%{transform:translate(-50%,-50%) scale(0);opacity:0.7} 100%{transform:translate(-50%,-50%) scale(4);opacity:0} }
 
-  #intro-overlay { position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); transition:opacity 0.9s cubic-bezier(.4,0,.2,1),visibility 0.9s; }
+  #intro-overlay { position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); transition:opacity 0.9s cubic-bezier(.4,0,.2,1),visibility 0.9s; touch-action:none; }
   #intro-overlay.hidden { opacity:0; visibility:hidden; pointer-events:none; }
   #intro-overlay::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(30,35,64,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(30,35,64,.4) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; }
   #intro-overlay::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px); pointer-events:none; }
@@ -63,6 +65,25 @@
   #enter-btn:active { transform:scale(.97); }
   .enter-arrow { display:inline-block; margin-left:8px; transition:transform .3s; }
   #enter-btn:hover .enter-arrow { transform:translateX(4px); }
+
+  /* FIX 2: Swipe hint indicator */
+  .swipe-hint {
+    position:absolute; bottom:32px; left:47%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-family:'Fira Code',monospace; font-size:.6rem; color:var(--muted);
+    letter-spacing:.1em; opacity:0;
+    animation:introFadeUp .8s 1.6s cubic-bezier(.4,0,.2,1) both;
+  }
+  .swipe-hint-arrow {
+    width:20px; height:20px; border-left:1.5px solid var(--green); border-top:1.5px solid var(--green);
+    transform:rotate(45deg); animation:swipeBounce 1.4s ease-in-out infinite;
+    margin-bottom:-4px;
+  }
+  @keyframes swipeBounce {
+    0%,100%{transform:rotate(45deg) translateY(0);opacity:.4}
+    50%{transform:rotate(45deg) translateY(-6px);opacity:1}
+  }
+
   .intro-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .p-dot { position:absolute; border-radius:50%; background:var(--green); opacity:0; animation:floatDot linear infinite; }
   @keyframes floatDot { 0%{transform:translateY(0) scale(1);opacity:0} 10%{opacity:.6} 90%{opacity:.2} 100%{transform:translateY(-100vh) scale(0.3);opacity:0} }
@@ -123,46 +144,15 @@
   .abt-comment{color:var(--muted);font-size:.75rem}.abt-str{color:var(--orange)}
   .about-divider{height:1px;background:var(--border);margin:4px 0}
 
-  /* ── TECH ICONS – fixed alignment ── */
   .tech-icons-wrap { display: grid; gap: 20px; }
   .ticon-group { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; transition: border-color .25s; }
   .ticon-group:hover { border-color: var(--border2); }
   .ticon-group-label { font-family: 'Fira Code', monospace; font-size: .62rem; color: var(--green); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 6px; }
   .ticon-group-label .tgl-slash { color: var(--muted); }
-
-  /* KEY FIX: flex wrap so icons don't stretch to fill the row */
-  .ticon-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .ticon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 10px 12px;
-    width: 88px;          /* fixed width — no stretching */
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    transition: border-color .25s, transform .25s, box-shadow .25s, background .25s;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-  }
-  .ticon-item::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--green), var(--cyan));
-    transform: scaleX(0); transform-origin: left; transition: transform .3s;
-  }
-  .ticon-item:hover {
-    border-color: rgba(0,255,136,0.35); transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0,255,136,0.08), 0 0 0 1px rgba(0,255,136,0.06);
-    background: rgba(0,255,136,0.04);
-  }
+  .ticon-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ticon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 10px 12px; width: 88px; flex-shrink: 0; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; transition: border-color .25s, transform .25s, box-shadow .25s, background .25s; position: relative; overflow: hidden; text-align: center; }
+  .ticon-item::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), var(--cyan)); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+  .ticon-item:hover { border-color: rgba(0,255,136,0.35); transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,255,136,0.08), 0 0 0 1px rgba(0,255,136,0.06); background: rgba(0,255,136,0.04); }
   .ticon-item:hover::after { transform: scaleX(1); }
   .ticon-img-wrap { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
   .ticon-img-wrap i { font-size: 36px; line-height: 1; }
@@ -214,7 +204,7 @@
   .proj-link-pill svg{width:13px;height:13px;flex-shrink:0}
   .pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;box-shadow:0 0 5px rgba(0,255,136,.6)}
   .certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-  .cert-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s}
+  .cert-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s;cursor:pointer}
   .cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .35s}
   .cert-card:hover{border-color:var(--border2);transform:translateY(-3px)}
   .cert-card:hover::before{transform:scaleX(1)}
@@ -228,6 +218,267 @@
   .cert-hours{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:2px 7px}
   .cert-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:4px}
   .cert-issuer{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted)}
+
+  .cert-view-hint {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'Fira Code', monospace; font-size: .56rem;
+    color: var(--green); opacity: 0;
+    margin-top: 10px;
+    transition: opacity .25s;
+    letter-spacing: .06em;
+  }
+  .cert-card:hover .cert-view-hint { opacity: 1; }
+  .cert-view-hint::before { content: '↗'; font-size: .6rem; }
+
+  #cert-modal-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: rgba(6,8,16,0);
+    backdrop-filter: blur(0px) saturate(1);
+    -webkit-backdrop-filter: blur(0px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s cubic-bezier(.4,0,.2,1),
+                backdrop-filter .35s,
+                -webkit-backdrop-filter .35s,
+                background .35s;
+  }
+  #cert-modal-overlay.open {
+    opacity: 1; pointer-events: all;
+    background: rgba(6,8,16,.86);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  }
+
+  .cert-modal-box {
+    position: relative;
+    width: min(94vw, 660px);
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0,255,136,.06),
+      0 48px 140px rgba(0,0,0,.85),
+      0 0 100px rgba(0,255,136,.04);
+    transform: scale(.86) translateY(32px);
+    transition: transform .45s cubic-bezier(.34,1.45,.64,1), opacity .35s;
+    opacity: 0;
+  }
+  #cert-modal-overlay.open .cert-modal-box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  .cert-modal-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg,
+      transparent 0%, var(--green) 25%, var(--cyan) 50%, var(--green) 75%, transparent 100%);
+    background-size: 300% 100%;
+    animation: certScan 2.8s linear infinite;
+    z-index: 4;
+  }
+  @keyframes certScan {
+    0%   { background-position: 100% 0 }
+    100% { background-position: -200% 0 }
+  }
+
+  .cert-modal-box::after {
+    content: '';
+    position: absolute; bottom: 0; right: 0;
+    width: 160px; height: 160px;
+    background: radial-gradient(ellipse at bottom right, rgba(0,255,136,.05), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .cert-modal-header {
+    padding: 20px 24px 18px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+    position: relative; z-index: 2;
+    background: rgba(255,255,255,.01);
+  }
+  .cert-modal-meta { flex: 1; min-width: 0; }
+  .cert-modal-label {
+    font-family: 'Fira Code', monospace;
+    font-size: .58rem; color: var(--green);
+    letter-spacing: .2em; text-transform: uppercase;
+    margin-bottom: 7px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cert-modal-label::before {
+    content: '';
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(0,255,136,.8);
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .5; transform: scale(.7); }
+  }
+  .cert-modal-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 1.08rem;
+    line-height: 1.35; color: var(--text);
+    padding-right: 8px;
+  }
+
+  .cert-modal-close {
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 1rem; line-height: 1;
+    flex-shrink: 0; margin-left: 14px; margin-top: 1px;
+    transition: border-color .2s, color .2s, background .2s, transform .2s;
+  }
+  .cert-modal-close:hover {
+    border-color: rgba(255,77,109,.5);
+    color: var(--red);
+    background: rgba(255,77,109,.08);
+    transform: rotate(90deg);
+  }
+
+  .cert-modal-img-wrap {
+    position: relative;
+    background: #070a17;
+    min-height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .cert-modal-img-wrap::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(0,255,136,.12) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none; z-index: 1;
+    opacity: .45;
+  }
+  .cert-modal-img-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(7,10,23,.75) 100%);
+    pointer-events: none; z-index: 2;
+  }
+
+  #cert-modal-img {
+    position: relative; z-index: 3;
+    max-width: 100%; max-height: 420px;
+    object-fit: contain; display: block;
+    padding: 28px 32px;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,.7));
+    transition: opacity .4s, transform .4s;
+    animation: imgReveal .5s cubic-bezier(.34,1.2,.64,1) both;
+  }
+  @keyframes imgReveal {
+    from { opacity: 0; transform: scale(.95) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .cert-placeholder {
+    position: relative; z-index: 3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 18px; padding: 56px 40px;
+    text-align: center;
+  }
+  .cert-ph-ring {
+    position: relative;
+    width: 80px; height: 80px;
+  }
+  .cert-ph-ring::before,
+  .cert-ph-ring::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,255,136,.2);
+    animation: ringPulse 2.4s ease-in-out infinite;
+  }
+  .cert-ph-ring::after {
+    inset: -10px;
+    border-color: rgba(0,255,136,.08);
+    animation-delay: .6s;
+  }
+  @keyframes ringPulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .3; transform: scale(1.08); }
+  }
+  .cert-ph-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem;
+    background: rgba(0,255,136,.06);
+    border: 1px solid rgba(0,255,136,.18);
+    border-radius: 50%;
+  }
+  .cert-ph-label {
+    font-family: 'Fira Code', monospace;
+    font-size: .72rem; line-height: 1.8;
+    color: var(--muted);
+  }
+  .cert-ph-label strong {
+    display: block; color: var(--green);
+    font-size: .78rem; margin-bottom: 4px;
+    letter-spacing: .06em;
+  }
+  .cert-ph-code {
+    font-family: 'Fira Code', monospace;
+    font-size: .62rem; color: rgba(0,255,136,.4);
+    border: 1px solid rgba(0,255,136,.12);
+    border-radius: 6px; padding: 6px 16px;
+    letter-spacing: .08em;
+  }
+
+  .cert-modal-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    background: rgba(255,255,255,.01);
+    position: relative; z-index: 2;
+  }
+  .cert-modal-issuer {
+    font-family: 'Fira Code', monospace;
+    font-size: .62rem; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cert-modal-issuer::before { content: '//'; opacity: .5; }
+  .cert-modal-issuer em { color: var(--cyan); font-style: normal; }
+  .cert-modal-esc {
+    font-family: 'Fira Code', monospace;
+    font-size: .56rem; color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 5px; padding: 3px 9px;
+    opacity: .5; letter-spacing: .04em;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .cert-modal-esc kbd {
+    background: rgba(255,255,255,.06);
+    border: 1px solid var(--border);
+    border-radius: 3px; padding: 1px 5px;
+    font-family: 'Fira Code', monospace; font-size: .56rem;
+    color: var(--text);
+  }
+
+  .cert-modal-nav {
+    position: absolute; top: 50%; z-index: 5;
+    transform: translateY(-50%);
+    background: rgba(15,18,32,.85);
+    border: 1px solid var(--border2);
+    border-radius: 9px;
+    width: 38px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 1rem;
+    transition: border-color .2s, color .2s, background .2s;
+    backdrop-filter: blur(8px);
+  }
+  .cert-modal-nav:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,136,.06); }
+  .cert-modal-nav.prev { left: 12px; }
+  .cert-modal-nav.next { right: 12px; }
+
   .timeline{position:relative;padding-left:28px;display:grid;gap:0}
   .timeline::before{content:'';position:absolute;left:7px;top:10px;bottom:10px;width:1px;background:var(--border)}
   .tl-item{position:relative;padding:0 0 36px 24px}
@@ -257,6 +508,117 @@
   .lang-accent-bar.en{background:linear-gradient(90deg,var(--green),var(--cyan))}
   .lang-accent-bar.ml{background:linear-gradient(90deg,var(--cyan),#0077b6)}
   .lang-accent-bar.ta{background:linear-gradient(90deg,var(--yellow),var(--orange))}
+
+  .lang-dbl-hint{
+    font-family:'Fira Code',monospace;font-size:.52rem;color:var(--muted);
+    margin-top:10px;opacity:0;transition:opacity .3s;letter-spacing:.04em;
+  }
+  .lang-block:hover .lang-dbl-hint{opacity:.6}
+
+  #lang-dialogue-overlay{
+    position:fixed;inset:0;z-index:10002;
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    background:rgba(6,8,16,0);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s cubic-bezier(.4,0,.2,1),backdrop-filter .3s,background .3s;
+  }
+  #lang-dialogue-overlay.open{
+    opacity:1;pointer-events:all;
+    background:rgba(6,8,16,.82);
+    backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  }
+  .lang-dialogue-box{
+    position:relative;width:min(92vw,560px);
+    background:var(--card);border-radius:20px;overflow:hidden;
+    box-shadow:0 48px 120px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04);
+    transform:scale(.82) translateY(24px) rotate(-1deg);opacity:0;
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+  }
+  #lang-dialogue-overlay.open .lang-dialogue-box{
+    transform:scale(1) translateY(0) rotate(0deg);opacity:1;
+  }
+  .lang-dialogue-box::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;z-index:3;
+  }
+  .lang-dialogue-box.en::before{background:linear-gradient(90deg,var(--green),var(--cyan),var(--green));background-size:200% 100%;animation:langScan 2.5s linear infinite}
+  .lang-dialogue-box.ml::before{background:linear-gradient(90deg,var(--cyan),#0077b6,var(--cyan));background-size:200% 100%;animation:langScan 2.5s linear infinite}
+  .lang-dialogue-box.ta::before{background:linear-gradient(90deg,var(--yellow),var(--orange),var(--yellow));background-size:200% 100%;animation:langScan 2.5s linear infinite}
+  @keyframes langScan{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+  .lang-dialogue-header{
+    padding:20px 22px 0;display:flex;align-items:center;justify-content:space-between;
+  }
+  .lang-dialogue-from{
+    display:flex;align-items:center;gap:10px;
+  }
+  .lang-dialogue-avatar{
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+    flex-shrink:0;border:2px solid;
+  }
+  .lang-dialogue-box.en .lang-dialogue-avatar{background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3)}
+  .lang-dialogue-box.ml .lang-dialogue-avatar{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3)}
+  .lang-dialogue-box.ta .lang-dialogue-avatar{background:rgba(255,209,102,.1);border-color:rgba(255,209,102,.3)}
+  .lang-dialogue-from-meta{}
+  .lang-dialogue-speaker{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;
+  }
+  .lang-dialogue-box.en .lang-dialogue-speaker{color:var(--green)}
+  .lang-dialogue-box.ml .lang-dialogue-speaker{color:var(--cyan)}
+  .lang-dialogue-box.ta .lang-dialogue-speaker{color:var(--yellow)}
+  .lang-dialogue-movie{
+    font-family:'Fira Code',monospace;font-size:.58rem;color:var(--muted);
+    margin-top:2px;letter-spacing:.04em;
+  }
+  .lang-dialogue-close{
+    background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;
+    width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:.9rem;flex-shrink:0;
+    transition:border-color .2s,color .2s,background .2s,transform .2s;
+  }
+  .lang-dialogue-close:hover{border-color:rgba(255,77,109,.5);color:var(--red);background:rgba(255,77,109,.08);transform:rotate(90deg)}
+
+  .lang-dialogue-bubble-wrap{padding:18px 22px 22px;position:relative}
+  .lang-dialogue-bubble{
+    position:relative;
+    background:rgba(255,255,255,.04);border-radius:4px 16px 16px 16px;
+    padding:18px 20px;border:1px solid rgba(255,255,255,.06);
+    margin-top:12px;
+  }
+  .lang-dialogue-bubble::before{
+    content:'';position:absolute;top:-1px;left:-1px;
+    border:8px solid transparent;
+  }
+  .lang-dialogue-box.en .lang-dialogue-bubble::before{border-bottom-color:rgba(0,255,136,.25);border-right-color:rgba(0,255,136,.25)}
+  .lang-dialogue-box.ml .lang-dialogue-bubble::before{border-bottom-color:rgba(0,212,255,.25);border-right-color:rgba(0,212,255,.25)}
+  .lang-dialogue-box.ta .lang-dialogue-bubble::before{border-bottom-color:rgba(255,209,102,.25);border-right-color:rgba(255,209,102,.25)}
+
+  .lang-dialogue-text{
+    font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;line-height:1.7;
+    color:var(--text);font-style:italic;letter-spacing:.01em;
+  }
+  .lang-dialogue-text .typed-char{opacity:0;animation:charPop .04s forwards}
+  @keyframes charPop{to{opacity:1}}
+
+  .lang-dialogue-footer{
+    padding:0 22px 18px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .lang-dialogue-source{
+    font-family:'Fira Code',monospace;font-size:.58rem;color:var(--muted);
+    display:flex;align-items:center;gap:5px;
+  }
+  .lang-dialogue-source::before{content:'🎬';font-size:.65rem}
+  .lang-dialogue-esc{
+    font-family:'Fira Code',monospace;font-size:.56rem;color:var(--muted);
+    border:1px solid var(--border);border-radius:5px;padding:3px 9px;opacity:.5;
+    display:flex;align-items:center;gap:5px;
+  }
+  .lang-dialogue-esc kbd{
+    background:rgba(255,255,255,.06);border:1px solid var(--border);
+    border-radius:3px;padding:1px 5px;font-family:'Fira Code',monospace;
+    font-size:.56rem;color:var(--text);
+  }
+
   .books-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .book-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative}
   .book-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
@@ -301,9 +663,102 @@
   .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .hamburger.open span:nth-child(2){opacity:0}
   .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  .research-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 30px;position:relative;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+  .research-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 30px;position:relative;overflow:hidden;transition:border-color .25s,box-shadow .25s;cursor:pointer}
   .research-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--green),var(--cyan))}
   .research-card:hover{border-color:var(--border2);box-shadow:0 4px 40px rgba(0,255,136,.06)}
+  .research-view-hint{display:inline-flex;align-items:center;gap:6px;font-family:'Fira Code',monospace;font-size:.6rem;color:var(--cyan);margin-top:14px;opacity:0;transition:opacity .25s;letter-spacing:.06em}
+  .research-view-hint::before{content:'↗';font-size:.65rem}
+  .research-card:hover .research-view-hint{opacity:1}
+  .research-isbn{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:6px}
+  .research-isbn em{color:var(--yellow);font-style:normal;letter-spacing:.04em}
+
+  #research-modal-overlay{
+    position:fixed;inset:0;z-index:10001;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(6,8,16,0);
+    backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
+    opacity:0;pointer-events:none;
+    transition:opacity .35s cubic-bezier(.4,0,.2,1),backdrop-filter .35s,background .35s;
+  }
+  #research-modal-overlay.open{
+    opacity:1;pointer-events:all;
+    background:rgba(6,8,16,.9);
+    backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);
+  }
+  .research-modal-box{
+    position:relative;width:min(96vw,820px);max-height:90vh;
+    background:var(--card);border:1px solid var(--border2);border-radius:18px;
+    overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 0 0 1px rgba(0,212,255,.07),0 48px 140px rgba(0,0,0,.9),0 0 100px rgba(0,212,255,.04);
+    transform:scale(.87) translateY(30px);opacity:0;
+    transition:transform .45s cubic-bezier(.34,1.45,.64,1),opacity .35s;
+  }
+  #research-modal-overlay.open .research-modal-box{transform:scale(1) translateY(0);opacity:1}
+  .research-modal-box::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;z-index:4;
+    background:linear-gradient(90deg,transparent,var(--cyan),var(--green),var(--cyan),transparent);
+    background-size:300% 100%;animation:resScan 3s linear infinite;
+  }
+  @keyframes resScan{0%{background-position:100% 0}100%{background-position:-200% 0}}
+  .research-modal-header{
+    padding:20px 24px 18px;display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:1px solid var(--border);position:relative;z-index:2;flex-shrink:0;
+    background:rgba(255,255,255,.01);
+  }
+  .research-modal-label{
+    font-family:'Fira Code',monospace;font-size:.58rem;color:var(--cyan);
+    letter-spacing:.2em;text-transform:uppercase;margin-bottom:7px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .research-modal-label::before{
+    content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--cyan);box-shadow:0 0 6px rgba(0,212,255,.8);
+    animation:dotPulse 1.6s ease-in-out infinite;
+  }
+  .research-modal-title{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1rem;
+    line-height:1.4;color:var(--text);padding-right:8px;max-width:640px;
+  }
+  .research-modal-close{
+    background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:1rem;flex-shrink:0;margin-left:14px;margin-top:2px;
+    transition:border-color .2s,color .2s,background .2s,transform .2s;
+  }
+  .research-modal-close:hover{border-color:rgba(255,77,109,.5);color:var(--red);background:rgba(255,77,109,.08);transform:rotate(90deg)}
+  .research-modal-meta-bar{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    padding:12px 24px;border-bottom:1px solid var(--border);
+    background:rgba(0,212,255,.02);flex-shrink:0;
+  }
+  .res-meta-chip{
+    font-family:'Fira Code',monospace;font-size:.6rem;
+    padding:4px 12px;border-radius:100px;letter-spacing:.06em;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .res-meta-chip.conf{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan)}
+  .res-meta-chip.status{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--green)}
+  .res-meta-chip.isbn{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:var(--yellow)}
+  .res-meta-chip.isbn::before{content:'ISBN';opacity:.55;margin-right:3px}
+  .research-modal-pdf-wrap{
+    flex:1;overflow:hidden;position:relative;min-height:300px;background:#050710;
+  }
+  .research-modal-pdf-wrap::before{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(0,212,255,.08) 1px,transparent 1px);
+    background-size:28px 28px;pointer-events:none;z-index:1;opacity:.35;
+  }
+  #research-pdf-frame{
+    position:relative;z-index:2;width:100%;height:100%;min-height:480px;
+    border:none;display:block;
+  }
+  .research-modal-footer{
+    padding:13px 24px;border-top:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(255,255,255,.01);flex-shrink:0;
+  }
+  .res-modal-conf{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--muted)}
+  .res-modal-conf em{color:var(--cyan);font-style:normal}
   .research-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
   .research-badge{font-family:'Fira Code',monospace;font-size:.58rem;padding:4px 12px;border-radius:100px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);color:var(--green);letter-spacing:.1em;text-transform:uppercase}
   .research-conf{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--cyan);letter-spacing:.06em}
@@ -316,7 +771,6 @@
   .mob-link:last-child{border-bottom:none}
   .mob-link:hover,.mob-link:active{color:var(--green);background:rgba(0,255,136,.04)}
 
-  /* ── Responsive ── */
   @media(max-width:768px){
     .hamburger{display:flex}
     .wrap{padding:0 18px}.nav-links{display:none}.hero{padding:60px 0 48px}
@@ -335,6 +789,7 @@
     .footer-inner{flex-direction:column;gap:12px;text-align:center}.footer-links{justify-content:center}
     .ticon-item { width: 76px; padding: 11px 7px 10px; }
     .ticon-img-wrap i { font-size: 30px; }
+    .cert-modal-nav { display: none; }
   }
   @media(max-width:480px){
     .wrap{padding:0 14px}.hero{padding:44px 0 36px}.t-name{font-size:1.9rem}
@@ -400,6 +855,11 @@
     <div class="intro-divider"></div>
     <button id="enter-btn">Enter Portfolio <span class="enter-arrow">→</span></button>
   </div>
+  <!-- Swipe hint shown on mobile
+  <div class="swipe-hint" id="swipeHint">
+    <div class="swipe-hint-arrow"></div>
+    <span>swipe up to enter</span>
+  </div> -->
 </div>
 
 <div id="main-content">
@@ -454,8 +914,8 @@
       </div>
     </div>
     <div class="contact-strip reveal">
-      <a href="mailto:madhavsbofficial@gmail.com" class="c-pill"><span>✓</span>madhavsbofficial@gmail.com</a>
-      <a href="mailto:madhav@example.com" class="c-pill"><span>✓</span>madhav@example.com</a>
+      <a href="mailto:madhavsb@example.com" class="c-pill"><span>✓</span>madhavsb@example.com</a>
+      <a href="mailto:sb.madhav@example.com" class="c-pill"><span>✓</span>sb.madhav@example.com</a>
       <a href="tel:+918590317439" class="c-pill"><span>✆</span>+91 85903 17439</a>
       <span class="c-pill"><span>⌘</span>Trivandrum, Kerala</span>
     </div>
@@ -494,6 +954,7 @@
         <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"robotics"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-highlight">"30hr certified"</span></div>
         <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"languages_spoken"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-str">["English", "Malayalam", "Tamil"]</span></div>
         <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"location"</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"Trivandrum, Kerala, India"</span></div>
+        <div class="about-line"><span class="abt-prompt">&nbsp;</span><span class="abt-key">"Negatives "</span><span class="abt-sep">:</span>&nbsp;<span class="abt-val">"Enchanted with Level 3 Social Anxiety!"</span></div>
         <div class="about-line"><span class="abt-prompt">&nbsp;</span><span>}</span></div>
         <div class="about-line"><span class="abt-prompt">&#10095;</span><span class="abt-comment">// &nbsp;ready to build something great</span><span class="cursor-blink"></span></div>
       </div>
@@ -505,136 +966,57 @@
   <div class="wrap">
     <div class="divider"></div>
     <div class="section-head reveal"><span class="section-num">01</span><h2 class="section-title">Tech Stack</h2><div class="section-line"></div></div>
-
     <div class="tech-icons-wrap">
-
-      <!-- LANGUAGES -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Languages</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-javascript-plain colored"></i></div>
-            <span>JavaScript</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-php-plain colored"></i></div>
-            <span>PHP</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-c-plain colored"></i></div>
-            <span>C</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-cplusplus-plain colored"></i></div>
-            <span>C++</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-java-plain colored"></i></div>
-            <span>Java</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-python-plain colored"></i></div>
-            <span>Python</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-javascript-plain colored"></i></div><span>JavaScript</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-php-plain colored"></i></div><span>PHP</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-c-plain colored"></i></div><span>C</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-cplusplus-plain colored"></i></div><span>C++</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-java-plain colored"></i></div><span>Java</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-python-plain colored"></i></div><span>Python</span></div>
         </div>
       </div>
-
-      <!-- BACKEND -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Backend &amp; APIs</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-nodejs-plain colored"></i></div>
-            <span>Node.js</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-express-original"></i></div>
-            <span>Express.js</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-dotnetcore-plain colored"></i></div>
-            <span>ASP.NET</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-nodejs-plain colored"></i></div><span>Node.js</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-express-original"></i></div><span>Express.js</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-dotnetcore-plain colored"></i></div><span>ASP.NET</span></div>
         </div>
       </div>
-
-      <!-- DATABASE -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Database</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-mysql-plain colored"></i></div>
-            <span>MySQL</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-postgresql-plain colored"></i></div>
-            <span>SQL</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-mysql-plain colored"></i></div><span>MySQL</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-postgresql-plain colored"></i></div><span>SQL</span></div>
         </div>
       </div>
-
-      <!-- FRONTEND -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Frontend</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-html5-plain colored"></i></div>
-            <span>HTML5</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-css3-plain colored"></i></div>
-            <span>CSS3</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-react-original colored"></i></div>
-            <span>React</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-bootstrap-plain colored"></i></div>
-            <span>Bootstrap</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-html5-plain colored"></i></div><span>HTML5</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-css3-plain colored"></i></div><span>CSS3</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-react-original colored"></i></div><span>React</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-bootstrap-plain colored"></i></div><span>Bootstrap</span></div>
         </div>
       </div>
-
-      <!-- TOOLS -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Tools &amp; Design</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-vscode-plain colored"></i></div>
-            <span>VS Code</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-figma-plain colored"></i></div>
-            <span>Figma</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-git-plain colored"></i></div>
-            <span>Git</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-github-original"></i></div>
-            <span>GitHub</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-canva-original colored"></i></div>
-            <span>Canva</span>
-          </div>
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-latex-original"></i></div>
-            <span>LaTeX</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-vscode-plain colored"></i></div><span>VS Code</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-figma-plain colored"></i></div><span>Figma</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-git-plain colored"></i></div><span>Git</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-github-original"></i></div><span>GitHub</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-canva-original colored"></i></div><span>Canva</span></div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-latex-original"></i></div><span>LaTeX</span></div>
         </div>
       </div>
-
-      <!-- CLOUD -->
       <div class="ticon-group">
         <div class="ticon-group-label"><span class="tgl-slash">//</span> Cloud &amp; Analytics</div>
         <div class="ticon-grid">
-          <div class="ticon-item">
-            <div class="ticon-img-wrap"><i class="devicon-googlecloud-plain colored"></i></div>
-            <span>Google Cloud</span>
-          </div>
+          <div class="ticon-item"><div class="ticon-img-wrap"><i class="devicon-googlecloud-plain colored"></i></div><span>Google Cloud</span></div>
           <div class="ticon-item">
             <div class="ticon-img-wrap">
               <svg viewBox="0 0 32 32" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
@@ -648,9 +1030,7 @@
           </div>
         </div>
       </div>
-
     </div>
-
     <div class="section-head reveal" style="margin-top:32px">
       <span class="section-num" style="opacity:.4">—</span>
       <h3 class="section-title" style="font-size:1rem;font-weight:600">Proficiency</h3>
@@ -684,8 +1064,8 @@
     </div>
     <div class="projects-list">
       <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.02</span><h3 class="proj-name">Full-Stack Land Rental Website</h3></div><div class="proj-points"><div class="proj-point">Complete end-to-end land rental platform — auth, listings, rental requests, and admin approval workflows.</div><div class="proj-point">Secure REST APIs with role-based access for tenants and admins. MySQL schemas with image upload handling.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">REST API</span><span class="p-tag">RBAC</span><span class="p-tag">Image Upload</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Full Stack</span></div>
-      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.03</span><h3 class="proj-name">Trustora — Banking Platform</h3></div><div class="proj-points"><div class="proj-point">Independently designed and built the complete backend architecture from scratch.</div><div class="proj-point">Secure auth, role-based access, transaction workflows. Normalized MySQL schemas and full REST APIs.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">Auth</span><span class="p-tag">RBAC</span><span class="p-tag">Transactions</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Solo Backend</span></div>
-      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.04</span><h3 class="proj-name">HireHive — Job Hiring Platform</h3></div><div class="proj-points"><div class="proj-point">Backend for job posting, application management, and admin approval flows.</div><div class="proj-point">REST APIs with Node.js + Express.js. Full DB schema for jobs, applicants, and companies.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">REST API</span><span class="p-tag">Job Board</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Backend</span></div>
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.03</span><h3 class="proj-name">Trustora — Banking Platform</h3></div><div class="proj-points"><div class="proj-point">Independently designed and built the complete backend architecture from scratch.</div><div class="proj-point">Secure auth, role-based access, transaction workflows. Normalized MySQL schemas and full REST APIs.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">Auth</span><span class="p-tag">RBAC</span><span class="p-tag">Transactions</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.11.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Solo Backend</span></div>
+      <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.04</span><h3 class="proj-name">HireHive — Job Hiring Platform</h3></div><div class="proj-points"><div class="proj-point">Backend for job posting, application management, and admin approval flows.</div><div class="proj-point">REST APIs with Node.js + Express.js. Full DB schema for jobs, applicants, and companies.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">Express.js</span><span class="p-tag">MySQL</span><span class="p-tag">REST API</span><span class="p-tag">Job Board</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.11.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Backend</span></div>
       <div class="proj-card reveal"><div><div class="proj-header"><span class="proj-idx">p.05</span><h3 class="proj-name">Expense Tracker Web App</h3></div><div class="proj-points"><div class="proj-point">Complete backend for expense tracking with auth and full CRUD operations.</div><div class="proj-point">Category-based summaries and secure user-specific data isolation using MySQL.</div></div><div class="proj-tags"><span class="p-tag">Node.js</span><span class="p-tag">MySQL</span><span class="p-tag">Auth</span><span class="p-tag">CRUD</span><span class="p-tag">Categories</span></div><div class="proj-link-row"><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.11.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a><a href="https://www.madhavsb.me/myproject.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Live Demo</a></div></div><span class="proj-badge">Backend</span></div>
     </div>
   </div>
@@ -708,17 +1088,57 @@
     <div class="divider"></div>
     <div class="section-head reveal"><span class="section-num">04</span><h2 class="section-title">Certifications</h2><div class="section-line"></div></div>
     <div class="certs-grid">
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Full Stack Web Development</p><p class="cert-issuer">// Web Dev · Complete course</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">React.js</p><p class="cert-issuer">// Frontend framework</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div><p class="cert-name">Figma (UI/UX)</p><p class="cert-issuer">// Design &amp; Prototyping</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico orange">&#9670;</div><span class="cert-hours">30 hrs</span></div><p class="cert-name">Robotics</p><p class="cert-issuer">// Hands-on · 30 Hour Program</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico red">&#9670;</div></div><p class="cert-name">Power BI</p><p class="cert-issuer">// Data Visualisation</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Innovating with Google Cloud AI</p><p class="cert-issuer">// Google Cloud · AI Analytics</p></div>
-      <div class="cert-card reveal"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">Google Cloud – AI Analytics</p><p class="cert-issuer">// Google Cloud Platform</p></div>
+      <div class="cert-card reveal" data-cert-name="Full Stack Web Development" data-cert-issuer="Web Dev · Complete course" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div>
+        <p class="cert-name">Full Stack Web Development</p>
+        <p class="cert-issuer">// Web Dev · Complete course</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="React.js" data-cert-issuer="Frontend framework" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div>
+        <p class="cert-name">React.js</p>
+        <p class="cert-issuer">// Frontend framework</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="Figma (UI/UX)" data-cert-issuer="Design &amp; Prototyping" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div>
+        <p class="cert-name">Figma (UI/UX)</p>
+        <p class="cert-issuer">// Design &amp; Prototyping</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="Robotics" data-cert-issuer="Hands-on · 30 Hour Program" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico orange">&#9670;</div><span class="cert-hours">30 hrs</span></div>
+        <p class="cert-name">Robotics</p>
+        <p class="cert-issuer">// Hands-on · 30 Hour Program</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="Power BI" data-cert-issuer="Data Visualisation" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico red">&#9670;</div></div>
+        <p class="cert-name">Power BI</p>
+        <p class="cert-issuer">// Data Visualisation</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="Innovating with Google Cloud AI" data-cert-issuer="Google Cloud · AI Analytics" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div>
+        <p class="cert-name">Innovating with Google Cloud AI</p>
+        <p class="cert-issuer">// Google Cloud · AI Analytics</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
+      <div class="cert-card reveal" data-cert-name="Google Cloud – AI Analytics" data-cert-issuer="Google Cloud Platform" data-cert-img="">
+        <div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div>
+        <p class="cert-name">Google Cloud – AI Analytics</p>
+        <p class="cert-issuer">// Google Cloud Platform</p>
+        <span class="cert-view-hint">View Certificate</span>
+      </div>
     </div>
+
     <div class="divider" style="margin:40px 0 32px"></div>
     <div class="section-head reveal"><span class="section-num" style="opacity:.5">—</span><h3 class="section-title" style="font-size:1rem;font-weight:600">Research</h3><div class="section-line"></div></div>
-    <div class="research-card reveal">
+    <!-- FIX 3: Research PDF URL set -->
+    <div class="research-card reveal"
+         id="researchCard"
+         data-res-pdf="https://madhavsb.me/Gamification.pdf"
+         data-res-isbn="978-93-5627-216-3">
       <div class="research-top"><div class="research-badge">Submitted</div><span class="research-conf">ICAISCS 2026</span></div>
       <p class="research-title">Gamification Fatigue: When Game Elements Reduce Learning Effectiveness in Educational Software</p>
       <div class="research-meta">
@@ -726,13 +1146,15 @@
         <span class="research-meta-item">// Christ Nagar College, Thiruvananthapuram &amp; Zoom · 13 Feb 2026</span>
         <span class="research-meta-item">// Organised by PG Dept. of Computer Science in collaboration with ICFOSS &amp; CSI</span>
       </div>
+      <div class="research-isbn">ISBN: <em>978-93-5627-216-3</em></div>
+      <span class="research-view-hint">View Paper / Document</span>
     </div>
     <div class="divider" style="margin:40px 0 32px"></div>
     <div class="section-head reveal"><span class="section-num" style="opacity:.5">—</span><h3 class="section-title" style="font-size:1rem;font-weight:600">Languages I Speak</h3><div class="section-line"></div></div>
     <div class="lang-showcase reveal">
-      <div class="lang-block"><div class="lang-script en">English</div><div class="lang-name-label">English</div><span class="lang-level-pill native">Native</span><div class="lang-accent-bar en"></div></div>
-      <div class="lang-block"><div class="lang-script ml">മലയാളം</div><div class="lang-name-label">Malayalam</div><span class="lang-level-pill native">Native</span><div class="lang-accent-bar ml"></div></div>
-      <div class="lang-block"><div class="lang-script ta">தமிழ்</div><div class="lang-name-label">Tamil</div><span class="lang-level-pill proficient">Proficient</span><div class="lang-accent-bar ta"></div></div>
+      <div class="lang-block" data-lang="en"><div class="lang-script en">English</div><div class="lang-name-label">English</div><span class="lang-level-pill native">Native</span><div class="lang-dbl-hint">double-click me 👀</div><div class="lang-accent-bar en"></div></div>
+      <div class="lang-block" data-lang="ml"><div class="lang-script ml">മലയാളം</div><div class="lang-name-label">Malayalam</div><span class="lang-level-pill native">Native</span><div class="lang-dbl-hint">ഡബിൾ ക്ലിക്ക് ചെയ്യൂ 👀</div><div class="lang-accent-bar ml"></div></div>
+      <div class="lang-block" data-lang="ta"><div class="lang-script ta">தமிழ்</div><div class="lang-name-label">Tamil</div><span class="lang-level-pill proficient">Proficient</span><div class="lang-dbl-hint">இரட்டை கிளிக் செய்யுங்கள் 👀</div><div class="lang-accent-bar ta"></div></div>
     </div>
   </div>
 </section>
@@ -745,7 +1167,6 @@
       <div class="book-card reveal-left">
         <div class="book-cover-wrap"><img src="http://www.madhavsb.me/Screenshot%202026-03-06%20080145.png" alt="A Promise She Kept Waiting For"/><div class="book-cover-overlay"></div></div>
         <div class="book-info">
-          <p class="book-status" style="color:var(--cyan)">&#9632; Published</p>
           <p class="book-title">A Promise She Kept Waiting For</p>
           <p class="book-subtitle">അവൻ വരുമെന്ന്‍ പറഞ്ഞിരുന്നു</p>
           <span class="book-lang">Malayalam Novel</span>
@@ -777,24 +1198,90 @@
     <div class="footer-inner">
       <p>Fly like a Butterfly · <span>S B Madhav</span> &copy; 2026 · Trivandrum, Kerala</p>
       <div class="footer-links">
-        <a href="mailto:madhavsbofficial@gmail.com">Email</a>
+        <a href="mailto:madhavsb@example.com">Email</a>
         <a href="tel:+918590317439">Phone</a>
       </div>
     </div>
   </div>
 </footer>
+</div><!-- /main-content -->
+
+<!-- CERTIFICATE MODAL -->
+<div id="cert-modal-overlay" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+  <div class="cert-modal-box" id="certModalBox">
+    <div class="cert-modal-header">
+      <div class="cert-modal-meta">
+        <div class="cert-modal-label">Certificate</div>
+        <div class="cert-modal-title" id="cert-modal-name">—</div>
+      </div>
+      <button class="cert-modal-close" id="cert-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="cert-modal-img-wrap" id="cert-img-area"></div>
+    <button class="cert-modal-nav prev" id="cert-prev" aria-label="Previous certificate">‹</button>
+    <button class="cert-modal-nav next" id="cert-next" aria-label="Next certificate">›</button>
+    <div class="cert-modal-footer">
+      <span class="cert-modal-issuer"><em id="cert-modal-issuer-text">—</em></span>
+      <span class="cert-modal-esc"><kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH PAPER MODAL -->
+<div id="research-modal-overlay" role="dialog" aria-modal="true" aria-label="Research paper viewer">
+  <div class="research-modal-box">
+    <div class="research-modal-header">
+      <div style="flex:1;min-width:0">
+        <div class="research-modal-label">Research Paper</div>
+        <div class="research-modal-title">Gamification Fatigue: When Game Elements Reduce Learning Effectiveness in Educational Software</div>
+      </div>
+      <button class="research-modal-close" id="res-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="research-modal-meta-bar">
+      <span class="res-meta-chip conf">ICAISCS 2026</span>
+      <span class="res-meta-chip status">Submitted</span>
+      <span class="res-meta-chip isbn" id="res-isbn-chip">978-93-5627-216-3</span>
+    </div>
+    <div class="research-modal-pdf-wrap" id="res-pdf-area"></div>
+    <div class="research-modal-footer">
+      <span class="res-modal-conf">// <em>Christ Nagar College</em> · Thiruvananthapuram &amp; Zoom · 13 Feb 2026</span>
+      <span class="cert-modal-esc"><kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
+<!-- LANGUAGE DIALOGUE MODAL -->
+<div id="lang-dialogue-overlay" role="dialog" aria-modal="true">
+  <div class="lang-dialogue-box" id="langDialogueBox">
+    <div class="lang-dialogue-header">
+      <div class="lang-dialogue-from">
+        <div class="lang-dialogue-avatar" id="langDialogueAvatar">🎭</div>
+        <div class="lang-dialogue-from-meta">
+          <div class="lang-dialogue-speaker" id="langDialogueSpeaker">—</div>
+          <div class="lang-dialogue-movie" id="langDialogueMovie">—</div>
+        </div>
+      </div>
+      <button class="lang-dialogue-close" id="lang-dialogue-close" aria-label="Close">✕</button>
+    </div>
+    <div class="lang-dialogue-bubble-wrap">
+      <div class="lang-dialogue-bubble">
+        <div class="lang-dialogue-text" id="langDialogueText"></div>
+      </div>
+    </div>
+    <div class="lang-dialogue-footer">
+      <span class="lang-dialogue-source" id="langDialogueSource"></span>
+      <span class="lang-dialogue-esc"><kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
 </div>
 
 <script>
 // ══ CLICK RIPPLE ══
 document.addEventListener('click', function(e) {
   const size = 40;
-  const r1 = document.createElement('div');
-  r1.className = 'click-ripple';
+  const r1 = document.createElement('div'); r1.className = 'click-ripple';
   r1.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:${size}px;height:${size}px;`;
   document.body.appendChild(r1);
-  const r2 = document.createElement('div');
-  r2.className = 'click-ripple-2';
+  const r2 = document.createElement('div'); r2.className = 'click-ripple-2';
   r2.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:${size}px;height:${size}px;`;
   document.body.appendChild(r2);
   setTimeout(() => { r1.remove(); r2.remove(); }, 800);
@@ -819,10 +1306,8 @@ let bx = mx, by = my, lastMx = mx, lastMy = my, idleTime = 0;
 let wx = mx, wy = my, wanderTimer = 0;
 const GAP = 38;
 
-cursor.style.left = mx + 'px';
-cursor.style.top = my + 'px';
-bfly.style.left = bx + 'px';
-bfly.style.top = by + 'px';
+cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+bfly.style.left = bx + 'px';  bfly.style.top = by + 'px';
 
 function pickWanderTarget() {
   const r = 60 + Math.random() * 60, a = Math.random() * Math.PI * 2;
@@ -831,8 +1316,7 @@ function pickWanderTarget() {
 
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
 });
 
 (function animBfly() {
@@ -849,8 +1333,7 @@ document.addEventListener('mousemove', e => {
     by += (my + dy / dist * GAP - by) * 0.13;
     wx = bx; wy = by; wanderTimer = 0;
   }
-  bfly.style.left = bx + 'px';
-  bfly.style.top = by + 'px';
+  bfly.style.left = bx + 'px'; bfly.style.top = by + 'px';
   requestAnimationFrame(animBfly);
 })();
 
@@ -859,15 +1342,57 @@ document.querySelectorAll('a,button,.proj-card,.proj-featured,.stack-card,.book-
   el.addEventListener('mouseleave', () => { cursor.style.width = '10px'; cursor.style.height = '10px'; });
 });
 
-// ══ ENTER BUTTON ══
-document.getElementById('enter-btn').addEventListener('click', function() {
-  document.getElementById('intro-overlay').classList.add('hidden');
+// ══ ENTER FUNCTION (shared by button click + swipe) ══
+function enterPortfolio() {
+  const overlay = document.getElementById('intro-overlay');
+  if (overlay.classList.contains('hidden')) return; // prevent double trigger
+  overlay.classList.add('hidden');
+  // FIX 1: Unlock scroll when entering portfolio
+  document.body.classList.add('unlocked');
   setTimeout(() => {
     document.getElementById('main-content').classList.add('visible');
     runTerminalSequence();
     initObservers();
+    initCertModal();
+    initResearchModal();
+    initLangDialogue();
   }, 500);
-});
+}
+
+// ══ ENTER BUTTON ══
+document.getElementById('enter-btn').addEventListener('click', enterPortfolio);
+
+// FIX 2: SWIPE UP to enter (touch support)
+(function initSwipeEnter() {
+  const overlay = document.getElementById('intro-overlay');
+  let touchStartY = null;
+  let touchStartX = null;
+
+  overlay.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  overlay.addEventListener('touchend', function(e) {
+    if (touchStartY === null) return;
+    const touchEndY = e.changedTouches[0].clientY;
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaY = touchStartY - touchEndY; // positive = swipe up
+    const deltaX = Math.abs(touchStartX - touchEndX);
+
+    // Swipe up: vertical movement > 60px, more vertical than horizontal
+    if (deltaY > 60 && deltaY > deltaX) {
+      enterPortfolio();
+    }
+    touchStartY = null;
+    touchStartX = null;
+  }, { passive: true });
+
+  // Also prevent scroll on the overlay itself
+  overlay.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, { passive: false });
+})();
 
 // ══ SCROLL / NAV ══
 const bar = document.getElementById('progress-bar');
@@ -978,25 +1503,180 @@ function runTerminalSequence() {
   setTimeout(nextLine, 600);
 }
 
+// ══ CERTIFICATE MODAL ══
+function initCertModal() {
+  const overlay   = document.getElementById('cert-modal-overlay');
+  const closeBtn  = document.getElementById('cert-modal-close');
+  const nameEl    = document.getElementById('cert-modal-name');
+  const issuerEl  = document.getElementById('cert-modal-issuer-text');
+  const imgArea   = document.getElementById('cert-img-area');
+  const prevBtn   = document.getElementById('cert-prev');
+  const nextBtn   = document.getElementById('cert-next');
+  const cards = Array.from(document.querySelectorAll('.cert-card'));
+  let currentIdx = 0;
+
+  function renderCert(idx) {
+    const card  = cards[idx];
+    const name   = card.dataset.certName   || 'Certificate';
+    const issuer = card.dataset.certIssuer || '';
+    const img    = card.dataset.certImg    || '';
+    nameEl.textContent   = name;
+    issuerEl.textContent = issuer;
+    prevBtn.style.opacity = idx === 0              ? '0.25' : '1';
+    nextBtn.style.opacity = idx === cards.length-1 ? '0.25' : '1';
+    if (img && img.trim() !== '') {
+      imgArea.innerHTML = `<img id="cert-modal-img" src="${img}" alt="${name}" />`;
+    } else {
+      imgArea.innerHTML = `
+        <div class="cert-placeholder">
+          <div class="cert-ph-ring"><div class="cert-ph-icon">🏅</div></div>
+          <div class="cert-ph-label">
+            <strong>// cert_image not set</strong>
+            Add your image path to the<br>
+            <code>data-cert-img</code> attribute on the card.
+          </div>
+          <span class="cert-ph-code">data-cert-img="./certs/${name.toLowerCase().replace(/\s+/g,'-')}.jpg"</span>
+        </div>`;
+    }
+  }
+
+  function openModal(idx) {
+    currentIdx = idx; renderCert(currentIdx);
+    overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    overlay.classList.remove('open'); document.body.style.overflow = '';
+  }
+  cards.forEach((card, i) => { card.addEventListener('click', () => openModal(i)); });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft'  && currentIdx > 0)              openModal(currentIdx - 1);
+    if (e.key === 'ArrowRight' && currentIdx < cards.length-1) openModal(currentIdx + 1);
+  });
+  prevBtn.addEventListener('click', e => { e.stopPropagation(); if (currentIdx > 0) openModal(currentIdx - 1); });
+  nextBtn.addEventListener('click', e => { e.stopPropagation(); if (currentIdx < cards.length - 1) openModal(currentIdx + 1); });
+}
+
+// ══ RESEARCH PAPER MODAL ══
+function initResearchModal() {
+  const overlay  = document.getElementById('research-modal-overlay');
+  const closeBtn = document.getElementById('res-modal-close');
+  const pdfArea  = document.getElementById('res-pdf-area');
+  const isbnChip = document.getElementById('res-isbn-chip');
+  const card     = document.getElementById('researchCard');
+  if (!card || !overlay) return;
+
+  function renderPdf() {
+    const pdf  = card.dataset.resPdf  || '';
+    const isbn = card.dataset.resIsbn || '978-93-5627-216-3';
+    if (isbnChip) isbnChip.textContent = isbn;
+    if (pdf && pdf.trim() !== '') {
+      pdfArea.innerHTML = `<iframe id="research-pdf-frame"
+        src="${pdf}#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+        title="Research Paper PDF"></iframe>`;
+    } else {
+      pdfArea.innerHTML = `
+        <div class="research-pdf-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:56px 40px;text-align:center;height:100%;min-height:320px;">
+          <div class="res-ph-ring" style="position:relative;width:80px;height:80px;"><div class="res-ph-icon" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.18);border-radius:50%;">📄</div></div>
+          <div style="font-family:'Fira Code',monospace;font-size:.72rem;line-height:1.8;color:var(--muted);">
+            <strong style="display:block;color:var(--cyan);font-size:.78rem;margin-bottom:4px;letter-spacing:.06em;">// pdf not available</strong>
+          </div>
+        </div>`;
+    }
+  }
+
+  function openModal() {
+    renderPdf(); overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    overlay.classList.remove('open'); document.body.style.overflow = '';
+    setTimeout(() => { const fr = document.getElementById('research-pdf-frame'); if (fr) fr.src = ''; }, 400);
+  }
+  card.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (!overlay.classList.contains('open')) return; if (e.key === 'Escape') closeModal(); });
+}
+
+// ══ LANGUAGE DIALOGUE MODAL ══
+const LANG_DATA = {
+  en: {
+    avatar: '🎬', accent: 'var(--green)',
+    quote: 'The coefficient\'s of linear expansions is the position of Haemoglobin in the atmosphere. But Why? Full Many gem of purests serene lay underneath the unfathomed ocean\'s unblossomeds ! But why? But why?'
+  },
+  ml: {
+    avatar: '🥣', accent: 'var(--cyan)',
+    quote: 'കുറച്ചു കഞ്ഞി എടുക്കട്ടേ, മാണിക്യാ!'
+  },
+  ta: {
+    avatar: '🌺', accent: 'var(--yellow)',
+    quote: 'என் காதல் தொட்டதில் மலர்கள் இல்லையே'
+  }
+};
+
+function initLangDialogue() {
+  const overlay   = document.getElementById('lang-dialogue-overlay');
+  const box       = document.getElementById('langDialogueBox');
+  const closeBtn  = document.getElementById('lang-dialogue-close');
+  const avatarEl  = document.getElementById('langDialogueAvatar');
+  const speakerEl = document.getElementById('langDialogueSpeaker');
+  const movieEl   = document.getElementById('langDialogueMovie');
+  const textEl    = document.getElementById('langDialogueText');
+  const sourceEl  = document.getElementById('langDialogueSource');
+  if (!overlay) return;
+  let typeTimer = null;
+
+  function typeDialogue(text) {
+    textEl.innerHTML = '';
+    if (typeTimer) clearInterval(typeTimer);
+    let i = 0;
+    typeTimer = setInterval(() => {
+      if (i >= text.length) { clearInterval(typeTimer); return; }
+      const span = document.createElement('span');
+      span.className = 'typed-char'; span.style.animationDelay = '0s';
+      span.textContent = text[i]; textEl.appendChild(span); i++;
+    }, 28);
+  }
+
+  function openDialogue(lang) {
+    const d = LANG_DATA[lang]; if (!d) return;
+    box.className = 'lang-dialogue-box ' + lang;
+    avatarEl.textContent  = d.avatar;
+    speakerEl.textContent = d.speaker || '';
+    movieEl.textContent   = d.movie   || '';
+    sourceEl.textContent  = d.source  || '';
+    overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+    setTimeout(() => typeDialogue(d.quote), 300);
+  }
+
+  function closeDialogue() {
+    overlay.classList.remove('open'); document.body.style.overflow = '';
+    if (typeTimer) clearInterval(typeTimer);
+  }
+
+  document.querySelectorAll('.lang-block[data-lang]').forEach(block => {
+    block.addEventListener('dblclick', e => { e.preventDefault(); openDialogue(block.dataset.lang); });
+  });
+  closeBtn.addEventListener('click', closeDialogue);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeDialogue(); });
+  document.addEventListener('keydown', e => { if (!overlay.classList.contains('open')) return; if (e.key === 'Escape') closeDialogue(); });
+}
+
 // ══ AMBIENT BUTTERFLY SWARM ══
-// Reduced count on mobile for performance, but enabled everywhere
 const isMobile = window.matchMedia('(pointer:coarse)').matches || window.innerWidth < 768;
 const SWARM_COUNT = isMobile ? 10 : 32;
-// On mobile: trigger after 4s of no touch activity. On desktop: after ~10s of no mouse movement.
 const IDLE_TRIGGER = isMobile ? 80 : 200;
 let ambIdleTimer = 0, ambLastMx = -999, ambLastMy = -999, swarmActive = false, swarmBflies = [];
-
-// Track last touch position for mobile idle detection
-let lastTouchTime = Date.now();
-let touchMx = window.innerWidth / 2, touchMy = window.innerHeight / 2;
+let lastTouchTime = Date.now(), touchMx = window.innerWidth / 2, touchMy = window.innerHeight / 2;
 
 document.addEventListener('touchstart', e => {
   lastTouchTime = Date.now();
   if (e.touches[0]) { touchMx = e.touches[0].clientX; touchMy = e.touches[0].clientY; }
-  // Dismiss swarm on touch
   if (swarmActive) { swarmActive = false; dismissSwarm(); ambIdleTimer = 0; }
 }, { passive: true });
-
 document.addEventListener('touchmove', e => {
   lastTouchTime = Date.now();
   if (e.touches[0]) { touchMx = e.touches[0].clientX; touchMy = e.touches[0].clientY; }
@@ -1089,29 +1769,17 @@ function animateSwarm() {
   requestAnimationFrame(animateSwarm);
 }
 
-// ── Idle detection works for BOTH mouse and touch ──
 function ambIdleTick() {
   if (isMobile) {
-    // On mobile: check time since last touch
     const timeSinceTouch = Date.now() - lastTouchTime;
-    const idleMs = IDLE_TRIGGER * 50; // ~4 seconds
-    if (timeSinceTouch > idleMs && !swarmActive) {
-      swarmActive = true;
-      spawnSwarm();
-      requestAnimationFrame(animateSwarm);
-    }
-    // swarm dismissal on touch is handled by the touchstart listener
+    const idleMs = IDLE_TRIGGER * 50;
+    if (timeSinceTouch > idleMs && !swarmActive) { swarmActive = true; spawnSwarm(); requestAnimationFrame(animateSwarm); }
   } else {
-    // Desktop: mouse movement detection
     const moved = Math.abs(mx - ambLastMx) + Math.abs(my - ambLastMy);
     ambLastMx = mx; ambLastMy = my;
     if (moved < 2) {
       ambIdleTimer++;
-      if (ambIdleTimer >= IDLE_TRIGGER && !swarmActive) {
-        swarmActive = true;
-        spawnSwarm();
-        requestAnimationFrame(animateSwarm);
-      }
+      if (ambIdleTimer >= IDLE_TRIGGER && !swarmActive) { swarmActive = true; spawnSwarm(); requestAnimationFrame(animateSwarm); }
     } else {
       ambIdleTimer = 0;
       if (swarmActive) { swarmActive = false; dismissSwarm(); }

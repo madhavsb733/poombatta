@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You've Been Rickrolled 🎵</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Fira Code', monospace;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #fake-loader {
+    position: fixed;
+    inset: 0;
+    background: #060810;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .loader-title { font-size: clamp(1rem, 3vw, 1.4rem); color: #00ff88; letter-spacing: .15em; }
+  .loader-sub { font-size: .75rem; color: #5a6490; letter-spacing: .1em; }
+
+  .progress-wrap {
+    width: min(360px, 80vw); height: 4px;
+    background: #1e2340; border-radius: 100px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #00ff88, #00d4ff);
+    border-radius: 100px; transition: width .05s linear;
+    box-shadow: 0 0 8px rgba(0,255,136,.6);
+  }
+
+  .loader-pct { font-size: .7rem; color: #00ff88; }
+
+  .loader-steps { display: flex; flex-direction: column; gap: 6px; width: min(360px, 80vw); }
+  .loader-step {
+    font-size: .65rem; color: #5a6490; opacity: 0;
+    transition: opacity .3s, color .3s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .loader-step.done  { color: #00ff88; opacity: 1; }
+  .loader-step.done::before  { content: '✓'; }
+  .loader-step.active { color: #dde3ff; opacity: 1; }
+  .loader-step.active::before { content: '›'; animation: blink .6s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── RICKROLL SCREEN ── */
+  #rickroll-screen {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: #000; opacity: 0; pointer-events: none;
+    transition: opacity .5s;
+  }
+  #rickroll-screen.show { opacity: 1; pointer-events: all; }
+
+  .rick-header {
+    text-align: center; margin-bottom: 20px;
+    animation: bounceIn .6s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  @keyframes bounceIn {
+    0%  { transform:scale(.3); opacity:0; }
+    50% { transform:scale(1.05); opacity:1; }
+    70% { transform:scale(.9); }
+    100%{ transform:scale(1); }
+  }
+
+  .rick-emoji { font-size: clamp(2.5rem,8vw,4rem); display:block; margin-bottom:8px; }
+
+  .rick-title {
+    font-size: clamp(1.2rem,4vw,2rem); font-weight:700; letter-spacing:-.01em;
+    background: linear-gradient(90deg,#00ff88,#00d4ff,#ffd166);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .rick-sub { font-size: clamp(.65rem,2vw,.8rem); color:#5a6490; margin-top:6px; letter-spacing:.08em; }
+
+  .video-wrap {
+    position: relative;
+    width: min(720px, 92vw);
+    aspect-ratio: 16/9;
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid #1e2340;
+    box-shadow: 0 0 60px rgba(0,255,136,.08), 0 0 0 1px rgba(0,255,136,.06);
+    animation: slideUp .7s .2s cubic-bezier(.4,0,.2,1) both;
+  }
+  @keyframes slideUp {
+    from { transform:translateY(40px); opacity:0; }
+    to   { transform:translateY(0);    opacity:1; }
+  }
+
+  /* video: no controls, fills box */
+  #rick-video {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    pointer-events: none;           /* hides native controls on tap */
+  }
+
+  /* transparent overlay blocks right-click context menu & touch controls */
+  .video-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    background: transparent;
+  }
+
+  .rick-footer {
+    margin-top: 16px; font-size: .65rem; color: #2a3060; letter-spacing: .1em;
+    animation: slideUp .7s .4s cubic-bezier(.4,0,.2,1) both;
+  }
+
+  .note {
+    position: fixed; pointer-events: none;
+    animation: floatNote linear forwards; z-index: 200;
+  }
+  @keyframes floatNote {
+    0%   { transform:translateY(0) rotate(0deg);   opacity:1; }
+    100% { transform:translateY(-90vh) rotate(360deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="fake-loader">
+  <p class="loader-title">// Loading Project...</p>
+  <p class="loader-sub" id="loader-sub-text">Initializing secure connection</p>
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <p class="loader-pct" id="loader-pct">0%</p>
+  <div class="loader-steps">
+    <div class="loader-step" id="step1">Fetching repository data</div>
+    <div class="loader-step" id="step2">Loading project assets</div>
+    <div class="loader-step" id="step3">Compiling source files</div>
+    <div class="loader-step" id="step4">Connecting to server</div>
+    <div class="loader-step" id="step5">Almost there...</div>
+  </div>
+</div>
+
+<div id="rickroll-screen">
+  <div class="rick-header">
+  
+  <div class="video-wrap">
+    <video
+      id="rick-video"
+      src="rick.mp4"
+      autoplay
+      loop
+      playsinline
+      preload="auto">
+      <!-- no "controls" attribute = control bar never shows -->
+    </video>
+    <!-- blocks right-click "Show Controls" and mobile tap-to-show -->
+    <div class="video-overlay" oncontextmenu="return false;"></div>
+  </div>
+  <p class="rick-footer">// congratulations · you clicked a link on the internet</p>
+</div>
+
+<script>
+  const fill   = document.getElementById('progress-fill');
+  const pct    = document.getElementById('loader-pct');
+  const subTxt = document.getElementById('loader-sub-text');
+  const video  = document.getElementById('rick-video');
+
+  const steps = [
+    { el: document.getElementById('step1'), at: 15, label: 'Fetching repository data' },
+    { el: document.getElementById('step2'), at: 35, label: 'Loading project assets' },
+    { el: document.getElementById('step3'), at: 58, label: 'Compiling source files' },
+    { el: document.getElementById('step4'), at: 78, label: 'Connecting to server' },
+    { el: document.getElementById('step5'), at: 93, label: 'Almost there...' },
+  ];
+
+  let progress = 0, activeStep = -1;
+
+  const interval = setInterval(() => {
+    const nearStep = steps.some(s => Math.abs(progress - s.at) < 4);
+    const increment = nearStep ? 0.25 : (progress > 90 ? 0.15 : 0.8);
+    progress = Math.min(100, progress + increment);
+
+    fill.style.width = progress + '%';
+    pct.textContent  = Math.floor(progress) + '%';
+
+    steps.forEach((s, i) => {
+      if (progress >= s.at && activeStep < i) {
+        activeStep = i;
+        if (i > 0) steps[i - 1].el.className = 'loader-step done';
+        s.el.className = 'loader-step active';
+        subTxt.textContent = s.label;
+      }
+    });
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      steps[steps.length - 1].el.className = 'loader-step done';
+      subTxt.textContent = 'Done!';
+      setTimeout(reveal, 600);
+    }
+  }, 30);
+
+  function reveal() {
+    const loader = document.getElementById('fake-loader');
+    loader.style.transition = 'opacity .5s';
+    loader.style.opacity = '0';
+
+    setTimeout(() => {
+      loader.style.display = 'none';
+      document.getElementById('rickroll-screen').classList.add('show');
+
+      // Try unmuted autoplay first
+      video.muted = false;
+      video.play().catch(() => {
+        // Browser blocked unmuted autoplay — play muted, unmute on first click
+        video.muted = true;
+        video.play();
+        document.addEventListener('click', () => { video.muted = false; }, { once: true });
+      });
+
+      spawnNotes();
+    }, 500);
+  }
+
+  const noteChars = ['🎵','🎶','🎸','🎤','🕺','🎼','🥁'];
+  function spawnNotes() {
+    setInterval(() => {
+      const n = document.createElement('div');
+      n.className = 'note';
+      n.textContent = noteChars[Math.floor(Math.random() * noteChars.length)];
+      n.style.left   = Math.random() * 100 + 'vw';
+      n.style.bottom = '-40px';
+      n.style.animationDuration = (4 + Math.random() * 4) + 's';
+      n.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+      document.body.appendChild(n);
+      setTimeout(() => n.remove(), 8000);
+    }, 400);
+  }
+</script>
+</body>
+</html>

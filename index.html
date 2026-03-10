@@ -1319,7 +1319,7 @@
   <div class="wrap">
     <div class="footer-inner">
       <p>Fly like a Butterfly · <span>S B Madhav</span> &copy; 2026 · Trivandrum, Kerala</p>
-      <div class="footer-links">
+      <a href="https://www.madhavsb.me/flower.html" target="_blank" rel="noopener" class="proj-link-pill live"><span class="pill-dot"></span>Butterfliess!!</a><div class="footer-links">
         <a href="mailto:madhavsbofficial@gmail.com">Email</a>
         <a href="tel:+918590317439">Phone</a>
       </div>
@@ -1637,7 +1637,52 @@ function initSecretAlley(){
   function startCountdown(){cdWrap.classList.add('active');cdBar.style.transition='none';cdBar.style.transform='scaleX(1)';cdStart=performance.now();function tick(now){const p=Math.min((now-cdStart)/1000/WRONG_SECS,1);cdBar.style.transform=`scaleX(${1-p})`;if(p<1)cdAnimFrame=requestAnimationFrame(tick);}cdAnimFrame=requestAnimationFrame(tick);}
   function stopCountdown(){if(cdAnimFrame){cancelAnimationFrame(cdAnimFrame);cdAnimFrame=null;}cdWrap.classList.remove('active');cdBar.style.transform='scaleX(1)';}
   function resetState(){introImg.style.display='block';wrongVideo.pause();wrongVideo.src='';wrongVideo.style.display='none';pwInput.value='';pwInput.className='sa-pw-input';setStatus('','');granted.classList.remove('show');barLabel.textContent='LOCKED';barLabel.style.color='';saModal.classList.remove('wrong-mode');pwZone.classList.remove('disabled');closeBtn.disabled=false;wrongMode=false;stopCountdown();if(wrongTimer){clearTimeout(wrongTimer);wrongTimer=null;}}
-  function horrorClose(){if(!isOpen)return;pwZone.classList.add('disabled');closeBtn.disabled=true;saModal.classList.add('horror-shake');overlay.classList.add('horror-close');setTimeout(()=>{const black=document.createElement("div");black.style.position="fixed";black.style.inset="0";black.style.background="#000";black.style.zIndex="999999";document.body.appendChild(black);setTimeout(()=>{location.reload();},5000);},900);}
+  function horrorClose(){
+  if(!isOpen) return;
+
+  pwZone.classList.add('disabled');
+  closeBtn.disabled = true;
+
+  saModal.classList.add('horror-shake');
+  overlay.classList.add('horror-close');
+
+  setTimeout(()=>{
+
+    const black = document.createElement("div");
+    black.style.position = "fixed";
+    black.style.inset = "0";
+    black.style.background = "#000";
+    black.style.zIndex = "999999";
+    black.style.display = "flex";
+    black.style.alignItems = "center";
+    black.style.justifyContent = "center";
+    black.style.color = "#fff";
+    black.style.fontSize = "40px";
+    black.style.fontFamily = "serif";
+
+    document.body.appendChild(black);
+
+    // show "- fin -" after 3 seconds
+    setTimeout(()=>{
+      const fin = document.createElement("div");
+      fin.textContent = "- haha imposter -";
+      fin.style.opacity = "0";
+      fin.style.transition = "opacity 1s";
+      black.appendChild(fin);
+
+      setTimeout(()=>{
+        fin.style.opacity = "1";
+      },50);
+
+    },2000);
+
+    // reload after 5 seconds
+    setTimeout(()=>{
+      location.reload();
+    },5000);
+
+  },900);
+}
   function closeModal(){if(!isOpen)return;isOpen=false;overlay.classList.remove('open');document.body.style.overflow='';setTimeout(resetState,420);}
   function openModal(){if(isOpen)return;isOpen=true;resetState();overlay.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>{pwInput.focus();overlay.scrollTop=0;},500);}
   function handleWrong(){wrongMode=true;pwInput.className='sa-pw-input wrong';setStatus('// ERROR: wrong password — 10 seconds to try again','err');videoArea.classList.remove('glitch-swap');void videoArea.offsetWidth;videoArea.classList.add('glitch-swap');setTimeout(()=>{videoArea.classList.remove('glitch-swap');introImg.style.display='none';wrongVideo.src=VIDEO_WRONG;wrongVideo.style.display='block';wrongVideo.play().catch(()=>{});saModal.classList.add('wrong-mode');barLabel.textContent='INTRUDER';barLabel.style.color='var(--red)';startCountdown();},460);setTimeout(()=>{pwInput.className='sa-pw-input';pwInput.value='';pwZone.classList.remove('disabled');},900);if(wrongTimer)clearTimeout(wrongTimer);wrongTimer=setTimeout(()=>horrorClose(),WRONG_SECS*1100);wrongVideo.onended=()=>{if(wrongMode){clearTimeout(wrongTimer);horrorClose();}};}

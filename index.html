@@ -51,7 +51,7 @@
   @keyframes blobPulse { from{opacity:.6} to{opacity:1} }
   .intro-inner { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:0; text-align:center; animation:introFadeUp 1s cubic-bezier(.4,0,.2,1) both; }
   @keyframes introFadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-  .intro-tag { font-family:'Fira Code',monospace; font-size:.72rem; color:var(--green); letter-spacing:.2em; text-transform:uppercase; margin-bottom:20px; opacity:0; animation:introFadeUp .8s .3s cubic-bezier(.4,0,.2,1) both; }
+  .intro-tag { font-family:'Fira Code',monospace; font-size:.72rem; color:var(--green); letter-spacing:.2em; margin-bottom:20px; opacity:0; animation:introFadeUp .8s .3s cubic-bezier(.4,0,.2,1) both; }
   .intro-tag::before { content:'~/'; color:var(--muted); margin-right:4px; }
   .intro-name { font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(3.2rem,9vw,6rem); letter-spacing:-.03em; line-height:1; color:var(--text); opacity:0; animation:introFadeUp .9s .5s cubic-bezier(.4,0,.2,1) both; }
   .intro-name span { color:var(--green); }
@@ -769,445 +769,91 @@
   .mob-link:last-child{border-bottom:none}
   .mob-link:hover,.mob-link:active{color:var(--green);background:rgba(0,255,136,.04)}
 
-  /* ═══════════════════════════════════════════════════
-     SECRET ALLEY — SECTION CARD
-     ═══════════════════════════════════════════════════ */
   #secret-alley { padding: 10px 0 40px; }
-
   .sa-section-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px 30px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color .25s, box-shadow .25s;
-    cursor: pointer;
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px 30px; position: relative; overflow: hidden;
+    transition: border-color .25s, box-shadow .25s; cursor: pointer;
   }
-  .sa-section-card::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-    background: linear-gradient(180deg, var(--green), var(--cyan));
-  }
-  .sa-section-card:hover {
-    border-color: var(--border2);
-    box-shadow: 0 4px 40px rgba(0,255,136,.06);
-  }
-
-  .sa-top-row {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 14px;
-  }
-  .sa-badge {
-    font-family: 'Fira Code', monospace;
-    font-size: .58rem; padding: 4px 12px; border-radius: 100px;
-    background: rgba(0,255,136,.08);
-    border: 1px solid rgba(0,255,136,.25);
-    color: var(--green); letter-spacing: .1em; text-transform: uppercase;
-  }
-  .sa-conf-label {
-    font-family: 'Fira Code', monospace;
-    font-size: .65rem; color: var(--muted); letter-spacing: .06em;
-  }
-
-  .sa-eye-inline {
-    margin-left: auto;
-    position: relative;
-    width: 36px; height: 36px;
-    flex-shrink: 0;
-  }
-  .sa-eye-ring {
-    position: absolute; inset: 0; border-radius: 50%;
-    border: 1px dashed rgba(0,255,136,.3);
-    animation: saRingSpinCW 10s linear infinite;
-  }
-  .sa-eye-ring::before {
-    content: '';
-    position: absolute; top: -2px; left: 50%;
-    transform: translateX(-50%);
-    width: 2px; height: 4px;
-    background: var(--green); border-radius: 1px;
-  }
+  .sa-section-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--green), var(--cyan)); }
+  .sa-section-card:hover { border-color: var(--border2); box-shadow: 0 4px 40px rgba(0,255,136,.06); }
+  .sa-top-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .sa-badge { font-family: 'Fira Code', monospace; font-size: .58rem; padding: 4px 12px; border-radius: 100px; background: rgba(0,255,136,.08); border: 1px solid rgba(0,255,136,.25); color: var(--green); letter-spacing: .1em; text-transform: uppercase; }
+  .sa-conf-label { font-family: 'Fira Code', monospace; font-size: .65rem; color: var(--muted); letter-spacing: .06em; }
+  .sa-eye-inline { margin-left: auto; position: relative; width: 36px; height: 36px; flex-shrink: 0; }
+  .sa-eye-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(0,255,136,.3); animation: saRingSpinCW 10s linear infinite; }
+  .sa-eye-ring::before { content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%); width: 2px; height: 4px; background: var(--green); border-radius: 1px; }
   @keyframes saRingSpinCW { to { transform: rotate(360deg); } }
-  .sa-eye-inner {
-    position: absolute; inset: 6px; border-radius: 50%;
-    background: rgba(0,0,0,.5);
-    border: 1px solid rgba(0,255,136,.2);
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    transition: transform .08s ease-in-out;
-  }
+  .sa-eye-inner { position: absolute; inset: 6px; border-radius: 50%; background: rgba(0,0,0,.5); border: 1px solid rgba(0,255,136,.2); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: transform .08s ease-in-out; }
   .sa-eye-svg { width: 20px; height: 13px; overflow: visible; }
-  .sa-eye-white-s {
-    fill: rgba(0,255,136,.07);
-    stroke: rgba(0,255,136,.4); stroke-width: 1.2;
-  }
-  .sa-iris-s {
-    fill: none; stroke: var(--green); stroke-width: 1.4;
-    filter: drop-shadow(0 0 3px rgba(0,255,136,.7));
-  }
-  .sa-pupil-s {
-    fill: var(--green);
-    filter: drop-shadow(0 0 4px rgba(0,255,136,1));
-    animation: saPupilBreathS 2.8s ease-in-out infinite;
-    transform-origin: 10px 6.5px;
-  }
-  @keyframes saPupilBreathS {
-    0%,100% { transform: scale(1); }
-    50%      { transform: scale(.65); }
-  }
+  .sa-eye-white-s { fill: rgba(0,255,136,.07); stroke: rgba(0,255,136,.4); stroke-width: 1.2; }
+  .sa-iris-s { fill: none; stroke: var(--green); stroke-width: 1.4; filter: drop-shadow(0 0 3px rgba(0,255,136,.7)); }
+  .sa-pupil-s { fill: var(--green); filter: drop-shadow(0 0 4px rgba(0,255,136,1)); animation: saPupilBreathS 2.8s ease-in-out infinite; transform-origin: 10px 6.5px; }
+  @keyframes saPupilBreathS { 0%,100% { transform: scale(1); } 50% { transform: scale(.65); } }
   .sa-pupil-group-s { transition: transform .1s cubic-bezier(.4,0,.2,1); }
-  .sa-eye-glow-s {
-    position: absolute; inset: -4px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,255,136,.15), transparent 65%);
-    animation: saGlowS 2.5s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes saGlowS {
-    0%,100% { opacity: .5; transform: scale(1); }
-    50%      { opacity: 1;  transform: scale(1.15); }
-  }
-
-  .sa-title-text {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700; font-size: 1.05rem;
-    line-height: 1.45; color: var(--text);
-    margin-bottom: 14px;
-  }
-
+  .sa-eye-glow-s { position: absolute; inset: -4px; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,136,.15), transparent 65%); animation: saGlowS 2.5s ease-in-out infinite; pointer-events: none; }
+  @keyframes saGlowS { 0%,100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.15); } }
+  .sa-title-text { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.45; color: var(--text); margin-bottom: 14px; }
   .sa-meta { display: grid; gap: 5px; margin-bottom: 10px; }
-  .sa-meta-item {
-    font-family: 'Fira Code', monospace;
-    font-size: .62rem; color: var(--muted); line-height: 1.6;
-  }
-
-  .sa-view-hint {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'Fira Code', monospace; font-size: .6rem;
-    color: var(--green); margin-top: 12px;
-    opacity: 0; transition: opacity .25s; letter-spacing: .06em;
-  }
+  .sa-meta-item { font-family: 'Fira Code', monospace; font-size: .62rem; color: var(--muted); line-height: 1.6; }
+  .sa-view-hint { display: inline-flex; align-items: center; gap: 6px; font-family: 'Fira Code', monospace; font-size: .6rem; color: var(--green); margin-top: 12px; opacity: 0; transition: opacity .25s; letter-spacing: .06em; }
   .sa-view-hint::before { content: '↗'; font-size: .65rem; }
   .sa-section-card:hover .sa-view-hint { opacity: 1; }
+  .sa-blink { display: inline-block; width: 6px; height: .85em; background: var(--green); vertical-align: text-bottom; animation: blink 1s step-end infinite; margin-left: 2px; }
 
-  .sa-blink {
-    display: inline-block; width: 6px; height: .85em;
-    background: var(--green); vertical-align: text-bottom;
-    animation: blink 1s step-end infinite; margin-left: 2px;
-  }
-
-  /* ═══════════════════════════════════════════════════
-     SECRET ALLEY — MODAL
-     ═══════════════════════════════════════════════════ */
-  #sa-modal-overlay {
-    position: fixed; inset: 0; z-index: 10003;
-    display: flex; align-items: flex-start; justify-content: center;
-    overflow-y: auto;
-    padding: 16px 20px;
-    background: rgba(6,8,16,0);
-    backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
-    opacity: 0; pointer-events: none;
-    transition: opacity .4s cubic-bezier(.4,0,.2,1), backdrop-filter .4s, background .4s;
-    /* Use visual viewport height on mobile to avoid keyboard overlap */
-    min-height: 100%;
-  }
-  #sa-modal-overlay.open {
-    opacity: 1; pointer-events: all;
-    background: rgba(6,8,16,.88);
-    backdrop-filter: blur(22px) saturate(1.4);
-    -webkit-backdrop-filter: blur(22px) saturate(1.4);
-  }
-
-  #sa-modal-overlay.horror-close {
-    animation: horrorOverlay .9s steps(1) forwards;
-  }
-  @keyframes horrorOverlay {
-    0%  { background: rgba(6,8,16,.88); }
-    10% { background: rgba(120,0,0,.92); }
-    20% { background: rgba(6,8,16,.95); }
-    30% { background: rgba(180,0,0,.97); }
-    40% { background: rgba(6,8,16,.88); }
-    55% { background: rgba(200,0,0,1); }
-    70% { background: rgba(6,8,16,1); }
-    85% { background: rgba(255,0,0,.6); }
-    100%{ background: rgba(6,8,16,0); opacity: 0; pointer-events: none; }
-  }
-
-  .sa-modal {
-    position: relative;
-    width: min(96vw, 600px);
-    /* margin: auto centers it vertically when content is shorter than viewport */
-    margin: auto;
-    background: var(--card);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1px rgba(0,255,136,.06),
-      0 48px 120px rgba(0,0,0,.85),
-      0 0 80px rgba(0,255,136,.04);
-    transform: scale(.88) translateY(28px);
-    opacity: 0;
-    transition: transform .5s cubic-bezier(.34,1.45,.64,1), opacity .4s;
-    /* Ensure modal is never taller than viewport */
-    max-height: calc(var(--vh, 1vh) * 100 - 32px);
-    display: flex;
-    flex-direction: column;
-  }
-  #sa-modal-overlay.open .sa-modal {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-
-  .sa-modal.horror-shake {
-    animation: horrorShake .9s steps(1) forwards;
-  }
-  @keyframes horrorShake {
-    0%  { transform: scale(1) translate(0,0) rotate(0deg); filter: none; }
-    8%  { transform: scale(1.04) translate(-8px, 3px) rotate(-1.5deg); filter: hue-rotate(180deg) saturate(4) brightness(2); }
-    16% { transform: scale(.97) translate(10px,-4px) rotate(2deg);   filter: invert(1); }
-    24% { transform: scale(1.06) translate(-6px, 6px) rotate(-2deg); filter: hue-rotate(90deg) saturate(5); }
-    32% { transform: scale(.95) translate(8px,-2px) rotate(1deg);    filter: brightness(3) contrast(2); }
-    40% { transform: scale(1.08) translate(-10px,5px) rotate(-3deg); filter: invert(1) hue-rotate(180deg); }
-    48% { transform: scale(.98) translate(6px,-6px) rotate(2.5deg);  filter: saturate(8) brightness(1.5); }
-    56% { transform: scale(1.03) translate(-4px,4px) rotate(-1deg);  filter: hue-rotate(270deg) invert(.5); }
-    64% { transform: scale(.96) translate(8px,2px) rotate(1.5deg);   filter: contrast(4) brightness(2); }
-    72% { transform: scale(1.05) translate(-6px,-4px) rotate(-2deg); filter: invert(1); }
-    80% { transform: scale(.98) translate(4px,6px) rotate(1deg);     filter: hue-rotate(90deg) saturate(3); }
-    90% { transform: scale(1.02) translate(-3px,2px) rotate(-.5deg); filter: none; opacity: .6; }
-    100%{ transform: scale(.3) translate(0,60px) rotate(5deg);       filter: none; opacity: 0; }
-  }
-
-  .sa-modal::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 10;
-    background: linear-gradient(90deg,
-      transparent 0%, var(--green) 25%, var(--cyan) 50%, var(--green) 75%, transparent 100%);
-    background-size: 300% 100%;
-    animation: certScan 2.8s linear infinite;
-  }
-  .sa-modal.wrong-mode::before {
-    background: linear-gradient(90deg,
-      transparent 0%, #ff4d6d 25%, #ff0000 50%, #ff4d6d 75%, transparent 100%);
-    background-size: 300% 100%;
-    animation: certScan 1.2s linear infinite;
-  }
-
-  .sa-modal-bar {
-    background: #131628;
-    padding: 10px 16px;
-    display: flex; align-items: center; gap: 10px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
+  #sa-modal-overlay { position: fixed; inset: 0; z-index: 10003; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 16px 20px; background: rgba(6,8,16,0); backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); opacity: 0; pointer-events: none; transition: opacity .4s cubic-bezier(.4,0,.2,1), backdrop-filter .4s, background .4s; min-height: 100%; }
+  #sa-modal-overlay.open { opacity: 1; pointer-events: all; background: rgba(6,8,16,.88); backdrop-filter: blur(22px) saturate(1.4); -webkit-backdrop-filter: blur(22px) saturate(1.4); }
+  #sa-modal-overlay.horror-close { animation: horrorOverlay .9s steps(1) forwards; }
+  @keyframes horrorOverlay { 0%{background:rgba(6,8,16,.88)} 10%{background:rgba(120,0,0,.92)} 20%{background:rgba(6,8,16,.95)} 30%{background:rgba(180,0,0,.97)} 40%{background:rgba(6,8,16,.88)} 55%{background:rgba(200,0,0,1)} 70%{background:rgba(6,8,16,1)} 85%{background:rgba(255,0,0,.6)} 100%{background:rgba(6,8,16,0);opacity:0;pointer-events:none} }
+  .sa-modal { position: relative; width: min(96vw, 600px); margin: auto; background: var(--card); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,255,136,.06), 0 48px 120px rgba(0,0,0,.85), 0 0 80px rgba(0,255,136,.04); transform: scale(.88) translateY(28px); opacity: 0; transition: transform .5s cubic-bezier(.34,1.45,.64,1), opacity .4s; max-height: calc(var(--vh, 1vh) * 100 - 32px); display: flex; flex-direction: column; }
+  #sa-modal-overlay.open .sa-modal { transform: scale(1) translateY(0); opacity: 1; }
+  .sa-modal.horror-shake { animation: horrorShake .9s steps(1) forwards; }
+  @keyframes horrorShake { 0%{transform:scale(1) translate(0,0) rotate(0deg);filter:none} 8%{transform:scale(1.04) translate(-8px,3px) rotate(-1.5deg);filter:hue-rotate(180deg) saturate(4) brightness(2)} 16%{transform:scale(.97) translate(10px,-4px) rotate(2deg);filter:invert(1)} 24%{transform:scale(1.06) translate(-6px,6px) rotate(-2deg);filter:hue-rotate(90deg) saturate(5)} 32%{transform:scale(.95) translate(8px,-2px) rotate(1deg);filter:brightness(3) contrast(2)} 40%{transform:scale(1.08) translate(-10px,5px) rotate(-3deg);filter:invert(1) hue-rotate(180deg)} 48%{transform:scale(.98) translate(6px,-6px) rotate(2.5deg);filter:saturate(8) brightness(1.5)} 56%{transform:scale(1.03) translate(-4px,4px) rotate(-1deg);filter:hue-rotate(270deg) invert(.5)} 64%{transform:scale(.96) translate(8px,2px) rotate(1.5deg);filter:contrast(4) brightness(2)} 72%{transform:scale(1.05) translate(-6px,-4px) rotate(-2deg);filter:invert(1)} 80%{transform:scale(.98) translate(4px,6px) rotate(1deg);filter:hue-rotate(90deg) saturate(3)} 90%{transform:scale(1.02) translate(-3px,2px) rotate(-.5deg);filter:none;opacity:.6} 100%{transform:scale(.3) translate(0,60px) rotate(5deg);filter:none;opacity:0} }
+  .sa-modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 10; background: linear-gradient(90deg, transparent 0%, var(--green) 25%, var(--cyan) 50%, var(--green) 75%, transparent 100%); background-size: 300% 100%; animation: certScan 2.8s linear infinite; }
+  .sa-modal.wrong-mode::before { background: linear-gradient(90deg, transparent 0%, #ff4d6d 25%, #ff0000 50%, #ff4d6d 75%, transparent 100%); background-size: 300% 100%; animation: certScan 1.2s linear infinite; }
+  .sa-modal-bar { background: #131628; padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
   .sa-modal-bar-dot { width: 11px; height: 11px; border-radius: 50%; }
-  .sa-modal-bar-dot.r { background: #ff5f57; }
-  .sa-modal-bar-dot.y { background: #febc2e; }
-  .sa-modal-bar-dot.g { background: #28c840; }
-  .sa-modal-bar-title {
-    font-family: 'Fira Code', monospace;
-    font-size: .68rem; color: var(--muted);
-    margin-left: 6px; letter-spacing: .05em; flex: 1;
-  }
-  .sa-modal-bar-label {
-    font-family: 'Fira Code', monospace;
-    font-size: .6rem; color: var(--green);
-    letter-spacing: .12em;
-    display: flex; align-items: center; gap: 5px;
-    transition: color .3s;
-  }
-  .sa-modal-bar-label::before {
-    content: '';
-    width: 5px; height: 5px; border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 5px currentColor;
-    animation: dotPulse 1.4s ease-in-out infinite;
-  }
-  .sa-close-btn {
-    background: rgba(255,255,255,.03);
-    border: 1px solid var(--border); border-radius: 8px;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: .9rem;
-    transition: border-color .2s, color .2s, background .2s, transform .2s;
-  }
-  .sa-close-btn:hover {
-    border-color: rgba(255,77,109,.5); color: var(--red);
-    background: rgba(255,77,109,.08); transform: rotate(90deg);
-  }
-
-  .sa-video-area {
-    position: relative;
-    width: 100%; aspect-ratio: 16/9;
-    background: #040609; overflow: hidden;
-    flex-shrink: 0;
-  }
-  .sa-video-area iframe,
-  .sa-video-area video {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    border: none; display: block;
-    object-fit: cover;
-  }
-  .sa-video-area::before {
-    content: '';
-    position: absolute; inset: 0; z-index: 2;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 3px,
-      rgba(0,0,0,.07) 3px, rgba(0,0,0,.07) 4px
-    );
-    pointer-events: none;
-  }
-  .sa-video-area::after {
-    content: '';
-    position: absolute; inset: 0; z-index: 3;
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(4,6,9,.55) 100%);
-    pointer-events: none;
-  }
-
+  .sa-modal-bar-dot.r { background: #ff5f57; } .sa-modal-bar-dot.y { background: #febc2e; } .sa-modal-bar-dot.g { background: #28c840; }
+  .sa-modal-bar-title { font-family: 'Fira Code', monospace; font-size: .68rem; color: var(--muted); margin-left: 6px; letter-spacing: .05em; flex: 1; }
+  .sa-modal-bar-label { font-family: 'Fira Code', monospace; font-size: .6rem; color: var(--green); letter-spacing: .12em; display: flex; align-items: center; gap: 5px; transition: color .3s; }
+  .sa-modal-bar-label::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 5px currentColor; animation: dotPulse 1.4s ease-in-out infinite; }
+  .sa-close-btn { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .9rem; transition: border-color .2s, color .2s, background .2s, transform .2s; }
+  .sa-close-btn:hover { border-color: rgba(255,77,109,.5); color: var(--red); background: rgba(255,77,109,.08); transform: rotate(90deg); }
+  .sa-video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #040609; overflow: hidden; flex-shrink: 0; }
+  .sa-video-area iframe, .sa-video-area video { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; object-fit: cover; }
+  .sa-video-area::before { content: ''; position: absolute; inset: 0; z-index: 2; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.07) 3px, rgba(0,0,0,.07) 4px); pointer-events: none; }
+  .sa-video-area::after { content: ''; position: absolute; inset: 0; z-index: 3; background: radial-gradient(ellipse at center, transparent 50%, rgba(4,6,9,.55) 100%); pointer-events: none; }
   .sa-video-area.glitch-swap { animation: saGlitchSwap .45s steps(1); }
-  @keyframes saGlitchSwap {
-    0%  { filter: none; }
-    20% { filter: hue-rotate(180deg) saturate(4) brightness(2); transform: skewX(-4deg); }
-    40% { filter: invert(1); transform: skewX(4deg) scaleY(1.04); }
-    60% { filter: hue-rotate(90deg) saturate(3); transform: none; }
-    80% { filter: brightness(3); }
-    100%{ filter: none; transform: none; }
-  }
-
-  .sa-countdown-bar-wrap {
-    height: 3px; background: var(--border);
-    position: relative; overflow: hidden; display: none;
-    flex-shrink: 0;
-  }
+  @keyframes saGlitchSwap { 0%{filter:none} 20%{filter:hue-rotate(180deg) saturate(4) brightness(2);transform:skewX(-4deg)} 40%{filter:invert(1);transform:skewX(4deg) scaleY(1.04)} 60%{filter:hue-rotate(90deg) saturate(3);transform:none} 80%{filter:brightness(3)} 100%{filter:none;transform:none} }
+  .sa-countdown-bar-wrap { height: 3px; background: var(--border); position: relative; overflow: hidden; display: none; flex-shrink: 0; }
   .sa-countdown-bar-wrap.active { display: block; }
-  .sa-countdown-bar {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 100%;
-    background: linear-gradient(90deg, var(--red), #ff9d6c);
-    transform-origin: left; transition: none;
-  }
-
-  .sa-granted {
-    position: absolute; inset: 0; z-index: 6;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 8px;
-    background: rgba(0,255,136,.06);
-    opacity: 0; pointer-events: none;
-    transition: opacity .4s;
-  }
+  .sa-countdown-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: linear-gradient(90deg, var(--red), #ff9d6c); transform-origin: left; transition: none; }
+  .sa-granted { position: absolute; inset: 0; z-index: 6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(0,255,136,.06); opacity: 0; pointer-events: none; transition: opacity .4s; }
   .sa-granted.show { opacity: 1; }
-  .sa-granted-text {
-    font-family: 'Fira Code', monospace;
-    font-size: 1.1rem; color: var(--green);
-    letter-spacing: .22em; text-transform: uppercase;
-    text-shadow: 0 0 24px rgba(0,255,136,.9);
-    animation: agBlink .5s step-end infinite;
-  }
-  .sa-granted-sub {
-    font-family: 'Fira Code', monospace;
-    font-size: .62rem; color: rgba(0,255,136,.55);
-    letter-spacing: .14em;
-  }
+  .sa-granted-text { font-family: 'Fira Code', monospace; font-size: 1.1rem; color: var(--green); letter-spacing: .22em; text-transform: uppercase; text-shadow: 0 0 24px rgba(0,255,136,.9); animation: agBlink .5s step-end infinite; }
+  .sa-granted-sub { font-family: 'Fira Code', monospace; font-size: .62rem; color: rgba(0,255,136,.55); letter-spacing: .14em; }
   @keyframes agBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-  .sa-pw-zone {
-    padding: 20px 24px 22px;
-    border-top: 1px solid var(--border);
-    background: rgba(0,0,0,.15);
-    transition: opacity .3s;
-    flex-shrink: 0;
-  }
+  .sa-pw-zone { padding: 20px 24px 22px; border-top: 1px solid var(--border); background: rgba(0,0,0,.15); transition: opacity .3s; flex-shrink: 0; }
   .sa-pw-zone.disabled { opacity: .4; pointer-events: none; }
-  .sa-pw-prompt {
-    font-family: 'Fira Code', monospace;
-    font-size: .72rem; color: var(--muted);
-    margin-bottom: 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .sa-pw-prompt .t-prompt { color: var(--green); font-size: .8rem; }
-  .sa-pw-prompt .t-cmd    { color: var(--text); }
-  .sa-pw-prompt .t-key    { color: var(--cyan); }
+  .sa-pw-prompt { font-family: 'Fira Code', monospace; font-size: .72rem; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .sa-pw-prompt .t-prompt { color: var(--green); font-size: .8rem; } .sa-pw-prompt .t-cmd { color: var(--text); } .sa-pw-prompt .t-key { color: var(--cyan); }
   .sa-pw-row { display: flex; gap: 10px; }
-  .sa-pw-input {
-    flex: 1;
-    font-family: 'Fira Code', monospace; font-size: .82rem;
-    background: var(--bg2);
-    border: 1px solid var(--border2); border-radius: 6px;
-    padding: 10px 14px; color: var(--green);
-    letter-spacing: .12em; outline: none;
-    caret-color: var(--green);
-    transition: border-color .2s, box-shadow .2s;
-  }
+  .sa-pw-input { flex: 1; font-family: 'Fira Code', monospace; font-size: .82rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 6px; padding: 10px 14px; color: var(--green); letter-spacing: .12em; outline: none; caret-color: var(--green); transition: border-color .2s, box-shadow .2s; }
   .sa-pw-input::placeholder { color: var(--muted); letter-spacing: .06em; opacity: .5; }
-  .sa-pw-input:focus {
-    border-color: rgba(0,255,136,.45);
-    box-shadow: 0 0 14px rgba(0,255,136,.08);
-  }
-  .sa-pw-input.wrong {
-    border-color: rgba(255,77,109,.55); color: var(--red);
-    animation: inputShake .35s cubic-bezier(.36,.07,.19,.97);
-  }
-  .sa-pw-input.correct {
-    border-color: rgba(0,255,136,.7);
-    box-shadow: 0 0 18px rgba(0,255,136,.18);
-  }
-  @keyframes inputShake {
-    0%,100%{ transform:translateX(0) }
-    20%    { transform:translateX(-6px) }
-    40%    { transform:translateX(6px) }
-    60%    { transform:translateX(-4px) }
-    80%    { transform:translateX(4px) }
-  }
-  .sa-pw-btn {
-    font-family: 'Fira Code', monospace;
-    font-size: .7rem; letter-spacing: .1em;
-    padding: 10px 18px; border-radius: 6px;
-    border: 1px solid rgba(0,255,136,.3);
-    color: var(--green); background: rgba(0,255,136,.07);
-    transition: background .2s, border-color .2s, box-shadow .2s, transform .15s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .sa-pw-btn:hover {
-    background: rgba(0,255,136,.14);
-    border-color: rgba(0,255,136,.55);
-    box-shadow: 0 0 14px rgba(0,255,136,.12);
-    transform: translateY(-1px);
-  }
+  .sa-pw-input:focus { border-color: rgba(0,255,136,.45); box-shadow: 0 0 14px rgba(0,255,136,.08); }
+  .sa-pw-input.wrong { border-color: rgba(255,77,109,.55); color: var(--red); animation: inputShake .35s cubic-bezier(.36,.07,.19,.97); }
+  .sa-pw-input.correct { border-color: rgba(0,255,136,.7); box-shadow: 0 0 18px rgba(0,255,136,.18); }
+  @keyframes inputShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+  .sa-pw-btn { font-family: 'Fira Code', monospace; font-size: .7rem; letter-spacing: .1em; padding: 10px 18px; border-radius: 6px; border: 1px solid rgba(0,255,136,.3); color: var(--green); background: rgba(0,255,136,.07); transition: background .2s, border-color .2s, box-shadow .2s, transform .15s; white-space: nowrap; flex-shrink: 0; }
+  .sa-pw-btn:hover { background: rgba(0,255,136,.14); border-color: rgba(0,255,136,.55); box-shadow: 0 0 14px rgba(0,255,136,.12); transform: translateY(-1px); }
   .sa-pw-btn:active { transform: scale(.96); }
-  .sa-status-line {
-    font-family: 'Fira Code', monospace; font-size: .65rem;
-    margin-top: 10px; min-height: 16px; letter-spacing: .05em;
-    opacity: 0; transition: opacity .25s;
-  }
-  .sa-status-line.err { color: var(--red);   opacity: 1; }
-  .sa-status-line.ok  { color: var(--green); opacity: 1; }
-
-  .sa-modal-footer {
-    padding: 11px 22px; border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(255,255,255,.01);
-    flex-shrink: 0;
-  }
-  .sa-footer-left {
-    font-family: 'Fira Code', monospace;
-    font-size: .6rem; color: var(--muted);
-    display: flex; align-items: center; gap: 5px;
-  }
-  .sa-footer-left::before { content: '//'; opacity: .45; }
-  .sa-footer-left em { color: var(--cyan); font-style: normal; }
-  .sa-esc-hint {
-    font-family: 'Fira Code', monospace;
-    font-size: .56rem; color: var(--muted);
-    border: 1px solid var(--border); border-radius: 5px;
-    padding: 3px 9px; opacity: .5;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .sa-esc-hint kbd {
-    background: rgba(255,255,255,.06); border: 1px solid var(--border);
-    border-radius: 3px; padding: 1px 5px;
-    font-family: 'Fira Code', monospace; font-size: .56rem; color: var(--text);
-  }
+  .sa-status-line { font-family: 'Fira Code', monospace; font-size: .65rem; margin-top: 10px; min-height: 16px; letter-spacing: .05em; opacity: 0; transition: opacity .25s; }
+  .sa-status-line.err { color: var(--red); opacity: 1; } .sa-status-line.ok { color: var(--green); opacity: 1; }
+  .sa-modal-footer { padding: 11px 22px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,.01); flex-shrink: 0; }
+  .sa-footer-left { font-family: 'Fira Code', monospace; font-size: .6rem; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+  .sa-footer-left::before { content: '//'; opacity: .45; } .sa-footer-left em { color: var(--cyan); font-style: normal; }
+  .sa-esc-hint { font-family: 'Fira Code', monospace; font-size: .56rem; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; opacity: .5; display: flex; align-items: center; gap: 5px; }
+  .sa-esc-hint kbd { background: rgba(255,255,255,.06); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-family: 'Fira Code', monospace; font-size: .56rem; color: var(--text); }
 
   @media(max-width:768px) {
     .hamburger{display:flex}
@@ -1228,15 +874,8 @@
     .ticon-item { width: 76px; padding: 11px 7px 10px; }
     .ticon-img-wrap i { font-size: 30px; }
     .cert-modal-nav { display: none; }
-    /* ── SA modal mobile fixes ── */
-    #sa-modal-overlay {
-      padding: 8px 10px;
-      align-items: flex-start;
-    }
-    .sa-modal {
-      margin: 0 auto;
-      max-height: unset;
-    }
+    #sa-modal-overlay { padding: 8px 10px; align-items: flex-start; }
+    .sa-modal { margin: 0 auto; max-height: unset; }
     .sa-section-card { padding: 20px 18px; }
     .sa-pw-zone { padding: 14px 16px 16px; }
     .sa-pw-btn { padding: 10px 12px; font-size: .65rem; }
@@ -1258,7 +897,6 @@
     .ticon-img-wrap { width: 32px; height: 32px; }
     .ticon-img-wrap i { font-size: 26px; }
     .ticon-item span { font-size: .5rem; }
-    /* SA modal small screen */
     .sa-pw-zone { padding: 12px 14px 14px; }
     .sa-pw-prompt { font-size: .66rem; margin-bottom: 8px; }
     .sa-pw-input { font-size: .76rem; padding: 9px 11px; }
@@ -1306,9 +944,9 @@
   <div class="intro-blob intro-blob-2"></div>
   <div class="intro-particles" id="introParticles"></div>
   <div class="intro-inner">
-    <p class="intro-tag">sb_madhav</p>
+    <p class="intro-tag">Я видел, как даже Бог изменился!</p>
     <h1 class="intro-name">S B <span>Madhav</span></h1>
-    <p class="intro-role">// Backend-Focused Web Developer &amp; Writer</p>
+    <p class="intro-role">// ~ Backend-Focused Web Developer </p>
     <div class="intro-divider"></div>
     <button id="enter-btn">Enter Portfolio <span class="enter-arrow">→</span></button>
   </div>
@@ -1368,8 +1006,8 @@
       </div>
     </div>
     <div class="contact-strip reveal">
-      <a href="/cdn-cgi/l/email-protection#0865696c60697e7b6a3f3b3b486f65696164266b6765266b6765" class="c-pill"><span>✓</span><span class="__cf_email__" data-cfemail="0e636f6a666f787d6c393d3d4e69636f6762206d6163">[email&#160;protected]</span></a>
-      <a href="/cdn-cgi/l/email-protection#20474d41494c604d414448415653420e4d45" class="c-pill"><span>✓</span><span class="__cf_email__" data-cfemail="70171d11191c301d111418110603125e1d15">[email&#160;protected]</span></a>
+      <a href="mailto:madhavsbofficial@gmail.com" class="c-pill"><span>✓</span>madhavsbofficial@gmail.com</a>
+      <a href="mailto:madhav@madhavsb.me" class="c-pill"><span>✓</span>madhav@madhavsb.me</a>
       <a href="tel:+918590317439" class="c-pill"><span>✆</span>+91 85903 17439</a>
       <span class="c-pill"><span>⌘</span>Trivandrum, Kerala</span>
     </div>
@@ -1382,7 +1020,7 @@
     <div class="stats-bar reveal-scale">
       <div class="stat-item"><span class="stat-num" data-target="5">0</span><span class="stat-label">Projects Built</span></div>
       <div class="stat-item"><span class="stat-num" data-target="1">0</span><span class="stat-label">Paper Published</span></div>
-      <div class="stat-item"><span class="stat-num" data-target="7">0</span><span class="stat-label">Certifications</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="8">0</span><span class="stat-label">Certifications</span></div>
       <div class="stat-item"><span class="stat-num" data-target="3">0</span><span class="stat-label">Spoken Languages</span></div>
     </div>
   </div>
@@ -1542,13 +1180,14 @@
     <div class="divider"></div>
     <div class="section-head reveal"><span class="section-num">04</span><h2 class="section-title">Certifications</h2><div class="section-line"></div></div>
     <div class="certs-grid">
-      <div class="cert-card reveal" data-cert-name="Full Stack Web Development" data-cert-issuer="Web Dev · Complete course" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Full Stack Web Development</p><p class="cert-issuer">// Web Dev · Complete course</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="React.js" data-cert-issuer="Frontend framework" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">React.js</p><p class="cert-issuer">// Frontend framework</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="Figma (UI/UX)" data-cert-issuer="Design &amp; Prototyping" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div><p class="cert-name">Figma (UI/UX)</p><p class="cert-issuer">// Design &amp; Prototyping</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="Robotics" data-cert-issuer="Hands-on · 30 Hour Program" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico orange">&#9670;</div><span class="cert-hours">30 hrs</span></div><p class="cert-name">Robotics</p><p class="cert-issuer">// Hands-on · 30 Hour Program</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="Power BI" data-cert-issuer="Data Visualisation" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico red">&#9670;</div></div><p class="cert-name">Power BI</p><p class="cert-issuer">// Data Visualisation</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="Innovating with Google Cloud AI" data-cert-issuer="Google Cloud · AI Analytics" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Innovating with Google Cloud AI</p><p class="cert-issuer">// Google Cloud · AI Analytics</p><span class="cert-view-hint">View Certificate</span></div>
-      <div class="cert-card reveal" data-cert-name="Google Cloud – AI Analytics" data-cert-issuer="Google Cloud Platform" data-cert-img=""><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">Google Cloud – AI Analytics</p><p class="cert-issuer">// Google Cloud Platform</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Web Designing" data-cert-issuer="Steve Technologies · Christ Nagar College · June 2024" data-cert-img="https://madhavsb.me/cer/figma.jpeg"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Web Designing</p><p class="cert-issuer">// Steve Technologies · 30 hrs · Grade A</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Robotics" data-cert-issuer="Srishti Campus · 8-Day Advanced Workshop · Aug 2025" data-cert-img="https://madhavsb.me/cer/robotics.jpeg"><div class="cert-icon-row"><div class="cert-ico orange">&#9670;</div><span class="cert-hours">30 hrs</span></div><p class="cert-name">Robotics</p><p class="cert-issuer">// Srishti Campus · Advanced Robotics Workshop</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Power BI Fundamentals" data-cert-issuer="Simplilearn · 10 Hours · 2023" data-cert-img="https://madhavsb.me/cer/powerbi.png"><div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div><p class="cert-name">Power BI Fundamentals</p><p class="cert-issuer">// Simplilearn · Data Visualisation</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="AI for Business Professionals" data-cert-issuer="HP LIFE · HP Foundation · Aug 2025" data-cert-img="https://madhavsb.me/cer/AI.png"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">AI for Business Professionals</p><p class="cert-issuer">// HP LIFE · HP Foundation</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Innovating with Google Cloud AI" data-cert-issuer="Google Cloud · Simplilearn · Aug 2025" data-cert-img="https://madhavsb.me/cer/cloud.png"><div class="cert-icon-row"><div class="cert-ico green">&#9670;</div></div><p class="cert-name">Innovating with Google Cloud AI</p><p class="cert-issuer">// Google Cloud · Simplilearn</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Introduction to Artificial Intelligence" data-cert-issuer="Simplilearn SkillUp · Aug 2025" data-cert-img="https://madhavsb.me/cer/introai.png"><div class="cert-icon-row"><div class="cert-ico red">&#9670;</div></div><p class="cert-name">Introduction to AI</p><p class="cert-issuer">// Simplilearn SkillUp</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Certificate of Presentation – ICAISCS 2026" data-cert-issuer="Christ Nagar College · Computer Society of India · Feb 2026" data-cert-img="https://madhavsb.me/cer/conference.jpeg"><div class="cert-icon-row"><div class="cert-ico cyan">&#9670;</div></div><p class="cert-name">Certificate of Presentation</p><p class="cert-issuer">// ICAISCS 2026 · Christ Nagar College</p><span class="cert-view-hint">View Certificate</span></div>
+      <div class="cert-card reveal" data-cert-name="Chris Tech 26 – Certificate of Appreciation" data-cert-issuer="Christ Nagar College · National Techfest · Jan 2026" data-cert-img="https://madhavsb.me/cer/website.jpeg"><div class="cert-icon-row"><div class="cert-ico yellow">&#9670;</div></div><p class="cert-name">Chris Tech 26 – Appreciation</p><p class="cert-issuer">// National Level Techfest Organiser</p><span class="cert-view-hint">View Certificate</span></div>
     </div>
 
     <div class="divider" style="margin:40px 0 32px"></div>
@@ -1616,7 +1255,6 @@
       <h2 class="section-title">Secret Alley</h2>
       <div class="section-line"></div>
     </div>
-
     <div class="sa-section-card reveal" id="saCard">
       <div class="sa-top-row">
         <span class="sa-badge">Restricted</span>
@@ -1636,18 +1274,12 @@
           </div>
         </div>
       </div>
-
-      <p class="sa-title-text">
-        A door that only opens<br>
-        if you know the right words<span class="sa-blink"></span>
-      </p>
-
+      <p class="sa-title-text">A door that only opens<br>if you know the right words<span class="sa-blink"></span></p>
       <div class="sa-meta">
         <span class="sa-meta-item">// knock and see what's behind</span>
         <span class="sa-meta-item">// this section is not for everyone</span>
         <span class="sa-meta-item">// do you know the password?</span>
       </div>
-
       <span class="sa-view-hint">Click to Enter</span>
     </div>
   </div>
@@ -1657,40 +1289,25 @@
 <div id="sa-modal-overlay" role="dialog" aria-modal="true" aria-label="Secret Alley">
   <div class="sa-modal" id="saModal">
     <div class="sa-modal-bar">
-      <div class="sa-modal-bar-dot r"></div>
-      <div class="sa-modal-bar-dot y"></div>
-      <div class="sa-modal-bar-dot g"></div>
+      <div class="sa-modal-bar-dot r"></div><div class="sa-modal-bar-dot y"></div><div class="sa-modal-bar-dot g"></div>
       <span class="sa-modal-bar-title">secret_alley.sh — running</span>
       <span class="sa-modal-bar-label" id="saBarLabel">LOCKED</span>
       <button class="sa-close-btn" id="saCloseBtn" aria-label="Close">✕</button>
     </div>
-
     <div class="sa-video-area" id="saVideoArea">
       <img id="saIntroImg" src="https://madhavsb.me/melcow.png" alt="Secret Alley" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" />
       <video id="saWrongVideo" src="" playsinline style="display:none;z-index:2;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
-      <div class="sa-granted" id="saGranted">
-        <div class="sa-granted-text">ACCESS GRANTED</div>
-        <div class="sa-granted-sub">// redirecting...</div>
-      </div>
+      <div class="sa-granted" id="saGranted"><div class="sa-granted-text">ACCESS GRANTED</div><div class="sa-granted-sub">// redirecting...</div></div>
     </div>
-
-    <div class="sa-countdown-bar-wrap" id="saCountdownWrap">
-      <div class="sa-countdown-bar" id="saCountdownBar"></div>
-    </div>
-
+    <div class="sa-countdown-bar-wrap" id="saCountdownWrap"><div class="sa-countdown-bar" id="saCountdownBar"></div></div>
     <div class="sa-pw-zone" id="saPwZone">
-      <div class="sa-pw-prompt">
-        <span class="t-prompt">❯</span>
-        <span class="t-cmd">unlock</span>
-        <span class="t-key">--password</span>
-      </div>
+      <div class="sa-pw-prompt"><span class="t-prompt">❯</span><span class="t-cmd">unlock</span><span class="t-key">--password</span></div>
       <div class="sa-pw-row">
         <input type="password" id="saPwInput" class="sa-pw-input" placeholder="enter password..." autocomplete="off" spellcheck="false"/>
         <button class="sa-pw-btn" id="saPwBtn">Run →</button>
       </div>
       <div class="sa-status-line" id="saStatusLine"></div>
     </div>
-
     <div class="sa-modal-footer">
       <span class="sa-footer-left"><em>sb_madhav</em> · secret_alley</span>
       <span class="sa-esc-hint"><kbd>ESC</kbd> to close</span>
@@ -1703,7 +1320,7 @@
     <div class="footer-inner">
       <p>Fly like a Butterfly · <span>S B Madhav</span> &copy; 2026 · Trivandrum, Kerala</p>
       <div class="footer-links">
-        <a href="/cdn-cgi/l/email-protection#711c10151910070213311409101c011d145f121e1c">Email</a>
+        <a href="mailto:madhavsbofficial@gmail.com">Email</a>
         <a href="tel:+918590317439">Phone</a>
       </div>
     </div>
@@ -1779,16 +1396,10 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ══ VH FIX for mobile browsers (accounts for browser chrome) ══
-function setVh() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-setVh();
-window.addEventListener('resize', setVh);
+<script>
+function setVh() { const vh = window.innerHeight * 0.01; document.documentElement.style.setProperty('--vh', `${vh}px`); }
+setVh(); window.addEventListener('resize', setVh);
 
-// ══ CLICK RIPPLE ══
 document.addEventListener('click', function(e) {
   const size = 40;
   const r1 = document.createElement('div'); r1.className = 'click-ripple';
@@ -1800,7 +1411,6 @@ document.addEventListener('click', function(e) {
   setTimeout(() => { r1.remove(); r2.remove(); }, 800);
 });
 
-// ══ INTRO PARTICLES ══
 (function spawnParticles(){
   const c = document.getElementById('introParticles');
   for(let i=0;i<18;i++){
@@ -1811,571 +1421,262 @@ document.addEventListener('click', function(e) {
   }
 })();
 
-// ══ CURSOR ══
 const cursor = document.getElementById('cursor');
 const bfly = document.getElementById('butterfly-cursor');
 let mx = window.innerWidth / 2, my = window.innerHeight / 2;
 let bx = mx, by = my, lastMx = mx, lastMy = my, idleTime = 0;
 let wx = mx, wy = my, wanderTimer = 0;
 const GAP = 38;
-
 cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-bfly.style.left = bx + 'px';  bfly.style.top = by + 'px';
-
-function pickWanderTarget() {
-  const r = 60 + Math.random() * 60, a = Math.random() * Math.PI * 2;
-  wx = mx + Math.cos(a) * r; wy = my + Math.sin(a) * r;
-}
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-});
-
+bfly.style.left = bx + 'px'; bfly.style.top = by + 'px';
+function pickWanderTarget() { const r = 60+Math.random()*60, a = Math.random()*Math.PI*2; wx = mx+Math.cos(a)*r; wy = my+Math.sin(a)*r; }
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
 (function animBfly() {
-  const moved = Math.abs(mx - lastMx) + Math.abs(my - lastMy);
-  lastMx = mx; lastMy = my;
-  idleTime = moved < 1 ? idleTime + 1 : 0;
-  if (idleTime > 40) {
-    wanderTimer++;
-    if (wanderTimer > 90) { wanderTimer = 0; pickWanderTarget(); }
-    bx += (wx - bx) * 0.018; by += (wy - by) * 0.018;
-  } else {
-    const dx = bx - mx, dy = by - my, dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    bx += (mx + dx / dist * GAP - bx) * 0.13;
-    by += (my + dy / dist * GAP - by) * 0.13;
-    wx = bx; wy = by; wanderTimer = 0;
-  }
-  bfly.style.left = bx + 'px'; bfly.style.top = by + 'px';
+  const moved = Math.abs(mx-lastMx)+Math.abs(my-lastMy); lastMx=mx; lastMy=my;
+  idleTime = moved<1 ? idleTime+1 : 0;
+  if(idleTime>40){ wanderTimer++; if(wanderTimer>90){wanderTimer=0;pickWanderTarget();} bx+=(wx-bx)*.018; by+=(wy-by)*.018; }
+  else{ const dx=bx-mx,dy=by-my,dist=Math.sqrt(dx*dx+dy*dy)||1; bx+=(mx+dx/dist*GAP-bx)*.13; by+=(my+dy/dist*GAP-by)*.13; wx=bx;wy=by;wanderTimer=0; }
+  bfly.style.left=bx+'px'; bfly.style.top=by+'px';
   requestAnimationFrame(animBfly);
 })();
 
-document.querySelectorAll('a,button,.proj-card,.proj-featured,.stack-card,.book-card,.cert-card,.ticon-item,.proj-link-pill,.sa-section-card').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.width = '14px'; cursor.style.height = '14px'; });
-  el.addEventListener('mouseleave', () => { cursor.style.width = '10px'; cursor.style.height = '10px'; });
+document.querySelectorAll('a,button,.proj-card,.proj-featured,.stack-card,.book-card,.cert-card,.ticon-item,.proj-link-pill,.sa-section-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='14px';cursor.style.height='14px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';});
 });
 
-// ══ ENTER FUNCTION ══
 function enterPortfolio() {
   const overlay = document.getElementById('intro-overlay');
-  if (overlay.classList.contains('hidden')) return;
+  if(overlay.classList.contains('hidden')) return;
   overlay.classList.add('hidden');
   document.body.classList.add('unlocked');
   setTimeout(() => {
     document.getElementById('main-content').classList.add('visible');
-    runTerminalSequence();
-    initObservers();
-    initCertModal();
-    initResearchModal();
-    initLangDialogue();
-    initSecretAlley();
+    runTerminalSequence(); initObservers(); initCertModal(); initResearchModal(); initLangDialogue(); initSecretAlley();
   }, 500);
 }
-
 document.getElementById('enter-btn').addEventListener('click', enterPortfolio);
 
-(function initSwipeEnter() {
+(function initSwipeEnter(){
   const overlay = document.getElementById('intro-overlay');
-  let touchStartY = null, touchStartX = null;
-  overlay.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; touchStartX = e.touches[0].clientX; }, { passive: true });
-  overlay.addEventListener('touchend', function(e) {
-    if (touchStartY === null) return;
-    const deltaY = touchStartY - e.changedTouches[0].clientY;
-    const deltaX = Math.abs(touchStartX - e.changedTouches[0].clientX);
-    if (deltaY > 60 && deltaY > deltaX) enterPortfolio();
-    touchStartY = null; touchStartX = null;
-  }, { passive: true });
-  overlay.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive: false });
+  let touchStartY=null,touchStartX=null;
+  overlay.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY;touchStartX=e.touches[0].clientX;},{passive:true});
+  overlay.addEventListener('touchend',function(e){
+    if(touchStartY===null)return;
+    const deltaY=touchStartY-e.changedTouches[0].clientY,deltaX=Math.abs(touchStartX-e.changedTouches[0].clientX);
+    if(deltaY>60&&deltaY>deltaX)enterPortfolio();
+    touchStartY=null;touchStartX=null;
+  },{passive:true});
+  overlay.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
 })();
 
-// ══ SCROLL / NAV ══
-const bar = document.getElementById('progress-bar');
-window.addEventListener('scroll', () => bar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%');
-const bt = document.getElementById('back-top');
-window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 400));
-bt.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-const secs = document.querySelectorAll('section[id]'), navAs = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let c = '';
-  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) c = s.id; });
-  navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') == '#' + c));
-});
+const bar=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>bar.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%');
+const bt=document.getElementById('back-top');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});});
+const secs=document.querySelectorAll('section[id]'),navAs=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.id;});navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')=='#'+c));});
 
-// ══ OBSERVERS ══
-function initObservers() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70); });
-  }, { threshold: 0.07 });
-  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => obs.observe(el));
-
-  const abtObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.querySelectorAll('.about-line').forEach((line, i) => { setTimeout(() => line.classList.add('visible'), i * 80); });
-      abtObs.unobserve(entry.target);
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('#aboutLines').forEach(el => abtObs.observe(el));
-
-  const cntObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.querySelectorAll('.stat-num').forEach(el => {
-        const t = +el.dataset.target; let c = 0;
-        const step = Math.ceil(t / 30);
-        const ti = setInterval(() => { c += step; if (c >= t) { el.textContent = t; clearInterval(ti); } else el.textContent = c; }, 40);
-      });
-      cntObs.unobserve(entry.target);
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.stats-bar').forEach(el => cntObs.observe(el));
-
-  const skObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.querySelectorAll('.skill-fill').forEach(fill => { setTimeout(() => fill.style.width = fill.dataset.width + '%', 200); });
-      skObs.unobserve(entry.target);
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.skill-bars').forEach(el => skObs.observe(el));
-
-  const iconObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.querySelectorAll('.ticon-item').forEach((item, i) => {
-        item.style.opacity = '0'; item.style.transform = 'translateY(16px)';
-        setTimeout(() => { item.style.transition = 'opacity .4s ease, transform .4s ease'; item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, i * 35);
-      });
-      iconObs.unobserve(entry.target);
-    });
-  }, { threshold: 0.05 });
-  document.querySelectorAll('.ticon-group').forEach(g => iconObs.observe(g));
+function initObservers(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);});},{threshold:0.07});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>obs.observe(el));
+  const abtObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.about-line').forEach((line,i)=>{setTimeout(()=>line.classList.add('visible'),i*80);});abtObs.unobserve(entry.target);});},{threshold:0.1});
+  document.querySelectorAll('#aboutLines').forEach(el=>abtObs.observe(el));
+  const cntObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.stat-num').forEach(el=>{const t=+el.dataset.target;let c=0;const step=Math.ceil(t/30);const ti=setInterval(()=>{c+=step;if(c>=t){el.textContent=t;clearInterval(ti);}else el.textContent=c;},40);});cntObs.unobserve(entry.target);});},{threshold:0.3});
+  document.querySelectorAll('.stats-bar').forEach(el=>cntObs.observe(el));
+  const skObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.skill-fill').forEach(fill=>{setTimeout(()=>fill.style.width=fill.dataset.width+'%',200);});skObs.unobserve(entry.target);});},{threshold:0.2});
+  document.querySelectorAll('.skill-bars').forEach(el=>skObs.observe(el));
+  const iconObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.querySelectorAll('.ticon-item').forEach((item,i)=>{item.style.opacity='0';item.style.transform='translateY(16px)';setTimeout(()=>{item.style.transition='opacity .4s ease, transform .4s ease';item.style.opacity='1';item.style.transform='translateY(0)';},i*35);});iconObs.unobserve(entry.target);});},{threshold:0.05});
+  document.querySelectorAll('.ticon-group').forEach(g=>iconObs.observe(g));
+  const wpObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const fill=document.getElementById('wp-fill'),pct=document.getElementById('wp-pct');if(fill){setTimeout(()=>{fill.style.width=fill.dataset.width+'%';if(pct)pct.textContent=fill.dataset.width+'%';},300);}wpObs.unobserve(entry.target);});},{threshold:0.3});
+  document.querySelectorAll('.writing-progress').forEach(el=>wpObs.observe(el));
 }
 
-// ══ TERMINAL TYPING ══
-const termLines = [
-  { id: 'tl-status', key: '"status"', val: '"Fresher · Actively Seeking Internships"', valClass: 't-val', suffix: ',' },
-  { id: 'tl-focus', key: '"focus"', val: '"REST APIs · Auth Systems · DB Design"', valClass: 't-val', suffix: ',' },
-  { id: 'tl-stack', key: '"stack"', val: '["Node.js", "Express.js", "MySQL", "PHP"]', valClass: 't-str', suffix: ',' },
-  { id: 'tl-also', key: '"also"', val: '["Hobby Writer", "Robotics", "Malayalam Writing"]', valClass: 't-str', suffix: ',' },
-  { id: 'tl-loc', key: '"location"', val: '"Trivandrum, Kerala"', valClass: 't-val', suffix: ',' },
+const termLines=[
+  {id:'tl-status',key:'"status"',val:'"Fresher · Actively Seeking Internships"',valClass:'t-val',suffix:','},
+  {id:'tl-focus',key:'"focus"',val:'"REST APIs · Auth Systems · DB Design"',valClass:'t-val',suffix:','},
+  {id:'tl-stack',key:'"stack"',val:'["Node.js", "Express.js", "MySQL", "PHP"]',valClass:'t-str',suffix:','},
+  {id:'tl-also',key:'"also"',val:'["Hobby Writer", "Robotics", "Malayalam Writing"]',valClass:'t-str',suffix:','},
+  {id:'tl-loc',key:'"location"',val:'"Trivandrum, Kerala"',valClass:'t-val',suffix:','},
 ];
-
-function runTerminalSequence() {
-  let li = 0;
-  function nextLine() {
-    if (li >= termLines.length) {
-      const m = document.getElementById('typed-summary'); m.style.opacity = '1';
-      const mt = 'Building backends that just work."'; let mi = 0;
-      function tm() { m.innerHTML = '"' + mt.slice(0, mi) + '<span class="cursor-blink"></span>'; if (mi < mt.length) { mi++; setTimeout(tm, 60); } else { setTimeout(() => { mi = 0; tm(); }, 2400); } }
-      tm(); return;
+function runTerminalSequence(){
+  let li=0;
+  function nextLine(){
+    if(li>=termLines.length){
+      const m=document.getElementById('typed-summary');m.style.opacity='1';
+      const mt='Building backends that just work."';let mi=0;
+      function tm(){m.innerHTML='"'+mt.slice(0,mi)+'<span class="cursor-blink"></span>';if(mi<mt.length){mi++;setTimeout(tm,60);}else{setTimeout(()=>{mi=0;tm();},2400);}}
+      tm();return;
     }
-    const line = termLines[li], el = document.getElementById(line.id);
-    el.style.opacity = '1';
-    el.innerHTML = `&nbsp;&nbsp;<span class="t-key">${line.key}</span>: <span class="${line.valClass}"></span>`;
-    const vs = el.querySelector(`.${line.valClass}`);
-    const vt = line.val + line.suffix; let ci = 0;
-    function tv() { ci++; vs.textContent = vt.slice(0, ci); if (ci < vt.length) { setTimeout(tv, 28); } else { li++; setTimeout(nextLine, 80); } }
+    const line=termLines[li],el=document.getElementById(line.id);
+    el.style.opacity='1';
+    el.innerHTML=`&nbsp;&nbsp;<span class="t-key">${line.key}</span>: <span class="${line.valClass}"></span>`;
+    const vs=el.querySelector(`.${line.valClass}`);
+    const vt=line.val+line.suffix;let ci=0;
+    function tv(){ci++;vs.textContent=vt.slice(0,ci);if(ci<vt.length){setTimeout(tv,28);}else{li++;setTimeout(nextLine,80);}}
     tv();
   }
-  setTimeout(nextLine, 600);
+  setTimeout(nextLine,600);
 }
 
-// ══ CERTIFICATE MODAL ══
-function initCertModal() {
-  const overlay   = document.getElementById('cert-modal-overlay');
-  const closeBtn  = document.getElementById('cert-modal-close');
-  const nameEl    = document.getElementById('cert-modal-name');
-  const issuerEl  = document.getElementById('cert-modal-issuer-text');
-  const imgArea   = document.getElementById('cert-img-area');
-  const prevBtn   = document.getElementById('cert-prev');
-  const nextBtn   = document.getElementById('cert-next');
-  const cards = Array.from(document.querySelectorAll('.cert-card'));
-  let currentIdx = 0;
-
-  function renderCert(idx) {
-    const card  = cards[idx];
-    const name   = card.dataset.certName   || 'Certificate';
-    const issuer = card.dataset.certIssuer || '';
-    const img    = card.dataset.certImg    || '';
-    nameEl.textContent   = name;
-    issuerEl.textContent = issuer;
-    prevBtn.style.opacity = idx === 0              ? '0.25' : '1';
-    nextBtn.style.opacity = idx === cards.length-1 ? '0.25' : '1';
-    if (img && img.trim() !== '') {
-      imgArea.innerHTML = `<img id="cert-modal-img" src="${img}" alt="${name}" />`;
-    } else {
-      imgArea.innerHTML = `<div class="cert-placeholder"><div class="cert-ph-ring"><div class="cert-ph-icon">🏅</div></div><div class="cert-ph-label"><strong>// cert_image not set</strong>Add your image path to the<br><code>data-cert-img</code> attribute on the card.</div><span class="cert-ph-code">data-cert-img="./certs/${name.toLowerCase().replace(/\s+/g,'-')}.jpg"</span></div>`;
-    }
+function initCertModal(){
+  const overlay=document.getElementById('cert-modal-overlay');
+  const closeBtn=document.getElementById('cert-modal-close');
+  const nameEl=document.getElementById('cert-modal-name');
+  const issuerEl=document.getElementById('cert-modal-issuer-text');
+  const imgArea=document.getElementById('cert-img-area');
+  const prevBtn=document.getElementById('cert-prev');
+  const nextBtn=document.getElementById('cert-next');
+  const cards=Array.from(document.querySelectorAll('.cert-card'));
+  let currentIdx=0;
+  function renderCert(idx){
+    const card=cards[idx];
+    const name=card.dataset.certName||'Certificate';
+    const issuer=card.dataset.certIssuer||'';
+    const img=card.dataset.certImg||'';
+    nameEl.textContent=name; issuerEl.textContent=issuer;
+    prevBtn.style.opacity=idx===0?'0.25':'1';
+    nextBtn.style.opacity=idx===cards.length-1?'0.25':'1';
+    if(img&&img.trim()!==''){imgArea.innerHTML=`<img id="cert-modal-img" src="${img}" alt="${name}" />`;}
+    else{imgArea.innerHTML=`<div class="cert-placeholder"><div class="cert-ph-ring"><div class="cert-ph-icon">🏅</div></div><div class="cert-ph-label"><strong>// cert_image not set</strong>Add your image path to the<br><code>data-cert-img</code> attribute on the card.</div><span class="cert-ph-code">data-cert-img="./certs/${name.toLowerCase().replace(/\s+/g,'-')}.jpg"</span></div>`;}
   }
-
-  function openModal(idx) { currentIdx = idx; renderCert(currentIdx); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
-  cards.forEach((card, i) => { card.addEventListener('click', () => openModal(i)); });
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', e => {
-    if (!overlay.classList.contains('open')) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowLeft'  && currentIdx > 0)              openModal(currentIdx - 1);
-    if (e.key === 'ArrowRight' && currentIdx < cards.length-1) openModal(currentIdx + 1);
+  function openModal(idx){currentIdx=idx;renderCert(currentIdx);overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+  cards.forEach((card,i)=>{card.addEventListener('click',()=>openModal(i));});
+  closeBtn.addEventListener('click',closeModal);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+  document.addEventListener('keydown',e=>{
+    if(!overlay.classList.contains('open'))return;
+    if(e.key==='Escape')closeModal();
+    if(e.key==='ArrowLeft'&&currentIdx>0)openModal(currentIdx-1);
+    if(e.key==='ArrowRight'&&currentIdx<cards.length-1)openModal(currentIdx+1);
   });
-  prevBtn.addEventListener('click', e => { e.stopPropagation(); if (currentIdx > 0) openModal(currentIdx - 1); });
-  nextBtn.addEventListener('click', e => { e.stopPropagation(); if (currentIdx < cards.length - 1) openModal(currentIdx + 1); });
+  prevBtn.addEventListener('click',e=>{e.stopPropagation();if(currentIdx>0)openModal(currentIdx-1);});
+  nextBtn.addEventListener('click',e=>{e.stopPropagation();if(currentIdx<cards.length-1)openModal(currentIdx+1);});
 }
 
-// ══ RESEARCH PAPER MODAL ══
-function initResearchModal() {
-  const overlay  = document.getElementById('research-modal-overlay');
-  const closeBtn = document.getElementById('res-modal-close');
-  const pdfArea  = document.getElementById('res-pdf-area');
-  const isbnChip = document.getElementById('res-isbn-chip');
-  const card     = document.getElementById('researchCard');
-  if (!card || !overlay) return;
-
-  function renderPdf() {
-    const pdf  = card.dataset.resPdf  || '';
-    const isbn = card.dataset.resIsbn || '978-93-5627-216-3';
-    if (isbnChip) isbnChip.textContent = isbn;
-    if (pdf && pdf.trim() !== '') {
-      pdfArea.innerHTML = `<iframe id="research-pdf-frame" src="${pdf}#toolbar=1&navpanes=0&scrollbar=1&view=FitH" title="Research Paper PDF"></iframe>`;
-    } else {
-      pdfArea.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:56px 40px;text-align:center;height:100%;min-height:320px;"><div style="position:relative;width:80px;height:80px;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.18);border-radius:50%;">📄</div></div><div style="font-family:'Fira Code',monospace;font-size:.72rem;line-height:1.8;color:var(--muted);"><strong style="display:block;color:var(--cyan);font-size:.78rem;margin-bottom:4px;letter-spacing:.06em;">// pdf not available</strong></div></div>`;
-    }
+function initResearchModal(){
+  const overlay=document.getElementById('research-modal-overlay');
+  const closeBtn=document.getElementById('res-modal-close');
+  const pdfArea=document.getElementById('res-pdf-area');
+  const isbnChip=document.getElementById('res-isbn-chip');
+  const card=document.getElementById('researchCard');
+  if(!card||!overlay)return;
+  function renderPdf(){
+    const pdf=card.dataset.resPdf||'';
+    const isbn=card.dataset.resIsbn||'978-93-5627-216-3';
+    if(isbnChip)isbnChip.textContent=isbn;
+    if(pdf&&pdf.trim()!==''){pdfArea.innerHTML=`<iframe id="research-pdf-frame" src="${pdf}#toolbar=1&navpanes=0&scrollbar=1&view=FitH" title="Research Paper PDF"></iframe>`;}
+    else{pdfArea.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:56px 40px;text-align:center;height:100%;min-height:320px;"><div style="font-size:2.2rem">📄</div><div style="font-family:'Fira Code',monospace;font-size:.72rem;color:var(--muted);">PDF not available</div></div>`;}
   }
-
-  function openModal() { renderPdf(); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; setTimeout(() => { const fr = document.getElementById('research-pdf-frame'); if (fr) fr.src = ''; }, 400); }
-  card.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', e => { if (!overlay.classList.contains('open')) return; if (e.key === 'Escape') closeModal(); });
+  function openModal(){renderPdf();overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';setTimeout(()=>{const fr=document.getElementById('research-pdf-frame');if(fr)fr.src='';},400);}
+  card.addEventListener('click',openModal);
+  closeBtn.addEventListener('click',closeModal);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+  document.addEventListener('keydown',e=>{if(!overlay.classList.contains('open'))return;if(e.key==='Escape')closeModal();});
 }
 
-// ══ LANGUAGE DIALOGUE MODAL ══
-const LANG_DATA = {
-  en: { avatar: '🎬', accent: 'var(--green)', quote: 'The coefficient\'s of linear expansions is the position of Haemoglobin in the atmosphere. But Why? Full Many gem of purests serene lay underneath the unfathomed ocean\'s unblossomeds ! But why? But why?' },
-  ml: { avatar: '🥣', accent: 'var(--cyan)', quote: 'കുറച്ചു കഞ്ഞി എടുക്കട്ടേ, മാണിക്യാ!' },
-  ta: { avatar: '🌺', accent: 'var(--yellow)', quote: 'என் காதல் தொட்டதில் மலர்கள் இல்லையே' }
+const LANG_DATA={
+  en:{avatar:'🎬',accent:'var(--green)',quote:'The coefficient\'s of linear expansions is the position of Haemoglobin in the atmosphere. But Why? Full Many gem of purests serene lay underneath the unfathomed ocean\'s unblossomeds ! But why? But why?'},
+  ml:{avatar:'🥣',accent:'var(--cyan)',quote:'കുറച്ചു കഞ്ഞി എടുക്കട്ടേ, മാണിക്യാ!'},
+  ta:{avatar:'🌺',accent:'var(--yellow)',quote:'என் காதல் தொட்டதில் மலர்கள் இல்லையே'}
 };
-
-function initLangDialogue() {
-  const overlay   = document.getElementById('lang-dialogue-overlay');
-  const box       = document.getElementById('langDialogueBox');
-  const closeBtn  = document.getElementById('lang-dialogue-close');
-  const avatarEl  = document.getElementById('langDialogueAvatar');
-  const speakerEl = document.getElementById('langDialogueSpeaker');
-  const movieEl   = document.getElementById('langDialogueMovie');
-  const textEl    = document.getElementById('langDialogueText');
-  const sourceEl  = document.getElementById('langDialogueSource');
-  if (!overlay) return;
-  let typeTimer = null;
-
-  function typeDialogue(text) {
-    textEl.innerHTML = '';
-    if (typeTimer) clearInterval(typeTimer);
-    let i = 0;
-    typeTimer = setInterval(() => {
-      if (i >= text.length) { clearInterval(typeTimer); return; }
-      const span = document.createElement('span'); span.className = 'typed-char'; span.style.animationDelay = '0s'; span.textContent = text[i]; textEl.appendChild(span); i++;
-    }, 28);
+function initLangDialogue(){
+  const overlay=document.getElementById('lang-dialogue-overlay');
+  const box=document.getElementById('langDialogueBox');
+  const closeBtn=document.getElementById('lang-dialogue-close');
+  const avatarEl=document.getElementById('langDialogueAvatar');
+  const speakerEl=document.getElementById('langDialogueSpeaker');
+  const movieEl=document.getElementById('langDialogueMovie');
+  const textEl=document.getElementById('langDialogueText');
+  const sourceEl=document.getElementById('langDialogueSource');
+  if(!overlay)return;
+  let typeTimer=null;
+  function typeDialogue(text){
+    textEl.innerHTML='';if(typeTimer)clearInterval(typeTimer);let i=0;
+    typeTimer=setInterval(()=>{if(i>=text.length){clearInterval(typeTimer);return;}const span=document.createElement('span');span.className='typed-char';span.style.animationDelay='0s';span.textContent=text[i];textEl.appendChild(span);i++;},28);
   }
-
-  function openDialogue(lang) {
-    const d = LANG_DATA[lang]; if (!d) return;
-    box.className = 'lang-dialogue-box ' + lang;
-    avatarEl.textContent  = d.avatar;
-    speakerEl.textContent = d.speaker || '';
-    movieEl.textContent   = d.movie   || '';
-    sourceEl.textContent  = d.source  || '';
-    overlay.classList.add('open'); document.body.style.overflow = 'hidden';
-    setTimeout(() => typeDialogue(d.quote), 300);
+  function openDialogue(lang){
+    const d=LANG_DATA[lang];if(!d)return;
+    box.className='lang-dialogue-box '+lang;
+    avatarEl.textContent=d.avatar;speakerEl.textContent=d.speaker||'';movieEl.textContent=d.movie||'';sourceEl.textContent=d.source||'';
+    overlay.classList.add('open');document.body.style.overflow='hidden';
+    setTimeout(()=>typeDialogue(d.quote),300);
   }
-
-  function closeDialogue() { overlay.classList.remove('open'); document.body.style.overflow = ''; if (typeTimer) clearInterval(typeTimer); }
-
-  document.querySelectorAll('.lang-block[data-lang]').forEach(block => { block.addEventListener('dblclick', e => { e.preventDefault(); openDialogue(block.dataset.lang); }); });
-  closeBtn.addEventListener('click', closeDialogue);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeDialogue(); });
-  document.addEventListener('keydown', e => { if (!overlay.classList.contains('open')) return; if (e.key === 'Escape') closeDialogue(); });
+  function closeDialogue(){overlay.classList.remove('open');document.body.style.overflow='';if(typeTimer)clearInterval(typeTimer);}
+  document.querySelectorAll('.lang-block[data-lang]').forEach(block=>{block.addEventListener('dblclick',e=>{e.preventDefault();openDialogue(block.dataset.lang);});});
+  closeBtn.addEventListener('click',closeDialogue);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeDialogue();});
+  document.addEventListener('keydown',e=>{if(!overlay.classList.contains('open'))return;if(e.key==='Escape')closeDialogue();});
 }
 
-// ══ SECRET ALLEY ══
-function initSecretAlley() {
-  const VIDEO_WRONG = 'https://madhavsb.me/noentry.mp4';
-  const SECRET_URL  = 'https://madhavsb.me/poo.html';
-  const CORRECT_PW  = 'madhav123';
-  const WRONG_SECS  = 10;
-
-  const overlay    = document.getElementById('sa-modal-overlay');
-  const saModal    = document.getElementById('saModal');
-  const saCard     = document.getElementById('saCard');
-  const closeBtn   = document.getElementById('saCloseBtn');
-  const introImg   = document.getElementById('saIntroImg');
-  const wrongVideo = document.getElementById('saWrongVideo');
-  const videoArea  = document.getElementById('saVideoArea');
-  const pwInput    = document.getElementById('saPwInput');
-  const pwBtn      = document.getElementById('saPwBtn');
-  const statusLine = document.getElementById('saStatusLine');
-  const granted    = document.getElementById('saGranted');
-  const barLabel   = document.getElementById('saBarLabel');
-  const pwZone     = document.getElementById('saPwZone');
-  const cdWrap     = document.getElementById('saCountdownWrap');
-  const cdBar      = document.getElementById('saCountdownBar');
-
-  // wrongMode = true means the 10-sec punishment is active
-  let isOpen = false, wrongMode = false, wrongTimer = null, cdAnimFrame = null, cdStart = null;
-
-  function setStatus(msg, type) { statusLine.textContent = msg; statusLine.className = 'sa-status-line ' + (type || ''); }
-
-  function startCountdown() {
-    cdWrap.classList.add('active'); cdBar.style.transition = 'none'; cdBar.style.transform = 'scaleX(1)'; cdStart = performance.now();
-    function tick(now) { const p = Math.min((now - cdStart) / 1000 / WRONG_SECS, 1); cdBar.style.transform = `scaleX(${1 - p})`; if (p < 1) cdAnimFrame = requestAnimationFrame(tick); }
-    cdAnimFrame = requestAnimationFrame(tick);
-  }
-  function stopCountdown() { if (cdAnimFrame) { cancelAnimationFrame(cdAnimFrame); cdAnimFrame = null; } cdWrap.classList.remove('active'); cdBar.style.transform = 'scaleX(1)'; }
-
-  function resetState() {
-    introImg.style.display = 'block';
-    wrongVideo.pause(); wrongVideo.src = ''; wrongVideo.style.display = 'none';
-    pwInput.value = ''; pwInput.className = 'sa-pw-input';
-    setStatus('', '');
-    granted.classList.remove('show');
-    barLabel.textContent = 'LOCKED'; barLabel.style.color = '';
-    saModal.classList.remove('wrong-mode');
-    pwZone.classList.remove('disabled');
-    closeBtn.disabled = false;
-    wrongMode = false;
-    stopCountdown();
-    if (wrongTimer) { clearTimeout(wrongTimer); wrongTimer = null; }
-  }
-
-  function horrorClose() {
-    if (!isOpen) return;
-    pwZone.classList.add('disabled');
-    closeBtn.disabled = true;
-    saModal.classList.add('horror-shake');
-    overlay.classList.add('horror-close');
-    setTimeout(() => {
-      const black = document.createElement("div");
-      black.style.position = "fixed"; black.style.inset = "0";
-      black.style.background = "#000"; black.style.zIndex = "999999";
-      document.body.appendChild(black);
-      setTimeout(() => { location.reload(); }, 3000);
-    }, 900);
-  }
-
-  function closeModal() { if (!isOpen) return; isOpen = false; overlay.classList.remove('open'); document.body.style.overflow = ''; setTimeout(resetState, 420); }
-
-  function openModal() {
-    if (isOpen) return; isOpen = true; resetState();
-    overlay.classList.add('open'); document.body.style.overflow = 'hidden';
-    setTimeout(() => { pwInput.focus(); overlay.scrollTop = 0; }, 500);
-  }
-
-  function handleWrong() {
-    wrongMode = true;
-    pwInput.className = 'sa-pw-input wrong';
-    setStatus('// ERROR: wrong password — 10 seconds to try again', 'err');
-    videoArea.classList.remove('glitch-swap'); void videoArea.offsetWidth; videoArea.classList.add('glitch-swap');
-    setTimeout(() => {
-      videoArea.classList.remove('glitch-swap');
-      introImg.style.display = 'none';
-      wrongVideo.src = VIDEO_WRONG; wrongVideo.style.display = 'block'; wrongVideo.play().catch(() => {});
-      saModal.classList.add('wrong-mode'); barLabel.textContent = 'INTRUDER'; barLabel.style.color = 'var(--red)';
-      startCountdown();
-    }, 460);
-    // Re-enable input quickly so user can try correct password
-    setTimeout(() => { pwInput.className = 'sa-pw-input'; pwInput.value = ''; pwZone.classList.remove('disabled'); }, 900);
-    if (wrongTimer) clearTimeout(wrongTimer);
-    wrongTimer = setTimeout(() => horrorClose(), WRONG_SECS * 1100);
-    wrongVideo.onended = () => { if (wrongMode) { clearTimeout(wrongTimer); horrorClose(); } };
-  }
-
-  function handleCorrect() {
-    // Cancel any pending horror close
-    if (wrongTimer) { clearTimeout(wrongTimer); wrongTimer = null; }
-    wrongMode = false;
-    stopCountdown();
-    wrongVideo.pause();
-    // Glitch transition back to image
-    videoArea.classList.remove('glitch-swap'); void videoArea.offsetWidth; videoArea.classList.add('glitch-swap');
-    setTimeout(() => {
-      videoArea.classList.remove('glitch-swap');
-      wrongVideo.style.display = 'none'; wrongVideo.src = '';
-      introImg.style.display = 'block';
-      saModal.classList.remove('wrong-mode');
-    }, 460);
-    pwInput.className = 'sa-pw-input correct'; barLabel.textContent = 'UNLOCKED'; barLabel.style.color = 'var(--green)';
-    setStatus('// access granted — opening...', 'ok'); granted.classList.add('show');
-    setTimeout(() => { window.open(SECRET_URL, '_blank', 'noopener,noreferrer'); closeModal(); }, 1800);
-  }
-
-  function check() {
-    const val = pwInput.value.trim();
-    if (!val) { pwInput.className = 'sa-pw-input wrong'; setStatus('// no input detected', 'err'); setTimeout(() => { pwInput.className = 'sa-pw-input'; setStatus('',''); }, 900); return; }
-    if (val === CORRECT_PW) {
-      handleCorrect();
-    } else {
-      // If already in wrong mode, just shake — don't restart the 10s timer
-      if (wrongMode) {
-        pwInput.className = 'sa-pw-input wrong';
-        setStatus('// still wrong — time is running out!', 'err');
-        setTimeout(() => { pwInput.className = 'sa-pw-input'; pwInput.value = ''; setStatus('// ERROR: wrong password — 10 seconds to try again', 'err'); }, 700);
-      } else {
-        handleWrong();
-      }
-    }
-  }
-
-  saCard.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  pwBtn.addEventListener('click', check);
-  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
-  document.addEventListener('keydown', e => { if (!overlay.classList.contains('open')) return; if (e.key === 'Escape') closeModal(); });
-
-  // ── Visual Viewport resize: scroll input into view when keyboard opens ──
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', () => {
-      if (!overlay.classList.contains('open')) return;
-      requestAnimationFrame(() => {
-        // Scroll the overlay so the password zone is visible above the keyboard
-        const pwZoneRect = pwZone.getBoundingClientRect();
-        const vvHeight = window.visualViewport.height;
-        if (pwZoneRect.bottom > vvHeight) {
-          overlay.scrollTop += pwZoneRect.bottom - vvHeight + 16;
-        }
-      });
-    });
-  }
-
-  // Eye tracking
-  const pupilGroup = document.getElementById('saPupilGroupS');
-  const eyeInner   = document.getElementById('saEyeInner');
-  const eyeInline  = document.getElementById('saEyeInline');
-
-  document.addEventListener('mousemove', e => {
-    if (!eyeInline) return;
-    const rect = eyeInline.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
-    const dx = e.clientX - cx, dy = e.clientY - cy;
-    const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-    const max = 1.8, f = Math.min(dist / 200, 1);
-    pupilGroup.style.transform = `translate(${((dx/dist)*max*f).toFixed(2)}px,${((dy/dist)*max*f).toFixed(2)}px)`;
-  });
-
-  eyeInner.style.transition = 'transform .08s ease-in-out';
-  function scheduleBlink() {
-    setTimeout(() => { eyeInner.style.transform = 'scaleY(0.05)'; setTimeout(() => { eyeInner.style.transform = ''; }, 120); scheduleBlink(); }, 2800 + Math.random() * 3500);
-  }
+function initSecretAlley(){
+  const VIDEO_WRONG='https://madhavsb.me/noentry.mp4';
+  const SECRET_URL='https://drive.google.com/drive/folders/19K16o8eGRU_fdEZ5fuKeh8BAIav_GSxV?usp=sharing';
+  const CORRECT_PW='madhav123';
+  const WRONG_SECS=10;
+  const overlay=document.getElementById('sa-modal-overlay');
+  const saModal=document.getElementById('saModal');
+  const saCard=document.getElementById('saCard');
+  const closeBtn=document.getElementById('saCloseBtn');
+  const introImg=document.getElementById('saIntroImg');
+  const wrongVideo=document.getElementById('saWrongVideo');
+  const videoArea=document.getElementById('saVideoArea');
+  const pwInput=document.getElementById('saPwInput');
+  const pwBtn=document.getElementById('saPwBtn');
+  const statusLine=document.getElementById('saStatusLine');
+  const granted=document.getElementById('saGranted');
+  const barLabel=document.getElementById('saBarLabel');
+  const pwZone=document.getElementById('saPwZone');
+  const cdWrap=document.getElementById('saCountdownWrap');
+  const cdBar=document.getElementById('saCountdownBar');
+  let isOpen=false,wrongMode=false,wrongTimer=null,cdAnimFrame=null,cdStart=null;
+  function setStatus(msg,type){statusLine.textContent=msg;statusLine.className='sa-status-line '+(type||'');}
+  function startCountdown(){cdWrap.classList.add('active');cdBar.style.transition='none';cdBar.style.transform='scaleX(1)';cdStart=performance.now();function tick(now){const p=Math.min((now-cdStart)/1000/WRONG_SECS,1);cdBar.style.transform=`scaleX(${1-p})`;if(p<1)cdAnimFrame=requestAnimationFrame(tick);}cdAnimFrame=requestAnimationFrame(tick);}
+  function stopCountdown(){if(cdAnimFrame){cancelAnimationFrame(cdAnimFrame);cdAnimFrame=null;}cdWrap.classList.remove('active');cdBar.style.transform='scaleX(1)';}
+  function resetState(){introImg.style.display='block';wrongVideo.pause();wrongVideo.src='';wrongVideo.style.display='none';pwInput.value='';pwInput.className='sa-pw-input';setStatus('','');granted.classList.remove('show');barLabel.textContent='LOCKED';barLabel.style.color='';saModal.classList.remove('wrong-mode');pwZone.classList.remove('disabled');closeBtn.disabled=false;wrongMode=false;stopCountdown();if(wrongTimer){clearTimeout(wrongTimer);wrongTimer=null;}}
+  function horrorClose(){if(!isOpen)return;pwZone.classList.add('disabled');closeBtn.disabled=true;saModal.classList.add('horror-shake');overlay.classList.add('horror-close');setTimeout(()=>{const black=document.createElement("div");black.style.position="fixed";black.style.inset="0";black.style.background="#000";black.style.zIndex="999999";document.body.appendChild(black);setTimeout(()=>{location.reload();},5000);},900);}
+  function closeModal(){if(!isOpen)return;isOpen=false;overlay.classList.remove('open');document.body.style.overflow='';setTimeout(resetState,420);}
+  function openModal(){if(isOpen)return;isOpen=true;resetState();overlay.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>{pwInput.focus();overlay.scrollTop=0;},500);}
+  function handleWrong(){wrongMode=true;pwInput.className='sa-pw-input wrong';setStatus('// ERROR: wrong password — 10 seconds to try again','err');videoArea.classList.remove('glitch-swap');void videoArea.offsetWidth;videoArea.classList.add('glitch-swap');setTimeout(()=>{videoArea.classList.remove('glitch-swap');introImg.style.display='none';wrongVideo.src=VIDEO_WRONG;wrongVideo.style.display='block';wrongVideo.play().catch(()=>{});saModal.classList.add('wrong-mode');barLabel.textContent='INTRUDER';barLabel.style.color='var(--red)';startCountdown();},460);setTimeout(()=>{pwInput.className='sa-pw-input';pwInput.value='';pwZone.classList.remove('disabled');},900);if(wrongTimer)clearTimeout(wrongTimer);wrongTimer=setTimeout(()=>horrorClose(),WRONG_SECS*1100);wrongVideo.onended=()=>{if(wrongMode){clearTimeout(wrongTimer);horrorClose();}};}
+  function handleCorrect(){if(wrongTimer){clearTimeout(wrongTimer);wrongTimer=null;}wrongMode=false;stopCountdown();wrongVideo.pause();videoArea.classList.remove('glitch-swap');void videoArea.offsetWidth;videoArea.classList.add('glitch-swap');setTimeout(()=>{videoArea.classList.remove('glitch-swap');wrongVideo.style.display='none';wrongVideo.src='';introImg.style.display='block';saModal.classList.remove('wrong-mode');},460);pwInput.className='sa-pw-input correct';barLabel.textContent='UNLOCKED';barLabel.style.color='var(--green)';setStatus('// access granted — opening...','ok');granted.classList.add('show');setTimeout(()=>{window.open(SECRET_URL,'_blank','noopener,noreferrer');closeModal();},1800);}
+  function check(){const val=pwInput.value.trim();if(!val){pwInput.className='sa-pw-input wrong';setStatus('// no input detected','err');setTimeout(()=>{pwInput.className='sa-pw-input';setStatus('','');},900);return;}if(val===CORRECT_PW){handleCorrect();}else{if(wrongMode){pwInput.className='sa-pw-input wrong';setStatus('// still wrong — time is running out!','err');setTimeout(()=>{pwInput.className='sa-pw-input';pwInput.value='';setStatus('// ERROR: wrong password — 10 seconds to try again','err');},700);}else{handleWrong();}}}
+  saCard.addEventListener('click',openModal);
+  closeBtn.addEventListener('click',closeModal);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+  pwBtn.addEventListener('click',check);
+  pwInput.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
+  document.addEventListener('keydown',e=>{if(!overlay.classList.contains('open'))return;if(e.key==='Escape')closeModal();});
+  if(window.visualViewport){window.visualViewport.addEventListener('resize',()=>{if(!overlay.classList.contains('open'))return;requestAnimationFrame(()=>{const pwZoneRect=pwZone.getBoundingClientRect();const vvHeight=window.visualViewport.height;if(pwZoneRect.bottom>vvHeight){overlay.scrollTop+=pwZoneRect.bottom-vvHeight+16;}});});}
+  const pupilGroup=document.getElementById('saPupilGroupS');
+  const eyeInner=document.getElementById('saEyeInner');
+  const eyeInline=document.getElementById('saEyeInline');
+  document.addEventListener('mousemove',e=>{if(!eyeInline)return;const rect=eyeInline.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;const dx=e.clientX-cx,dy=e.clientY-cy;const dist=Math.sqrt(dx*dx+dy*dy)||1;const max=1.8,f=Math.min(dist/200,1);pupilGroup.style.transform=`translate(${((dx/dist)*max*f).toFixed(2)}px,${((dy/dist)*max*f).toFixed(2)}px)`;});
+  eyeInner.style.transition='transform .08s ease-in-out';
+  function scheduleBlink(){setTimeout(()=>{eyeInner.style.transform='scaleY(0.05)';setTimeout(()=>{eyeInner.style.transform='';},120);scheduleBlink();},2800+Math.random()*3500);}
   scheduleBlink();
 }
 
-// ══ AMBIENT BUTTERFLY SWARM ══
-const isMobile = window.matchMedia('(pointer:coarse)').matches || window.innerWidth < 768;
-const SWARM_COUNT = isMobile ? 10 : 32;
-const IDLE_TRIGGER = isMobile ? 80 : 200;
-let ambIdleTimer = 0, ambLastMx = -999, ambLastMy = -999, swarmActive = false, swarmBflies = [];
-let lastTouchTime = Date.now(), touchMx = window.innerWidth / 2, touchMy = window.innerHeight / 2;
+const isMobile=window.matchMedia('(pointer:coarse)').matches||window.innerWidth<768;
+const SWARM_COUNT=isMobile?10:40;
+const IDLE_TRIGGER=isMobile?80:200;
+let ambIdleTimer=0,ambLastMx=-999,ambLastMy=-999,swarmActive=false,swarmBflies=[];
+let lastTouchTime=Date.now(),touchMx=window.innerWidth/2,touchMy=window.innerHeight/2;
+document.addEventListener('touchstart',e=>{lastTouchTime=Date.now();if(e.touches[0]){touchMx=e.touches[0].clientX;touchMy=e.touches[0].clientY;}if(swarmActive){swarmActive=false;dismissSwarm();ambIdleTimer=0;}},{passive:true});
+document.addEventListener('touchmove',e=>{lastTouchTime=Date.now();if(e.touches[0]){touchMx=e.touches[0].clientX;touchMy=e.touches[0].clientY;}},{passive:true});
+function makeButterflyEl(size,colors){const div=document.createElement('div');div.className='amb-butterfly';div.style.width=size+'px';div.style.height=size+'px';const[c1,c2,c3,c4]=colors;div.innerHTML=`<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><g style="transform-origin:right center;animation:flapL 0.${Math.floor(18+Math.random()*10)}s ease-in-out infinite alternate"><path d="M50,38 C42,20 18,8 8,18 C-2,28 10,52 28,52 C38,52 46,46 50,38Z" fill="${c1}" opacity="0.92"/><path d="M50,42 C44,52 24,62 16,56 C8,50 18,36 32,38 C40,39 46,40 50,42Z" fill="${c2}" opacity="0.85"/></g><g style="transform-origin:left center;animation:flapR 0.${Math.floor(18+Math.random()*10)}s ease-in-out infinite alternate"><path d="M50,38 C58,20 82,8 92,18 C102,28 90,52 72,52 C62,52 54,46 50,38Z" fill="${c3}" opacity="0.92"/><path d="M50,42 C56,52 76,62 84,56 C92,50 82,36 68,38 C60,39 54,40 50,42Z" fill="${c4}" opacity="0.85"/></g><ellipse cx="50" cy="42" rx="2.5" ry="12" fill="#00ff88" opacity="0.9"/><circle cx="50" cy="28" r="3" fill="#00ff88"/></svg>`;return div;}
+const colorSets=[['#00ff88','#ffd166','#00d4ff','#ff9d6c'],['#ffd166','#ff9d6c','#ffd166','#ff4d6d'],['#00d4ff','#00ff88','#00d4ff','#00ff88'],['#ff9d6c','#ffd166','#ff9d6c','#00d4ff'],['#c084fc','#818cf8','#c084fc','#00d4ff']];
+function spawnSwarm(){swarmBflies=[];for(let i=0;i<SWARM_COUNT;i++){const size=28+Math.random()*32,colors=colorSets[Math.floor(Math.random()*colorSets.length)],el=makeButterflyEl(size,colors);document.body.appendChild(el);const edge=Math.floor(Math.random()*4);let sx,sy;if(edge===0){sx=Math.random()*window.innerWidth;sy=-60;}else if(edge===1){sx=window.innerWidth+60;sy=Math.random()*window.innerHeight;}else if(edge===2){sx=Math.random()*window.innerWidth;sy=window.innerHeight+60;}else{sx=-60;sy=Math.random()*window.innerHeight;}el.style.left=sx+'px';el.style.top=sy+'px';const b={el,x:sx,y:sy,vx:(Math.random()-.5)*1.8,vy:(Math.random()-.5)*1.8,wx:Math.random()*window.innerWidth,wy:Math.random()*window.innerHeight,wanderTimer:Math.floor(Math.random()*120),speed:.6+Math.random()*.9,wobble:Math.random()*Math.PI*2,wobbleSpeed:.02+Math.random()*.03};swarmBflies.push(b);setTimeout(()=>{el.style.opacity='1';},i*80);}}
+function dismissSwarm(){const fleeing=[...swarmBflies];swarmBflies=[];fleeing.forEach((b,i)=>{setTimeout(()=>{const edge=Math.floor(Math.random()*4);if(edge===0){b.ex=Math.random()*window.innerWidth;b.ey=-150;}else if(edge===1){b.ex=window.innerWidth+150;b.ey=Math.random()*window.innerHeight;}else if(edge===2){b.ex=Math.random()*window.innerWidth;b.ey=window.innerHeight+150;}else{b.ex=-150;b.ey=Math.random()*window.innerHeight;}const kd=b.ex-b.x,ke=b.ey-b.y,kl=Math.sqrt(kd*kd+ke*ke)||1;b.vx=(kd/kl)*4;b.vy=(ke/kl)*4;function flyOut(){const dx=b.ex-b.x,dy=b.ey-b.y,dist=Math.sqrt(dx*dx+dy*dy)||1;b.vx+=(dx/dist)*.5;b.vy+=(dy/dist)*.5;const spd=Math.sqrt(b.vx*b.vx+b.vy*b.vy);if(spd>14){b.vx=b.vx/spd*14;b.vy=b.vy/spd*14;}b.x+=b.vx;b.y+=b.vy;b.el.style.left=b.x+'px';b.el.style.top=b.y+'px';const angle=Math.atan2(b.vy,b.vx)*180/Math.PI;b.el.style.transform=`translate(-50%,-50%) rotate(${(angle*.4).toFixed(1)}deg)`;const off=b.x<-160||b.x>window.innerWidth+160||b.y<-160||b.y>window.innerHeight+160;if(off){if(b.el.parentNode)b.el.parentNode.removeChild(b.el);}else requestAnimationFrame(flyOut);}requestAnimationFrame(flyOut);},i*35);});}
+function animateSwarm(){if(!swarmActive)return;swarmBflies.forEach(b=>{b.wobble+=b.wobbleSpeed;b.wanderTimer++;if(b.wanderTimer>80+Math.random()*60){b.wanderTimer=0;b.wx=80+Math.random()*(window.innerWidth-160);b.wy=80+Math.random()*(window.innerHeight-160);}const dx=b.wx-b.x,dy=b.wy-b.y,dist=Math.sqrt(dx*dx+dy*dy)||1;b.vx+=(dx/dist)*b.speed*.08;b.vy+=(dy/dist)*b.speed*.08;b.vx+=Math.sin(b.wobble)*.15;b.vy+=Math.cos(b.wobble*.7)*.15;b.vx*=.94;b.vy*=.94;b.x+=b.vx;b.y+=b.vy;b.el.style.left=b.x+'px';b.el.style.top=b.y+'px';const angle=Math.atan2(b.vy,b.vx)*180/Math.PI;b.el.style.transform=`translate(-50%,-50%) rotate(${(angle*.3).toFixed(1)}deg)`;});requestAnimationFrame(animateSwarm);}
+function ambIdleTick(){if(isMobile){const timeSinceTouch=Date.now()-lastTouchTime;if(timeSinceTouch>IDLE_TRIGGER*50&&!swarmActive){swarmActive=true;spawnSwarm();requestAnimationFrame(animateSwarm);}}else{const moved=Math.abs(mx-ambLastMx)+Math.abs(my-ambLastMy);ambLastMx=mx;ambLastMy=my;if(moved<2){ambIdleTimer++;if(ambIdleTimer>=IDLE_TRIGGER&&!swarmActive){swarmActive=true;spawnSwarm();requestAnimationFrame(animateSwarm);}}else{ambIdleTimer=0;if(swarmActive){swarmActive=false;dismissSwarm();}}}}
+setInterval(ambIdleTick,50);
 
-document.addEventListener('touchstart', e => {
-  lastTouchTime = Date.now();
-  if (e.touches[0]) { touchMx = e.touches[0].clientX; touchMy = e.touches[0].clientY; }
-  if (swarmActive) { swarmActive = false; dismissSwarm(); ambIdleTimer = 0; }
-}, { passive: true });
-document.addEventListener('touchmove', e => { lastTouchTime = Date.now(); if (e.touches[0]) { touchMx = e.touches[0].clientX; touchMy = e.touches[0].clientY; } }, { passive: true });
-
-function makeButterflyEl(size, colors) {
-  const div = document.createElement('div'); div.className = 'amb-butterfly'; div.style.width = size + 'px'; div.style.height = size + 'px';
-  const [c1, c2, c3, c4] = colors;
-  div.innerHTML = `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><g style="transform-origin:right center;animation:flapL 0.${Math.floor(18+Math.random()*10)}s ease-in-out infinite alternate"><path d="M50,38 C42,20 18,8 8,18 C-2,28 10,52 28,52 C38,52 46,46 50,38Z" fill="${c1}" opacity="0.92"/><path d="M50,42 C44,52 24,62 16,56 C8,50 18,36 32,38 C40,39 46,40 50,42Z" fill="${c2}" opacity="0.85"/></g><g style="transform-origin:left center;animation:flapR 0.${Math.floor(18+Math.random()*10)}s ease-in-out infinite alternate"><path d="M50,38 C58,20 82,8 92,18 C102,28 90,52 72,52 C62,52 54,46 50,38Z" fill="${c3}" opacity="0.92"/><path d="M50,42 C56,52 76,62 84,56 C92,50 82,36 68,38 C60,39 54,40 50,42Z" fill="${c4}" opacity="0.85"/></g><ellipse cx="50" cy="42" rx="2.5" ry="12" fill="#00ff88" opacity="0.9"/><circle cx="50" cy="28" r="3" fill="#00ff88"/></svg>`;
-  return div;
-}
-
-const colorSets = [
-  ['#00ff88','#ffd166','#00d4ff','#ff9d6c'],['#ffd166','#ff9d6c','#ffd166','#ff4d6d'],
-  ['#00d4ff','#00ff88','#00d4ff','#00ff88'],['#ff9d6c','#ffd166','#ff9d6c','#00d4ff'],['#c084fc','#818cf8','#c084fc','#00d4ff']
-];
-
-function spawnSwarm() {
-  swarmBflies = [];
-  for (let i = 0; i < SWARM_COUNT; i++) {
-    const size = 28 + Math.random() * 32, colors = colorSets[Math.floor(Math.random() * colorSets.length)], el = makeButterflyEl(size, colors);
-    document.body.appendChild(el);
-    const edge = Math.floor(Math.random() * 4); let sx, sy;
-    if (edge === 0) { sx = Math.random() * window.innerWidth; sy = -60; }
-    else if (edge === 1) { sx = window.innerWidth + 60; sy = Math.random() * window.innerHeight; }
-    else if (edge === 2) { sx = Math.random() * window.innerWidth; sy = window.innerHeight + 60; }
-    else { sx = -60; sy = Math.random() * window.innerHeight; }
-    el.style.left = sx + 'px'; el.style.top = sy + 'px';
-    const b = { el, x: sx, y: sy, vx: (Math.random()-.5)*1.8, vy: (Math.random()-.5)*1.8, wx: Math.random()*window.innerWidth, wy: Math.random()*window.innerHeight, wanderTimer: Math.floor(Math.random()*120), speed: .6+Math.random()*.9, wobble: Math.random()*Math.PI*2, wobbleSpeed: .02+Math.random()*.03 };
-    swarmBflies.push(b);
-    setTimeout(() => { el.style.opacity = '1'; }, i * 80);
-  }
-}
-
-function dismissSwarm() {
-  const fleeing = [...swarmBflies]; swarmBflies = [];
-  fleeing.forEach((b, i) => {
-    setTimeout(() => {
-      const edge = Math.floor(Math.random() * 4);
-      if (edge === 0) { b.ex = Math.random()*window.innerWidth; b.ey = -150; }
-      else if (edge === 1) { b.ex = window.innerWidth+150; b.ey = Math.random()*window.innerHeight; }
-      else if (edge === 2) { b.ex = Math.random()*window.innerWidth; b.ey = window.innerHeight+150; }
-      else { b.ex = -150; b.ey = Math.random()*window.innerHeight; }
-      const kd = b.ex-b.x, ke = b.ey-b.y, kl = Math.sqrt(kd*kd+ke*ke)||1;
-      b.vx = (kd/kl)*4; b.vy = (ke/kl)*4;
-      function flyOut() {
-        const dx = b.ex-b.x, dy = b.ey-b.y, dist = Math.sqrt(dx*dx+dy*dy)||1;
-        b.vx += (dx/dist)*.5; b.vy += (dy/dist)*.5;
-        const spd = Math.sqrt(b.vx*b.vx+b.vy*b.vy);
-        if (spd > 14) { b.vx = b.vx/spd*14; b.vy = b.vy/spd*14; }
-        b.x += b.vx; b.y += b.vy;
-        b.el.style.left = b.x+'px'; b.el.style.top = b.y+'px';
-        const angle = Math.atan2(b.vy, b.vx)*180/Math.PI;
-        b.el.style.transform = `translate(-50%,-50%) rotate(${(angle*.4).toFixed(1)}deg)`;
-        const off = b.x<-160||b.x>window.innerWidth+160||b.y<-160||b.y>window.innerHeight+160;
-        if (off) { if (b.el.parentNode) b.el.parentNode.removeChild(b.el); } else requestAnimationFrame(flyOut);
-      }
-      requestAnimationFrame(flyOut);
-    }, i * 35);
-  });
-}
-
-function animateSwarm() {
-  if (!swarmActive) return;
-  swarmBflies.forEach(b => {
-    b.wobble += b.wobbleSpeed; b.wanderTimer++;
-    if (b.wanderTimer > 80+Math.random()*60) { b.wanderTimer = 0; b.wx = 80+Math.random()*(window.innerWidth-160); b.wy = 80+Math.random()*(window.innerHeight-160); }
-    const dx = b.wx-b.x, dy = b.wy-b.y, dist = Math.sqrt(dx*dx+dy*dy)||1;
-    b.vx += (dx/dist)*b.speed*.08; b.vy += (dy/dist)*b.speed*.08;
-    b.vx += Math.sin(b.wobble)*.15; b.vy += Math.cos(b.wobble*.7)*.15;
-    b.vx *= .94; b.vy *= .94; b.x += b.vx; b.y += b.vy;
-    b.el.style.left = b.x+'px'; b.el.style.top = b.y+'px';
-    const angle = Math.atan2(b.vy, b.vx)*180/Math.PI;
-    b.el.style.transform = `translate(-50%,-50%) rotate(${(angle*.3).toFixed(1)}deg)`;
-  });
-  requestAnimationFrame(animateSwarm);
-}
-
-function ambIdleTick() {
-  if (isMobile) {
-    const timeSinceTouch = Date.now() - lastTouchTime;
-    if (timeSinceTouch > IDLE_TRIGGER*50 && !swarmActive) { swarmActive = true; spawnSwarm(); requestAnimationFrame(animateSwarm); }
-  } else {
-    const moved = Math.abs(mx - ambLastMx) + Math.abs(my - ambLastMy);
-    ambLastMx = mx; ambLastMy = my;
-    if (moved < 2) { ambIdleTimer++; if (ambIdleTimer >= IDLE_TRIGGER && !swarmActive) { swarmActive = true; spawnSwarm(); requestAnimationFrame(animateSwarm); } }
-    else { ambIdleTimer = 0; if (swarmActive) { swarmActive = false; dismissSwarm(); } }
-  }
-}
-setInterval(ambIdleTick, 50);
-
-// ══ HAMBURGER ══
-const hamburger = document.getElementById('hamburger'), mobileNav = document.getElementById('mobileNav');
-hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileNav.classList.toggle('open'); });
-document.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileNav.classList.remove('open'); }));
+const hamburger=document.getElementById('hamburger'),mobileNav=document.getElementById('mobileNav');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileNav.classList.toggle('open');});
+document.querySelectorAll('.mob-link').forEach(a=>a.addEventListener('click',()=>{hamburger.classList.remove('open');mobileNav.classList.remove('open');}));
 </script>
 </body>
 </html>

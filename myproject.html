@@ -178,6 +178,26 @@ body{
   z-index:2;
 }
 
+#mute-btn{
+  position:absolute;
+  bottom:12px;
+  right:12px;
+  z-index:5;
+  background:rgba(0,0,0,.6);
+  border:1px solid #1e2340;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  backdrop-filter:blur(6px);
+  transition:.2s;
+}
+
+#mute-btn:hover{
+  background:rgba(0,0,0,.85);
+}
+
 .rick-footer{
   margin-top:16px;
   font-size:.65rem;
@@ -256,10 +276,13 @@ src="https://www.madhavsb.me/rick.mp4"
 autoplay
 loop
 playsinline
+muted
 preload="auto">
 </video>
 
 <div class="video-overlay" oncontextmenu="return false;"></div>
+
+<button id="mute-btn">🔇</button>
 
 </div>
 
@@ -375,6 +398,19 @@ setTimeout(()=>n.remove(),8000);
 },400);
 
 }
+
+
+/* MUTE BUTTON */
+
+const muteBtn = document.getElementById("mute-btn");
+
+muteBtn.addEventListener("click", () => {
+
+video.muted = !video.muted;
+
+muteBtn.textContent = video.muted ? "🔇" : "🔊";
+
+});
 
 </script>
 

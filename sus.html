@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>സുഷ്കാന്തി</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --green: #00ff88;
+    --cyan: #00d4ff;
+    --yellow: #ffd166;
+    --orange: #ff9d6c;
+    --red: #ff4d6d;
+    --text: #dde3ff;
+    --muted: #3a4070;
+    --border: #1e2340;
+    --border2: #2a3060;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Fira Code', monospace;
+    overflow: hidden;
+    cursor: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (pointer: coarse) {
+    html, body { cursor: auto; }
+    .cursor-dot { display: none; }
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(30,35,64,.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,35,64,.3) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+    pointer-events: none; z-index: 0;
+  }
+  .blob {
+    position: fixed; border-radius: 50%;
+    filter: blur(130px); pointer-events: none; z-index: 0;
+  }
+  .b1 { width: 480px; height: 480px; background: rgba(0,255,136,.04); top: -120px; left: -80px; }
+  .b2 { width: 360px; height: 360px; background: rgba(0,212,255,.03); bottom: -60px; right: -80px; }
+
+  .cursor-dot {
+    position: fixed; width: 10px; height: 10px;
+    background: var(--green); border-radius: 50%;
+    pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(0,255,136,.9), 0 0 18px rgba(0,255,136,.4);
+    transition: width .12s, height .12s;
+  }
+
+  #words-layer {
+    position: fixed; inset: 0; z-index: 1;
+    overflow: hidden;
+  }
+
+  .ml-word {
+    position: absolute;
+    font-family: 'Fira Code', monospace;
+    user-select: none;
+    pointer-events: all;
+    cursor: none;
+    transition: color .15s, text-shadow .15s;
+    -webkit-tap-highlight-color: transparent;
+    /* bigger tap area on mobile */
+    padding: 6px 4px;
+  }
+  @media (pointer: coarse) {
+    .ml-word { cursor: pointer; }
+  }
+  .ml-word:hover, .ml-word:active {
+    color: var(--green) !important;
+    text-shadow: 0 0 12px rgba(0,255,136,.55);
+  }
+  .ml-word.sush:hover, .ml-word.sush:active {
+    color: var(--green) !important;
+    text-shadow: 0 0 16px rgba(0,255,136,.7);
+  }
+
+  /* CENTER QUESTION */
+  .center {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    pointer-events: none;
+    gap: 5px;
+  }
+  .q-tag {
+    font-size: .52rem;
+    color: rgba(90,100,144,.45);
+    letter-spacing: .18em;
+    margin-bottom: 2px;
+  }
+  .q-tag::before { content: '~/'; color: rgba(0,255,136,.22); margin-right: 3px; }
+  .q-text {
+    font-size: .78rem;
+    color: rgba(221,227,255,.28);
+    letter-spacing: .04em;
+  }
+  .q-hint {
+    font-size: .5rem;
+    color: rgba(90,100,144,.35);
+    letter-spacing: .1em;
+    margin-top: 4px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .q-hint::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(0,255,136,.28);
+    animation: db 1.4s ease-in-out infinite;
+  }
+  @keyframes db { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+  /* RIPPLE */
+  .ripple {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 99998;
+    transform: translate(-50%,-50%) scale(0);
+    border: 1.5px solid var(--green);
+    animation: rip .55s cubic-bezier(.2,0,.6,1) forwards;
+  }
+  @keyframes rip { 0%{transform:translate(-50%,-50%) scale(0);opacity:1} 100%{transform:translate(-50%,-50%) scale(3);opacity:0} }
+
+  /* ERROR TOAST */
+  #err-toast {
+    position: fixed; z-index: 9500;
+    bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--card, #0f1220);
+    border: 1px solid rgba(255,77,109,.35);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: .68rem;
+    color: var(--red);
+    letter-spacing: .06em;
+    white-space: nowrap;
+    box-shadow: 0 0 24px rgba(255,77,109,.12), 0 8px 32px rgba(0,0,0,.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #err-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  #err-toast::before { content: '✕'; color: var(--red); font-size: .7rem; }
+  @media (max-width: 480px) {
+    #err-toast { font-size: .62rem; padding: 9px 16px; bottom: 30px; }
+  }
+
+  /* VIDEO MODAL */
+  #vid-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(6,8,16,0);
+    backdrop-filter: blur(0px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s, backdrop-filter .4s, background .4s;
+  }
+  #vid-overlay.open {
+    opacity: 1; pointer-events: all;
+    background: rgba(6,8,16,.92);
+    backdrop-filter: blur(22px) saturate(1.4);
+  }
+  .vid-box {
+    position: relative;
+    width: 100%; max-width: 680px;
+    background: #040609;
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,255,136,.05), 0 40px 100px rgba(0,0,0,.9);
+    transform: scale(.87) translateY(28px); opacity: 0;
+    transition: transform .5s cubic-bezier(.34,1.45,.64,1), opacity .4s;
+  }
+  #vid-overlay.open .vid-box { transform: scale(1) translateY(0); opacity: 1; }
+  .vid-box::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 10;
+    background: linear-gradient(90deg, transparent, var(--green), var(--cyan), var(--green), transparent);
+    background-size: 300% 100%; animation: scan 2.5s linear infinite;
+  }
+  @keyframes scan { 0%{background-position:100% 0} 100%{background-position:-200% 0} }
+  .vid-bar {
+    background: #131628; padding: 8px 14px;
+    display: flex; align-items: center; gap: 9px;
+    border-bottom: 1px solid var(--border);
+  }
+  .vd { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .vd.r{background:#ff5f57} .vd.y{background:#febc2e} .vd.g{background:#28c840}
+  .vid-bar-title { font-size: .6rem; color: var(--muted); margin-left: 4px; flex: 1; letter-spacing: .04em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vid-bar-live { font-size: .55rem; color: var(--green); letter-spacing: .1em; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .vid-bar-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 5px rgba(0,255,136,.8); animation: db 1.2s ease-in-out infinite; }
+  .vid-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+  .vid-area::before { content: ''; position: absolute; inset: 0; z-index: 2; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px); pointer-events: none; }
+  .vid-area::after { content: ''; position: absolute; inset: 0; z-index: 3; background: radial-gradient(ellipse at center, transparent 55%, rgba(4,6,9,.5) 100%); pointer-events: none; }
+  #main-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+  .vid-foot { padding: 8px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(255,255,255,.01); }
+  .vid-foot-l { font-size: .56rem; color: var(--muted); display: flex; align-items: center; gap: 5px; overflow: hidden; }
+  .vid-foot-l::before { content: '//'; opacity: .45; flex-shrink: 0; }
+  .vid-foot-l em { color: var(--cyan); font-style: normal; }
+  .vid-esc { font-size: .52rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; opacity: .45; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .vid-esc kbd { background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: .52rem; color: var(--text); font-family: 'Fira Code', monospace; }
+
+  /* REDIRECT */
+  #rflash { position: fixed; inset: 0; z-index: 99999; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; opacity: 0; pointer-events: none; transition: opacity .5s; }
+  #rflash.show { opacity: 1; pointer-events: all; }
+  .rf-t { font-size: .8rem; color: var(--green); letter-spacing: .2em; text-transform: uppercase; animation: db .6s step-end infinite; }
+  .rf-s { font-size: .58rem; color: var(--muted); letter-spacing: .1em; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div id="words-layer"></div>
+
+<div class="center">
+  <p class="q-tag">ഒരു ചോദ്യം</p>
+  <p class="q-text">നിങ്ങൾ സുഷ്കാന്തിയെ കണ്ടോ?</p>
+  <p class="q-hint">find the word and click it</p>
+</div>
+
+<div id="err-toast">ഇത് സുഷ്കാന്തി അല്ല!</div>
+
+<div id="vid-overlay">
+  <div class="vid-box">
+    <div class="vid-bar">
+      <div class="vd r"></div><div class="vd y"></div><div class="vd g"></div>
+      <span class="vid-bar-title">സുഷ്കാന്തി.mp4 — playing</span>
+      <span class="vid-bar-live">LIVE</span>
+    </div>
+    <div class="vid-area">
+      <video id="main-video" src="https://madhavsb.me/sus.mp4" playsinline></video>
+    </div>
+    <div class="vid-foot">
+      <span class="vid-foot-l"><em>sb_madhav</em> · reveal</span>
+      <span class="vid-esc"><kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+/* cursor */
+const dot = document.getElementById('cursorDot');
+document.addEventListener('mousemove', e => {
+  dot.style.left = e.clientX + 'px';
+  dot.style.top = e.clientY + 'px';
+});
+document.addEventListener('click', e => {
+  const r = document.createElement('div'); r.className = 'ripple';
+  r.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:36px;height:36px;`;
+  document.body.appendChild(r); setTimeout(() => r.remove(), 600);
+});
+
+/* error messages */
+const errorMsgs = [
+  'ഇത് സുഷ്കാന്തി അല്ല!',
+  'തെറ്റ് പറ്റി! വേറൊന്ന് നോക്കൂ.',
+  'ഇല്ല ഇല്ല, ഇത് അല്ല...',
+  'അടുത്തെങ്ങും ഇല്ല! 😅',
+  'ഹ! അതല്ല, തപ്പിക്കോ.',
+  'Wrong one! Keep looking.',
+  '// not_found: try_again',
+  'സുഷ്കാന്തി ഇങ്ങനെ ഒളിക്കും 😂',
+];
+
+/* words */
+const words = [
+  'ആകാശം','മഴ','കടൽ','മരം','പൂ','ഇല','നദി','മലകൾ','ഓർമ്മ','സ്നേഹം',
+  'കഥ','വഴി','വെളിച്ചം','ഇരുൾ','ജലം','അഗ്നി','ഭൂമി','കാറ്റ്','ശബ്ദം','നിശ്ശബ്ദത',
+  'നക്ഷത്രം','ചന്ദ്രൻ','സൂര്യൻ','പ്രഭ','തണൽ','ചൂട്','തണുപ്പ്','ആനന്ദം','ദുഃഖം','ചിരി',
+  'കണ്ണ്','കൈ','ഹൃദയം','ആത്മാ','മനസ്','ബുദ്ധി','ശരീരം','ജീവൻ','മരണം','ജനനം',
+  'സ്വപ്നം','ഉണർവ്','ഉറക്കം','ദാഹം','വിശപ്പ്','ഭക്ഷണം','വെള്ളം','വായു','സ്ഥലം','കാലം',
+  'പ്രണയം','ദ്വേഷം','ഭയം','ധൈര്യം','ലജ്ജ','അഹങ്കാരം','വിനയം','ക്ഷമ','ശ്രദ്ധ','ഏകാഗ്രത',
+  'ചിന്ത','വിചാരം','ആശ','നിരാശ','പ്രതീക്ഷ','വിശ്വാസം','സംശയം','ഉറപ്പ്','സന്തോഷം','ആശ്ചര്യം',
+  'ഗ്രാമം','നഗരം','വഴിത്താര','പാലം','ആകൃതി','നിറം','ഗന്ധം','രുചി','സ്പർശം','ദൃശ്യം',
+  'പക്ഷി','മീൻ','ചിത്രശലഭം','ആമ','ആന','കടുവ','മാൻ','കരടി','കുറുക്കൻ','ചേന',
+  'സംഗീതം','നൃത്തം','ചിത്രം','കവിത','ഗാനം','താളം','ലയം','ശ്രുതി','ദൂരം','ഉയരം',
+  'ആഴം','വേഗം','ഭാരം','ഊഷ്മളത','തരംഗം','ദിക്ക്','സൗഹൃദം','ബന്ധം','കുടുംബം','അമ്മ',
+  'അച്ഛൻ','മകൻ','മകൾ','സഹോദരൻ','ഗുരു','ശിഷ്യൻ','ഉദ്യാനം','മഞ്ഞ്','ഇടിമിന്നൽ','മഴവില്ല്',
+  'സുഷ്കാന്തി'
+];
+
+const colors = [
+  '#7b8cbf','#8fa0cc','#6a7aaa','#9aaad0',
+  'rgba(0,212,255,.7)','rgba(0,255,136,.6)','rgba(255,209,102,.7)',
+  'rgba(255,157,108,.65)','rgba(221,227,255,.75)','rgba(200,210,255,.8)',
+  '#a0aec0','#b0bfd8','#c8d4f0',
+];
+const sizes = ['.72rem','.78rem','.82rem','.88rem','.94rem','.7rem','.76rem','.84rem'];
+
+const layer   = document.getElementById('words-layer');
+const toast   = document.getElementById('err-toast');
+let toastTimer = null;
+
+function showError() {
+  const msg = errorMsgs[Math.floor(Math.random() * errorMsgs.length)];
+  toast.childNodes[toast.childNodes.length - 1].textContent = ' ' + msg;
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1100);
+}
+
+const W = window.innerWidth, H = window.innerHeight;
+const isMobile = W < 600;
+const cx = W / 2, cy = H / 2;
+const safeX1 = cx - (isMobile ? 160 : 230);
+const safeX2 = cx + (isMobile ? 160 : 230);
+const safeY1 = cy - (isMobile ? 50 : 60);
+const safeY2 = cy + (isMobile ? 50 : 60);
+
+const placed = [];
+
+function overlaps(x, y, fw, fh) {
+  for (const p of placed) {
+    const gapX = isMobile ? 8 : 12;
+    const gapY = isMobile ? 6 : 8;
+    if (x < p.x + p.w + gapX && x + fw + gapX > p.x &&
+        y < p.y + p.h + gapY && y + fh + gapY > p.y) return true;
+  }
+  return false;
+}
+function inSafe(x, y, fw, fh) {
+  return x < safeX2 + 16 && x + fw > safeX1 - 16 &&
+         y < safeY2 + 16 && y + fh > safeY1 - 16;
+}
+
+/* shuffle */
+for (let i = words.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [words[i], words[j]] = [words[j], words[i]];
+}
+
+const PAD = isMobile ? 12 : 22;
+
+words.forEach(word => {
+  const el = document.createElement('span');
+  el.className = 'ml-word';
+  el.textContent = word;
+  const sz = isMobile
+    ? ['.7rem','.75rem','.8rem','.85rem','.68rem'][Math.floor(Math.random() * 5)]
+    : sizes[Math.floor(Math.random() * sizes.length)];
+  el.style.fontSize = sz;
+  el.style.visibility = 'hidden';
+  layer.appendChild(el);
+
+  const fw = el.offsetWidth || 70;
+  const fh = el.offsetHeight || 16;
+  el.style.visibility = '';
+
+  let x, y, tries = 0;
+  do {
+    x = PAD + Math.random() * (W - fw - PAD * 2);
+    y = PAD + Math.random() * (H - fh - PAD * 2);
+    tries++;
+  } while (tries < 200 && (overlaps(x, y, fw, fh) || inSafe(x, y, fw, fh)));
+
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+  placed.push({ x, y, w: fw, h: fh });
+
+  if (word === 'സുഷ്കാന്തി') {
+    el.classList.add('sush');
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    el.addEventListener('click', openVideo);
+    el.addEventListener('mouseenter', () => { dot.style.width = '14px'; dot.style.height = '14px'; });
+    el.addEventListener('mouseleave', () => { dot.style.width = '10px'; dot.style.height = '10px'; });
+  } else {
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    el.addEventListener('click', showError);
+    el.addEventListener('mouseenter', () => { dot.style.width = '14px'; dot.style.height = '14px'; });
+    el.addEventListener('mouseleave', () => { dot.style.width = '10px'; dot.style.height = '10px'; });
+  }
+});
+
+/* video */
+const overlay = document.getElementById('vid-overlay');
+const video   = document.getElementById('main-video');
+const flash   = document.getElementById('rflash');
+
+function openVideo() {
+  overlay.classList.add('open');
+  setTimeout(() => video.play().catch(() => {}), 500);
+}
+function closeVideo() {
+  video.pause(); video.currentTime = 0;
+  overlay.classList.remove('open');
+}
+video.addEventListener('ended', () => {
+  overlay.classList.remove('open');
+  setTimeout(() => { window.location.href = 'https://madhavsb.me'; }, 400);
+});
+overlay.addEventListener('click', e => { if (e.target === overlay) closeVideo(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeVideo(); });
+</script>
+</body>
+</html>

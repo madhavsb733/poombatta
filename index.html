@@ -1728,7 +1728,7 @@ function initSecretAlley(){
 }
 
 const isMobile=window.matchMedia('(pointer:coarse)').matches||window.innerWidth<768;
-const SWARM_COUNT=isMobile?10:40;
+const SWARM_COUNT=isMobile?10:25;
 const IDLE_TRIGGER=isMobile?80:200;
 let ambIdleTimer=0,ambLastMx=-999,ambLastMy=-999,swarmActive=false,swarmBflies=[];
 let lastTouchTime=Date.now(),touchMx=window.innerWidth/2,touchMy=window.innerHeight/2;

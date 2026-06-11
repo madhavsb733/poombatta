@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalpana She For STEM | VigyanShaala International</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   KALPANA SHE FOR STEM — VOGUE-DARK INSTITUTIONAL THEME
+   Palette: near-black · crimson red · off-white · warm grey
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --ink:        #0e0e0e;
+  --ink-soft:   #1a1a1a;
+  --crimson:    #c0392b;
+  --crimson-lt: #e74c3c;
+  --warm-white: #f4f0eb;
+  --off-white:  #faf8f5;
+  --stone:      #8a8276;
+  --stone-lt:   #c4bdb4;
+  --rule:       rgba(255,255,255,0.10);
+  --rule-dark:  rgba(0,0,0,0.10);
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Space Grotesk', system-ui, sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--off-white);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0;
+  background: var(--crimson); z-index: 10000;
+  transition: width .05s linear;
+}
+
+/* ── LOADER ── */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--ink);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity .8s ease;
+}
+#loader.fade-out { opacity: 0; pointer-events: none; }
+.loader-wordmark {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 400;
+  color: rgba(255,255,255,.3); letter-spacing: .35em; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.loader-title {
+  font-family: var(--serif); font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900; color: #fff; line-height: .9; text-align: center;
+}
+.loader-title em { color: var(--crimson); font-style: italic; }
+.loader-bar { width: 160px; height: 1px; background: rgba(255,255,255,.15); margin-top: 3rem; overflow: hidden; }
+.loader-fill { height: 100%; width: 0; background: var(--crimson); animation: load 2s ease forwards; }
+@keyframes load { to { width: 100%; } }
+
+/* ── NAVBAR ── */
+#mainNav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(14,14,14,.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0;
+  transition: all .4s;
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; padding: 0 2rem;
+}
+.nav-brand {
+  font-family: var(--serif); font-size: 1rem; font-weight: 700;
+  color: #fff; text-decoration: none; letter-spacing: .05em;
+}
+.nav-brand span { color: var(--crimson); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 0; }
+.nav-links a {
+  color: rgba(255,255,255,.55); font-size: .72rem; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+  padding: .5rem .85rem; transition: color .2s; position: relative;
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; }
+.nav-links a.active::after {
+  content: ''; position: absolute; bottom: -1px; left: .85rem; right: .85rem;
+  height: 1px; background: var(--crimson);
+}
+.nav-apply {
+  border: 1px solid var(--crimson) !important;
+  color: var(--crimson) !important;
+  border-radius: 2px; margin-left: .5rem;
+}
+.nav-apply:hover { background: var(--crimson) !important; color: #fff !important; }
+.nav-toggler {
+  display: none; background: none; border: none;
+  color: #fff; font-size: 1.2rem; cursor: pointer;
+}
+@media (max-width: 991px) {
+  .nav-links { display: none; }
+  .nav-toggler { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute;
+    top: 64px; left: 0; right: 0; background: var(--ink);
+    border-top: 1px solid var(--rule); padding: 1rem 0;
+  }
+  .nav-links.open a { padding: .75rem 2rem; }
+}
+
+/* ── SECTIONS GENERAL ── */
+section { padding: 96px 0; }
+.section-eyebrow {
+  font-size: .68rem; font-weight: 700; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--crimson);
+  margin-bottom: .75rem; display: block;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700; line-height: 1.1; margin-bottom: 1.25rem;
+}
+.section-rule {
+  width: 40px; height: 2px; background: var(--crimson);
+  margin-bottom: 1.5rem;
+}
+.section-rule.centered { margin-left: auto; margin-right: auto; }
+.section-lead { font-size: 1rem; color: var(--stone); line-height: 1.8; max-width: 560px; }
+
+/* ═══════════════════════════════════
+   HERO — Split layout, editorial feel
+   ═══════════════════════════════════ */
+#home {
+  min-height: 100vh;
+  background: var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 5% 80px 6%;
+  position: relative; z-index: 2;
+}
+.hero-right {
+  position: relative; overflow: hidden;
+}
+.hero-right::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--ink) 0%, transparent 30%);
+  z-index: 1;
+}
+.hero-image-bg {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #1a1a2e 60%, #0d0d1a 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+/* Decorative illustration for hero right — women in STEM aesthetic */
+.hero-illustration {
+  position: absolute; inset: 0; z-index: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: .12;
+}
+.hero-illustration svg { width: 80%; max-width: 400px; }
+
+.hero-label {
+  font-size: .68rem; font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--crimson);
+  margin-bottom: 1.75rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.hero-label::before {
+  content: ''; display: block; width: 32px; height: 1px; background: var(--crimson);
+}
+.hero-title-main {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  font-weight: 900; line-height: .92;
+  color: #fff; margin-bottom: 1.5rem;
+}
+.hero-title-main em {
+  font-style: italic; color: var(--crimson);
+  display: block;
+}
+.hero-desc {
+  font-size: 1rem; color: rgba(255,255,255,.55);
+  line-height: 1.8; max-width: 440px; margin-bottom: 2.5rem;
+}
+.hero-partnership {
+  font-size: .72rem; color: rgba(255,255,255,.3);
+  letter-spacing: .12em; text-transform: uppercase; margin-bottom: 2rem;
+}
+.hero-cta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.btn-crimson {
+  background: var(--crimson); color: #fff; border: none;
+  padding: .8rem 2rem; font-size: .82rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; border-radius: 2px;
+  transition: background .2s, transform .2s;
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.btn-crimson:hover { background: var(--crimson-lt); transform: translateY(-1px); color: #fff; }
+.btn-ghost {
+  background: transparent; color: rgba(255,255,255,.6);
+  border: none; padding: .8rem 0; font-size: .82rem; font-weight: 500;
+  text-decoration: none; letter-spacing: .05em;
+  transition: color .2s; display: inline-flex; align-items: center; gap: .4rem;
+}
+.btn-ghost:hover { color: #fff; }
+.hero-year-stamp {
+  position: absolute; bottom: 2.5rem; right: 3rem; z-index: 2;
+  font-family: var(--serif); font-size: 7rem; font-weight: 900;
+  color: rgba(255,255,255,.04); line-height: 1;
+  pointer-events: none; user-select: none;
+}
+/* Ticker bar */
+.hero-ticker {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--crimson); z-index: 3;
+  display: flex; align-items: center; overflow: hidden; height: 44px;
+}
+.ticker-track {
+  display: flex; gap: 3rem; white-space: nowrap;
+  animation: ticker 18s linear infinite;
+  padding: 0 1.5rem;
+}
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item {
+  font-size: .72rem; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(255,255,255,.9);
+  display: flex; align-items: center; gap: .75rem;
+}
+.ticker-item::before { content: '·'; opacity: .5; }
+
+@media (max-width: 768px) {
+  #home { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-left { padding: 100px 1.5rem 60px; }
+  .hero-ticker { left: 0; right: 0; bottom: 0; }
+}
+
+/* ═══════════════════════════════════
+   GLANCE — Horizontal stat bar
+   ═══════════════════════════════════ */
+#glance {
+  background: var(--warm-white); padding: 0;
+  border-bottom: 1px solid var(--rule-dark);
+}
+.glance-inner {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border-left: 1px solid var(--rule-dark);
+}
+.glance-stat {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--rule-dark);
+  border-bottom: 1px solid var(--rule-dark);
+  position: relative; transition: background .3s;
+}
+.glance-stat:hover { background: #fff; }
+.glance-num {
+  font-family: var(--serif); font-size: 2.8rem; font-weight: 900;
+  color: var(--ink); line-height: 1;
+}
+.glance-num span { color: var(--crimson); }
+.glance-label {
+  font-size: .72rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--stone);
+  margin-top: .5rem; line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .glance-inner { grid-template-columns: repeat(2, 1fr); }
+  .glance-stat:nth-child(5) { grid-column: span 2; }
+}
+
+/* ═══════════════════════════════════
+   ABOUT — Merged with Vision & Mission
+   ═══════════════════════════════════ */
+#about { background: var(--off-white); }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+.about-editorial-block {
+  padding: 3rem; background: var(--ink); color: #fff;
+  position: relative; overflow: hidden;
+}
+.about-editorial-block::before {
+  content: '"'; font-family: var(--serif); font-size: 12rem;
+  font-weight: 900; color: rgba(255,255,255,.04);
+  position: absolute; top: -2rem; left: 1rem; line-height: 1;
+  pointer-events: none;
+}
+.about-vm-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border-top: 1px solid var(--rule); margin-top: 2rem;
+}
+.vm-block {
+  padding: 1.75rem 1.5rem;
+  border-right: 1px solid var(--rule);
+}
+.vm-block:last-child { border-right: none; }
+.vm-block-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--crimson); margin-bottom: .75rem;
+}
+.vm-block-text {
+  font-size: .88rem; line-height: 1.75; color: rgba(255,255,255,.65);
+}
+.vm-block blockquote {
+  font-family: var(--serif); font-size: 1rem; font-style: italic;
+  color: rgba(255,255,255,.85); line-height: 1.6;
+}
+.about-features { margin-top: 2rem; }
+.feat-row {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1.25rem 0; border-bottom: 1px solid var(--rule-dark);
+}
+.feat-row:last-child { border-bottom: none; }
+.feat-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(192,57,43,.1); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--crimson); font-size: .9rem;
+}
+.feat-title { font-weight: 700; font-size: .9rem; margin-bottom: .2rem; }
+.feat-desc { font-size: .83rem; color: var(--stone); line-height: 1.6; }
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-vm-row { grid-template-columns: 1fr; }
+  .vm-block { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* ═══════════════════════════════════
+   VIGYANSHAALA TIMELINE
+   ═══════════════════════════════════ */
+#vigyanshaala { background: var(--ink); color: #fff; }
+#vigyanshaala .section-title { color: #fff; }
+.vs-grid {
+  display: grid; grid-template-columns: 380px 1fr;
+  gap: 5rem; align-items: start;
+}
+.vs-founder-card {
+  position: sticky; top: 100px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--rule);
+  padding: 2.5rem;
+}
+.vs-founder-card .founder-name {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 700;
+  color: #fff; margin-bottom: .3rem;
+}
+.vs-founder-card .founder-role {
+  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--crimson); margin-bottom: 1.5rem;
+}
+.vs-founder-card p {
+  font-size: .87rem; color: rgba(255,255,255,.55); line-height: 1.8;
+}
+.founder-badge {
+  margin-top: 1.5rem; padding: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: .78rem; color: rgba(255,255,255,.35);
+  font-style: italic; font-family: var(--serif);
+}
+/* Timeline */
+.vs-timeline { padding-left: 1.5rem; position: relative; }
+.vs-timeline::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--crimson), rgba(192,57,43,.1));
+}
+.vs-item {
+  position: relative; margin-bottom: 3rem; padding-left: 2rem;
+  transition: opacity .3s;
+}
+.vs-item::before {
+  content: ''; position: absolute; left: -4px; top: 6px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--crimson); border: 2px solid var(--ink);
+}
+.vs-year {
+  font-family: var(--serif); font-size: .75rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--crimson); margin-bottom: .4rem;
+}
+.vs-headline { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: .5rem; }
+.vs-body { font-size: .85rem; color: rgba(255,255,255,.45); line-height: 1.8; }
+@media (max-width: 768px) {
+  .vs-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .vs-founder-card { position: static; }
+}
+
+/* ═══════════════════════════════════
+   PROGRAM STRUCTURE — Interactive journey
+   ═══════════════════════════════════ */
+#program { background: var(--warm-white); }
+.prog-journey {
+  display: flex; align-items: stretch; gap: 0;
+  margin: 3rem 0; border: 1px solid var(--rule-dark);
+  overflow: hidden; border-radius: 2px;
+}
+.prog-stage {
+  flex: 1; padding: 2.5rem; position: relative;
+  transition: background .3s, flex .4s;
+  cursor: default; border-right: 1px solid var(--rule-dark);
+}
+.prog-stage:last-child { border-right: none; }
+.prog-stage:hover { background: #fff; }
+.prog-stage-num {
+  font-family: var(--serif); font-size: 5rem; font-weight: 900;
+  color: rgba(0,0,0,.04); line-height: 1; margin-bottom: .5rem;
+}
+.prog-stage-name {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 700;
+  color: var(--ink); margin-bottom: .25rem;
+}
+.prog-stage-sub {
+  font-size: .72rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--stone); margin-bottom: 1.25rem;
+}
+.prog-stage-desc { font-size: .85rem; color: var(--stone); line-height: 1.7; }
+.prog-stage-tag {
+  display: inline-block; margin-top: 1.5rem;
+  font-size: .65rem; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; padding: .3rem .9rem;
+  border: 1px solid var(--rule-dark); color: var(--stone); border-radius: 1px;
+}
+.prog-stage.featured {
+  background: var(--ink); flex: 1.3;
+}
+.prog-stage.featured .prog-stage-num { color: rgba(255,255,255,.06); }
+.prog-stage.featured .prog-stage-name { color: #fff; }
+.prog-stage.featured .prog-stage-sub { color: var(--crimson); }
+.prog-stage.featured .prog-stage-desc { color: rgba(255,255,255,.5); }
+.prog-stage.featured .prog-stage-tag {
+  border-color: var(--crimson); color: var(--crimson);
+}
+.prog-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+.prog-detail-card {
+  background: #fff; border: 1px solid var(--rule-dark); padding: 2rem; border-radius: 2px;
+}
+.prog-detail-card h4 {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 1.25rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule-dark);
+  display: flex; align-items: center; gap: .75rem;
+}
+.prog-detail-card h4 i { color: var(--crimson); font-size: 1rem; }
+.prog-feature {
+  display: flex; align-items: flex-start; gap: .75rem;
+  padding: .6rem 0; font-size: .85rem; color: var(--ink);
+  border-bottom: 1px solid var(--rule-dark);
+}
+.prog-feature:last-child { border-bottom: none; }
+.prog-feature::before {
+  content: '→'; color: var(--crimson); font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+@media (max-width: 768px) {
+  .prog-journey { flex-direction: column; }
+  .prog-stage { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+  .prog-detail-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════
+   LEARNING JOURNEY
+   ═══════════════════════════════════ */
+#learning { background: var(--off-white); }
+.learning-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; border: 1px solid var(--rule-dark);
+  border-radius: 2px; overflow: hidden;
+}
+.learning-cell {
+  padding: 2rem 1.75rem; border-right: 1px solid var(--rule-dark);
+  border-bottom: 1px solid var(--rule-dark); position: relative;
+  transition: background .3s;
+  overflow: hidden;
+}
+.learning-cell:nth-child(3n) { border-right: none; }
+.learning-cell:nth-child(n+4) { border-bottom: none; }
+.learning-cell:hover { background: var(--ink); }
+.learning-cell:hover .l-title { color: #fff; }
+.learning-cell:hover .l-desc { color: rgba(255,255,255,.5); }
+.learning-cell:hover .l-num { color: rgba(255,255,255,.05); }
+.l-num {
+  font-family: var(--serif); font-size: 4rem; font-weight: 900;
+  color: rgba(0,0,0,.04); line-height: 1; position: absolute;
+  top: 1rem; right: 1rem; pointer-events: none;
+  transition: color .3s;
+}
+.l-icon {
+  width: 40px; height: 40px; background: rgba(192,57,43,.1);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--crimson); font-size: 1rem; margin-bottom: 1.25rem;
+  border-radius: 2px;
+}
+.l-title { font-weight: 700; font-size: .95rem; margin-bottom: .5rem; transition: color .3s; }
+.l-desc { font-size: .83rem; color: var(--stone); line-height: 1.7; transition: color .3s; }
+@media (max-width: 768px) {
+  .learning-grid { grid-template-columns: 1fr 1fr; }
+  .learning-cell:nth-child(2n) { border-right: none; }
+  .learning-cell:nth-child(2n+1) { border-right: 1px solid var(--rule-dark); }
+  .learning-cell:nth-child(n+5) { border-bottom: none; }
+  .learning-cell:nth-child(5) { grid-column: span 1; border-bottom: 1px solid var(--rule-dark); }
+  .learning-cell:nth-child(6) { border-bottom: none; }
+}
+
+/* ═══════════════════════════════════
+   MENTORS
+   ═══════════════════════════════════ */
+#mentors { background: var(--ink); }
+#mentors .section-title { color: #fff; }
+.mentor-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; border: 1px solid var(--rule); margin-top: 3rem;
+  border-radius: 2px; overflow: hidden;
+}
+.mentor-card-v2 {
+  padding: 2.5rem; border-right: 1px solid var(--rule);
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.mentor-card-v2:last-child { border-right: none; }
+.mentor-card-v2:hover { background: rgba(255,255,255,.04); }
+.mentor-photo-wrap {
+  width: 80px; height: 80px; border-radius: 50%;
+  overflow: hidden; margin-bottom: 1.25rem;
+  background: rgba(255,255,255,.08);
+  border: 2px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 700;
+  color: rgba(255,255,255,.4);
+  position: relative;
+}
+.mentor-photo-wrap .mentor-initials-bg {
+  position: absolute; inset: 0; opacity: .15;
+}
+.mentor-card-v2 h5 {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  color: #fff; margin-bottom: .25rem;
+}
+.mentor-card-v2 .m-role {
+  font-size: .72rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--crimson); margin-bottom: 1rem;
+}
+.mentor-card-v2 p { font-size: .83rem; color: rgba(255,255,255,.45); line-height: 1.75; }
+.mentor-links { display: flex; gap: .5rem; margin-top: 1.25rem; }
+.mentor-link {
+  width: 30px; height: 30px; border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.4); text-decoration: none; font-size: .8rem;
+  transition: all .2s; border-radius: 1px;
+}
+.mentor-link:hover { border-color: var(--crimson); color: var(--crimson); }
+.mentor-note {
+  margin-top: 2rem; padding: 1.75rem 2rem;
+  border: 1px solid var(--rule); display: flex;
+  align-items: center; gap: 2rem; flex-wrap: wrap;
+}
+.mentor-note-text {
+  flex: 1; min-width: 200px; font-size: .85rem;
+  color: rgba(255,255,255,.4); line-height: 1.7;
+}
+.mentor-note-text strong { color: rgba(255,255,255,.75); }
+.mentor-pill {
+  font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; padding: .5rem 1.25rem;
+  border: 1px solid rgba(192,57,43,.4); color: var(--crimson);
+  border-radius: 1px; white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .mentor-grid { grid-template-columns: 1fr; }
+  .mentor-card-v2 { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* ═══════════════════════════════════
+   IMPACT COUNTERS
+   ═══════════════════════════════════ */
+#impact { background: var(--crimson); padding: 60px 0; }
+.impact-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  divide-x: 1px solid rgba(255,255,255,.2);
+  gap: 0; border-left: 1px solid rgba(255,255,255,.2);
+}
+.impact-col {
+  padding: 2rem 2.5rem; border-right: 1px solid rgba(255,255,255,.2);
+  text-align: center;
+}
+.impact-num {
+  font-family: var(--serif); font-size: 3.5rem; font-weight: 900;
+  color: #fff; line-height: 1;
+}
+.impact-suffix { font-size: 2rem; }
+.impact-label {
+  font-size: .72rem; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(255,255,255,.7); margin-top: .5rem;
+}
+@media (max-width: 768px) {
+  .impact-row { grid-template-columns: repeat(2, 1fr); }
+  .impact-col { border-bottom: 1px solid rgba(255,255,255,.2); }
+}
+
+/* ═══════════════════════════════════
+   ACHIEVERS
+   ═══════════════════════════════════ */
+#achievers { background: var(--off-white); }
+.dept-block { margin-bottom: 3.5rem; }
+.dept-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding-bottom: .75rem; margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--rule-dark);
+}
+.dept-header-name {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 700; color: var(--ink);
+}
+.dept-icon { color: var(--crimson); font-size: .9rem; }
+.student-card-v2 {
+  text-align: center; padding: .75rem .5rem;
+  transition: transform .2s;
+}
+.student-card-v2:hover { transform: translateY(-3px); }
+.student-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--warm-white); border: 2px solid var(--rule-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
+  color: var(--stone); margin: 0 auto .6rem;
+  transition: border-color .2s;
+}
+.student-card-v2:hover .student-avatar { border-color: var(--crimson); color: var(--crimson); }
+.student-name-v2 { font-size: .75rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+/* ═══════════════════════════════════
+   SUCCESS STORIES / FEATURED QUOTE
+   ═══════════════════════════════════ */
+#stories { background: var(--ink); }
+.stories-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border: 1px solid var(--rule); overflow: hidden;
+}
+.story-batch-panel {
+  padding: 3rem; border-right: 1px solid var(--rule);
+}
+.story-batch-card {
+  padding: 2rem; border: 1px solid var(--rule); margin-bottom: 1.5rem;
+  position: relative; transition: background .3s;
+}
+.story-batch-card:hover { background: rgba(255,255,255,.03); }
+.story-batch-year {
+  font-family: var(--serif); font-size: 3rem; font-weight: 900;
+  color: var(--crimson); opacity: .3; position: absolute; top: 1rem; right: 1.5rem;
+  line-height: 1;
+}
+.story-batch-title { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: .25rem; }
+.story-batch-sub { font-size: .75rem; color: var(--stone); margin-bottom: 1.25rem; }
+.story-achievement {
+  display: flex; align-items: flex-start; gap: .6rem;
+  font-size: .83rem; color: rgba(255,255,255,.5);
+  padding: .45rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+  line-height: 1.5;
+}
+.story-achievement:last-child { border-bottom: none; }
+.story-achievement::before {
+  content: '→'; color: var(--crimson); flex-shrink: 0; font-weight: 700;
+}
+.story-quote-panel {
+  padding: 3rem; display: flex; flex-direction: column; justify-content: center;
+  background: rgba(255,255,255,.02);
+}
+.big-quote-mark {
+  font-family: var(--serif); font-size: 8rem; color: var(--crimson);
+  opacity: .2; line-height: .8; margin-bottom: -.5rem;
+}
+.big-quote-text {
+  font-family: var(--serif); font-size: 1.25rem; font-style: italic;
+  color: rgba(255,255,255,.75); line-height: 1.7; margin-bottom: 2rem;
+}
+.big-quote-author { font-weight: 700; font-size: .85rem; color: #fff; }
+.big-quote-role { font-size: .75rem; color: var(--stone); margin-top: .2rem; }
+.story-award {
+  margin-top: 2.5rem; padding: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.story-award-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--crimson); margin-bottom: .5rem;
+}
+.story-award-title { font-weight: 700; color: #fff; font-size: .95rem; }
+.story-award-desc { font-size: .8rem; color: rgba(255,255,255,.4); margin-top: .25rem; }
+@media (max-width: 768px) {
+  .stories-grid { grid-template-columns: 1fr; }
+  .story-batch-panel { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* ═══════════════════════════════════
+   GALLERY — Masonry with placeholders
+   ═══════════════════════════════════ */
+#gallery { background: var(--ink); }
+#gallery .section-title { color: #fff; }
+.gallery-filters {
+  display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem;
+}
+.gal-btn {
+  padding: .35rem 1rem; border-radius: 1px;
+  background: transparent; border: 1px solid var(--rule);
+  color: rgba(255,255,255,.45); font-size: .72rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+  transition: all .2s;
+}
+.gal-btn.active, .gal-btn:hover {
+  background: var(--crimson); border-color: var(--crimson); color: #fff;
+}
+.gallery-masonry {
+  columns: 3 200px; gap: 1px;
+}
+.g-item {
+  break-inside: avoid; margin-bottom: 1px; position: relative;
+  overflow: hidden; cursor: pointer;
+}
+.g-placeholder {
+  background: rgba(255,255,255,.04); border: 1px solid var(--rule);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; color: rgba(255,255,255,.2);
+  gap: .6rem; text-align: center; padding: 2rem 1rem;
+  transition: background .3s;
+}
+.g-placeholder i { font-size: 1.75rem; }
+.g-placeholder span { font-size: .75rem; }
+.g-placeholder.tall { height: 240px; }
+.g-placeholder.short { height: 150px; }
+.g-item:hover .g-placeholder { background: rgba(192,57,43,.12); }
+.g-overlay {
+  position: absolute; inset: 0; background: rgba(14,14,14,.7);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .3s; color: #fff;
+}
+.g-item:hover .g-overlay { opacity: 1; }
+.gallery-note {
+  text-align: center; margin-top: 2rem;
+  font-size: .75rem; color: rgba(255,255,255,.2); font-style: italic;
+}
+@media (max-width: 576px) { .gallery-masonry { columns: 2 150px; } }
+
+/* ═══════════════════════════════════
+   CONTACT
+   ═══════════════════════════════════ */
+#contact { background: var(--warm-white); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border: 1px solid var(--rule-dark); overflow: hidden; border-radius: 2px;
+}
+.contact-panel { padding: 3rem; }
+.contact-panel:first-child { border-right: 1px solid var(--rule-dark); }
+.contact-panel h4 {
+  font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
+  margin-bottom: 1.75rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule-dark);
+}
+.c-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: .9rem 0; border-bottom: 1px solid var(--rule-dark);
+}
+.c-item:last-of-type { border-bottom: none; }
+.c-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: var(--ink); border-radius: 1px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--crimson); font-size: .85rem;
+}
+.c-label { font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--stone); }
+.c-value { font-size: .87rem; color: var(--ink); margin-top: .15rem; }
+.c-social { display: flex; gap: .5rem; margin-top: 1.5rem; }
+.c-social-btn {
+  width: 36px; height: 36px; border: 1px solid var(--rule-dark);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--stone); text-decoration: none; font-size: .85rem;
+  border-radius: 1px; transition: all .2s;
+}
+.c-social-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+.cohort-note {
+  margin-top: 1.75rem; padding: 1.25rem;
+  background: var(--off-white); border-left: 3px solid var(--crimson);
+}
+.cohort-note-label { font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--crimson); }
+.cohort-note-text { font-size: .85rem; color: var(--stone); margin-top: .4rem; line-height: 1.6; }
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+}
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+footer {
+  background: #080808; color: rgba(255,255,255,.45);
+  padding: 3rem 0 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.5rem;
+}
+.footer-brand {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 700;
+  color: #fff; margin-bottom: 1rem;
+}
+.footer-brand span { color: var(--crimson); font-style: italic; }
+.footer-tagline { font-size: .83rem; line-height: 1.7; max-width: 260px; }
+.footer-partner { font-size: .75rem; color: rgba(255,255,255,.2); margin-top: .75rem; }
+.footer-col-title {
+  font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 1rem;
+}
+.footer-col a {
+  display: block; color: rgba(255,255,255,.45); text-decoration: none;
+  font-size: .83rem; padding: .3rem 0; transition: color .2s;
+}
+.footer-col a:hover { color: var(--crimson); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  font-size: .75rem;
+}
+.footer-copy { color: rgba(255,255,255,.2); }
+.footer-since { color: rgba(255,255,255,.15); }
+@media (max-width: 768px) {
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+
+/* ═══════════════════════════════════
+   SCROLL TOP
+   ═══════════════════════════════════ */
+#scrollTop {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;
+  width: 42px; height: 42px; background: var(--crimson); color: #fff;
+  border: none; border-radius: 2px; display: none; align-items: center;
+  justify-content: center; cursor: pointer; font-size: .9rem;
+  transition: transform .2s;
+}
+#scrollTop:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════ */
+.text-crimson { color: var(--crimson); }
+.mt-section { margin-top: 4rem; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ═══════════════════════════════════
+   MOBILE — Full responsive overhaul
+   Breakpoints: 768px (tablet), 480px (phone)
+   ═══════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* General section spacing */
+  section { padding: 60px 0; }
+  .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+
+  /* Loader */
+  .loader-title { font-size: clamp(2rem, 12vw, 3.5rem); }
+
+  /* Navbar */
+  .nav-inner { padding: 0 1.25rem; }
+
+  /* Hero */
+  #home { grid-template-columns: 1fr; min-height: 100svh; }
+  .hero-right { display: none; }
+  .hero-left { padding: 100px 1.25rem 80px; }
+  .hero-title-main { font-size: clamp(2.8rem, 11vw, 4.5rem); }
+  .hero-desc { font-size: .92rem; max-width: 100%; }
+  .hero-cta { gap: 1rem; }
+  .btn-crimson { padding: .75rem 1.5rem; font-size: .78rem; }
+  .hero-ticker { left: 0; right: 0; }
+
+  /* Glance stats */
+  .glance-inner { grid-template-columns: repeat(2, 1fr); }
+  .glance-stat:nth-child(5) { grid-column: span 2; }
+  .glance-num { font-size: 2.2rem; }
+  .glance-stat { padding: 1.75rem 1.25rem; }
+
+  /* About */
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-vm-row { grid-template-columns: 1fr; }
+  .vm-block { border-right: none; border-bottom: 1px solid var(--rule); }
+
+  /* VigyanShaala timeline */
+  .vs-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .vs-founder-card { position: static; }
+
+  /* Program structure */
+  .prog-journey { flex-direction: column; }
+  .prog-stage { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+  .prog-stage.featured { flex: unset; }
+  .prog-detail-grid { grid-template-columns: 1fr; }
+
+  /* Learning grid */
+  .learning-grid { grid-template-columns: 1fr 1fr; }
+  .learning-cell:nth-child(2n) { border-right: none; }
+  .learning-cell:nth-child(2n+1) { border-right: 1px solid var(--rule-dark); }
+
+  /* Mentors */
+  .mentor-grid { grid-template-columns: 1fr; }
+  .mentor-card-v2 { border-right: none; border-bottom: 1px solid var(--rule); }
+
+  /* Impact */
+  .impact-row { grid-template-columns: repeat(2, 1fr); }
+  .impact-col { border-bottom: 1px solid rgba(255,255,255,.2); }
+  .impact-num { font-size: 2.8rem; }
+  #impact { padding: 48px 0; }
+
+  /* Stories */
+  .stories-grid { grid-template-columns: 1fr; }
+  .story-batch-panel { border-right: none; border-bottom: 1px solid var(--rule); }
+  .big-quote-text { font-size: 1.05rem; }
+
+  /* Gallery */
+  .gallery-masonry { columns: 2 140px; }
+  .gallery-filters { gap: .4rem; }
+  .gal-btn { font-size: .67rem; padding: .3rem .75rem; }
+
+  /* Contact */
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-panel { padding: 2rem 1.25rem; }
+  .contact-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: .5rem; }
+
+  /* Section typography */
+  .section-title { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+  .section-lead { font-size: .92rem; max-width: 100%; }
+
+  /* Scroll top button — move so it doesn't overlap mobile nav gestures */
+  #scrollTop { bottom: 1.25rem; right: 1.25rem; width: 38px; height: 38px; }
+}
+
+@media (max-width: 480px) {
+
+  /* Tighter spacing on small phones */
+  section { padding: 48px 0; }
+  .container { padding-left: 1rem; padding-right: 1rem; }
+
+  /* Hero */
+  .hero-left { padding: 90px 1rem 70px; }
+  .hero-title-main { font-size: clamp(2.4rem, 13vw, 3.2rem); line-height: 1; }
+  .hero-label { font-size: .62rem; }
+  .hero-partnership { font-size: .66rem; }
+  .hero-desc { font-size: .87rem; }
+  .hero-cta { flex-direction: column; align-items: flex-start; gap: .75rem; }
+  .btn-ghost { padding: 0; }
+
+  /* Glance — stack to 1 column on very small screens */
+  .glance-inner { grid-template-columns: 1fr 1fr; }
+  .glance-stat { padding: 1.25rem 1rem; }
+  .glance-num { font-size: 1.9rem; }
+  .glance-label { font-size: .65rem; }
+
+  /* About editorial block — reduce padding */
+  .about-editorial-block { padding: 1.75rem; }
+  .about-editorial-block::before { font-size: 8rem; }
+
+  /* Program stages — tighter on phone */
+  .prog-stage { padding: 1.75rem 1.25rem; }
+  .prog-stage-num { font-size: 3.5rem; }
+  .prog-detail-card { padding: 1.5rem; }
+
+  /* Learning cells */
+  .learning-grid { grid-template-columns: 1fr; border-radius: 0; }
+  .learning-cell { border-right: none !important; border-bottom: 1px solid var(--rule-dark) !important; }
+  .learning-cell:last-child { border-bottom: none !important; }
+  .learning-cell { padding: 1.5rem; }
+
+  /* Mentor cards */
+  .mentor-card-v2 { padding: 1.75rem 1.25rem; }
+  .mentor-note { padding: 1.25rem; gap: 1rem; }
+
+  /* Impact */
+  .impact-col { padding: 1.5rem 1rem; }
+  .impact-num { font-size: 2.4rem; }
+
+  /* Stories */
+  .story-batch-card { padding: 1.5rem; }
+  .story-quote-panel { padding: 2rem 1.25rem; }
+  .big-quote-mark { font-size: 5rem; }
+
+  /* Contact */
+  .contact-panel h4 { font-size: 1.1rem; }
+  .c-item { gap: .75rem; }
+  .c-icon { width: 34px; height: 34px; font-size: .8rem; }
+  .c-social { flex-wrap: wrap; }
+
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-brand { font-size: 1.05rem; }
+  .footer-tagline { max-width: 100%; }
+
+  /* Nav */
+  .nav-brand { font-size: .9rem; }
+
+  /* Ticker */
+  .ticker-item { font-size: .65rem; letter-spacing: .1em; }
+  .hero-ticker { height: 38px; }
+
+  /* VigyanShaala */
+  .vs-founder-card { padding: 1.75rem; }
+  .vs-founder-card .founder-name { font-size: 1.25rem; }
+
+  /* Gallery */
+  .gallery-masonry { columns: 1; }
+  .g-placeholder.tall, .g-placeholder.short { height: 160px; }
+
+  /* Scroll top */
+  #scrollTop { bottom: 1rem; right: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div id="scroll-progress"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-wordmark">VigyanShaala International</div>
+  <div class="loader-title">KALPANA<br><em>She For</em><br>STEM</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#home">KALPANA <span>She For STEM</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#vigyanshaala">VigyanShaala</a>
+      <a href="#program">Program</a>
+      <a href="#mentors">Mentors</a>
+      <a href="#achievers">Achievers</a>
+      <a href="#stories">Stories</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-apply">Apply</a>
+    </div>
+    <button class="nav-toggler" id="navToggler" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left" data-aos="fade-right">
+    <div class="hero-label">Women in STEM · Kerala · 2025</div>
+    <h1 class="hero-title-main">
+      KALPANA<em>She For</em>STEM
+    </h1>
+    <p class="hero-partnership">VigyanShaala International × Christ Nagar College, Thiruvananthapuram</p>
+    <p class="hero-desc">A career development and mentoring program empowering the next generation of women innovators in science and technology — designed by scientists from leading global universities.</p>
+    <div class="hero-cta">
+      <a href="#program" class="btn-crimson">Explore Program <i class="fas fa-arrow-right"></i></a>
+      <a href="#about" class="btn-ghost">Learn More <i class="fas fa-chevron-down"></i></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-bg">
+      <!-- Editorial illustration — abstract representation of women in STEM -->
+      <div class="hero-illustration">
+        <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Abstract figure — woman scientist -->
+          <circle cx="150" cy="80" r="55" fill="rgba(192,57,43,0.6)" />
+          <rect x="100" y="140" width="100" height="160" rx="8" fill="rgba(255,255,255,0.15)" />
+          <!-- DNA helix suggestion -->
+          <path d="M60 200 Q80 220 60 240 Q80 260 60 280" stroke="rgba(192,57,43,0.4)" stroke-width="2" fill="none"/>
+          <path d="M70 200 Q50 220 70 240 Q50 260 70 280" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+          <!-- Orbit lines -->
+          <ellipse cx="150" cy="80" rx="90" ry="30" stroke="rgba(192,57,43,0.2)" stroke-width="1" />
+          <circle cx="150" cy="80" r="3" fill="rgba(192,57,43,0.8)" />
+          <circle cx="240" cy="80" r="5" fill="rgba(192,57,43,0.6)" />
+          <!-- Grid -->
+          <line x1="200" y1="150" x2="270" y2="150" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <line x1="200" y1="170" x2="270" y2="170" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <line x1="200" y1="190" x2="270" y2="190" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <line x1="200" y1="210" x2="270" y2="210" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-year-stamp">10</div>
+  </div>
+  <!-- Ticker -->
+  <div class="hero-ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item">200+ Women Mentored</span>
+      <span class="ticker-item">10 Years Active</span>
+      <span class="ticker-item">Free &amp; Online</span>
+      <span class="ticker-item">Christ Nagar College</span>
+      <span class="ticker-item">89+ Students Participated</span>
+      <span class="ticker-item">25+ Accelerator Fellows</span>
+      <span class="ticker-item">4 Departments</span>
+      <span class="ticker-item">60+ Hours Learning</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">200+ Women Mentored</span>
+      <span class="ticker-item">10 Years Active</span>
+      <span class="ticker-item">Free &amp; Online</span>
+      <span class="ticker-item">Christ Nagar College</span>
+      <span class="ticker-item">89+ Students Participated</span>
+      <span class="ticker-item">25+ Accelerator Fellows</span>
+      <span class="ticker-item">4 Departments</span>
+      <span class="ticker-item">60+ Hours Learning</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM AT A GLANCE -->
+<section id="glance">
+  <div class="glance-inner">
+    <div class="glance-stat" data-aos="fade-up" data-aos-delay="0">
+      <div class="glance-num"><span class="count-up" data-target="89">0</span><span>+</span></div>
+      <div class="glance-label">Students Participated</div>
+    </div>
+    <div class="glance-stat" data-aos="fade-up" data-aos-delay="60">
+      <div class="glance-num"><span class="count-up" data-target="25">0</span><span>+</span></div>
+      <div class="glance-label">Accelerator Fellows</div>
+    </div>
+    <div class="glance-stat" data-aos="fade-up" data-aos-delay="120">
+      <div class="glance-num"><span>4</span></div>
+      <div class="glance-label">Departments Represented</div>
+    </div>
+    <div class="glance-stat" data-aos="fade-up" data-aos-delay="180">
+      <div class="glance-num"><span class="count-up" data-target="60">0</span><span>+</span></div>
+      <div class="glance-label">Hours of Intensive Learning</div>
+    </div>
+    <div class="glance-stat" data-aos="fade-up" data-aos-delay="240">
+      <div class="glance-num"><span>100%</span></div>
+      <div class="glance-label">Online &amp; Free of Cost</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT — includes Vision & Mission -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div data-aos="fade-right">
+        <span class="section-eyebrow">About the Program</span>
+        <h2 class="section-title">Building Confident STEM Leaders</h2>
+        <div class="section-rule"></div>
+        <p class="section-lead">A transformative two-level program that guides female STEM undergraduates from self-discovery to career clarity, professional readiness, and national and international exposure.</p>
+        <div class="about-features">
+          <div class="feat-row">
+            <div class="feat-icon"><i class="fas fa-brain"></i></div>
+            <div>
+              <div class="feat-title">Career Confidence</div>
+              <div class="feat-desc">Innovative assignments initiate deeper self-reflection, enabling fellows to chart career paths with clarity and conviction.</div>
+            </div>
+          </div>
+          <div class="feat-row">
+            <div class="feat-icon"><i class="fas fa-globe"></i></div>
+            <div>
+              <div class="feat-title">Global Mentorship</div>
+              <div class="feat-desc">STEM experts from leading global universities provide personalized guidance throughout the journey.</div>
+            </div>
+          </div>
+          <div class="feat-row">
+            <div class="feat-icon"><i class="fas fa-network-wired"></i></div>
+            <div>
+              <div class="feat-title">Peer Network</div>
+              <div class="feat-desc">A strong community of female STEM students forming a support structure on the She for STEM platform.</div>
+            </div>
+          </div>
+          <div class="feat-row">
+            <div class="feat-icon"><i class="fas fa-laptop-code"></i></div>
+            <div>
+              <div class="feat-title">100% Online &amp; Free</div>
+              <div class="feat-desc">World-class STEM mentoring made accessible to students from all backgrounds, at zero cost.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-aos="fade-left">
+        <div class="about-editorial-block">
+          <div style="font-size:.68rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--crimson);margin-bottom:1.25rem;">What is Kalpana?</div>
+          <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:#fff;line-height:1.25;margin-bottom:1rem;">Designed &amp; delivered by scientists from leading global universities.</h3>
+          <p style="font-size:.87rem;color:rgba(255,255,255,.5);line-height:1.8;position:relative;z-index:1;">60+ hours of intensive learning over 8–10 weeks — making every fellow job-ready and higher-education ready. Named in honour of Kalpana Chawla, who showed that the sky is not the limit.</p>
+          <div style="display:flex;gap:.75rem;margin-top:1.5rem;position:relative;z-index:1;">
+            <div style="padding:.5rem 1.1rem;border:1px solid var(--rule);font-size:.75rem;color:rgba(255,255,255,.6);letter-spacing:.08em;">
+              <i class="fas fa-seedling" style="color:var(--crimson);margin-right:.4rem;"></i> Incubator
+            </div>
+            <div style="padding:.5rem 1.1rem;background:var(--crimson);font-size:.75rem;color:#fff;letter-spacing:.08em;">
+              <i class="fas fa-rocket" style="margin-right:.4rem;"></i> Accelerator
+            </div>
+          </div>
+          <!-- Vision & Mission merged -->
+          <div class="about-vm-row">
+            <div class="vm-block">
+              <div class="vm-block-label">Vision</div>
+              <blockquote class="vm-block blockquote">"Empowering the next generation of innovators through science and technology."</blockquote>
+              <p class="vm-block-text" style="margin-top:.75rem;">A world where every young woman, regardless of background, thrives as a scientist or innovator.</p>
+            </div>
+            <div class="vm-block">
+              <div class="vm-block-label">Mission</div>
+              <blockquote class="vm-block blockquote">"Making STEM education and professions accessible to marginalized young people across the globe."</blockquote>
+              <p class="vm-block-text" style="margin-top:.75rem;">Through community science and global mentoring, VigyanShaala dismantles systemic barriers one student at a time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIGYANSHAALA JOURNEY -->
+<section id="vigyanshaala">
+  <div class="container">
+    <div class="vs-grid">
+      <div data-aos="fade-right">
+        <span class="section-eyebrow" style="color:rgba(192,57,43,.8)">Our Origin Story</span>
+        <h2 class="section-title" style="color:#fff;">About<br>VigyanShaala</h2>
+        <div class="section-rule"></div>
+        <div class="vs-founder-card">
+          <div class="founder-name">Dr. Darshana Joshi</div>
+          <div class="founder-role">Founder · PhD, Cambridge University</div>
+          <p>A farmer's daughter from Uttarakhand who earned her PhD in Physics from Cambridge, Dr. Joshi became the first South Asian woman elected as President of the Cambridge Graduate Students Union. Her story is the foundation of everything VigyanShaala does.</p>
+          <div class="founder-badge">"Your background is not your barrier — it is your breakthrough."</div>
+        </div>
+      </div>
+      <div data-aos="fade-left">
+        <p class="section-lead" style="color:rgba(255,255,255,.4);margin-bottom:2.5rem;">Founded in 2015, VigyanShaala has broken barriers across India and beyond — reaching thousands of students through grants, workshops, and programs recognised by Royal Society of Chemistry, Materials Research Society USA, and the Institute of Physics UK.</p>
+        <div class="vs-timeline">
+          <div class="vs-item" data-aos="fade-up" data-aos-delay="0">
+            <div class="vs-year">2015</div>
+            <div class="vs-headline">Royal Society of Chemistry Grants</div>
+            <p class="vs-body">Workshops 'A Fun Day With Science' and 'Women in Science — Leadership and Beyond' impacted 1,500 students across Patna, Agartala, Delhi, Dehradun, and Ghaziabad.</p>
+          </div>
+          <div class="vs-item" data-aos="fade-up" data-aos-delay="80">
+            <div class="vs-year">2016</div>
+            <div class="vs-headline">Grassroots Grants — Materials Research Society, USA</div>
+            <p class="vs-body">'It's a MATERIALS World' workshops reached over 5,000 students across Chennai, Pondicherry, Dehradun, Pune, Mumbai and more.</p>
+          </div>
+          <div class="vs-item" data-aos="fade-up" data-aos-delay="160">
+            <div class="vs-year">2018</div>
+            <div class="vs-headline">Vigyan Chetna Yatra &amp; IoP UK Award</div>
+            <p class="vs-body">Connected with 2,000+ students in Uttarakhand. Earned Virdee grant from the Institute of Physics (UK) for teacher training in Sierra Leone.</p>
+          </div>
+          <div class="vs-item" data-aos="fade-up" data-aos-delay="240">
+            <div class="vs-year">2021</div>
+            <div class="vs-headline">Rural STEM Champions</div>
+            <p class="vs-body">Launched in Berinag and Pittorgarh, Uttarakhand — connecting the remotest communities with hands-on STEM experiments and career guidance.</p>
+          </div>
+          <div class="vs-item" data-aos="fade-up" data-aos-delay="320">
+            <div class="vs-year">2024–25</div>
+            <div class="vs-headline">Kalpana She For STEM — Christ Nagar College</div>
+            <p class="vs-body">89+ students from Christ Nagar College participated; 25+ promoted to the Accelerator Stage with international certification.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM STRUCTURE -->
+<section id="program">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">How It Works</span>
+      <h2 class="section-title">Program Structure</h2>
+      <div class="section-rule centered"></div>
+      <p class="section-lead mx-auto text-center">A structured progression from enthusiast to STEM champion — 3 + 4 months of intensive, transformational learning.</p>
+    </div>
+    <!-- Interactive journey stages -->
+    <div class="prog-journey" data-aos="fade-up">
+      <div class="prog-stage">
+        <div class="prog-stage-num">01</div>
+        <div class="prog-stage-name">Incubator</div>
+        <div class="prog-stage-sub">3 months · All enrolled students</div>
+        <p class="prog-stage-desc">The foundation stage — intensive blended learning, career workshops, and global masterclasses that awaken each student's STEM identity.</p>
+        <div class="prog-stage-tag">Open Enrollment</div>
+      </div>
+      <div class="prog-stage featured">
+        <div class="prog-stage-num">02</div>
+        <div class="prog-stage-name">Accelerator</div>
+        <div class="prog-stage-sub">4 months · 15–20% selection rate</div>
+        <p class="prog-stage-desc">The elite stage — rigorous projects, top-1% global mentors, guaranteed internship pathways, and national / international exposure for the very best.</p>
+        <div class="prog-stage-tag">By Selection</div>
+      </div>
+      <div class="prog-stage">
+        <div class="prog-stage-num">03</div>
+        <div class="prog-stage-name">STEM Changemaker</div>
+        <div class="prog-stage-sub">20–25% transformation rate</div>
+        <p class="prog-stage-desc">The transformation — fellows emerge as confident STEM professionals, researchers, and community leaders ready for the global stage.</p>
+        <div class="prog-stage-tag">Outcome</div>
+      </div>
+    </div>
+    <!-- Detail cards -->
+    <div class="prog-detail-grid" data-aos="fade-up">
+      <div class="prog-detail-card">
+        <h4><i class="fas fa-seedling"></i> Kalpana Incubator · 3 months · ~5 hrs/week</h4>
+        <div class="prog-feature">Blended learning — live and recorded sessions</div>
+        <div class="prog-feature">LMS coursework with self-paced modules</div>
+        <div class="prog-feature">Innovative assignments for deeper self-reflection</div>
+        <div class="prog-feature">10+ Live MasterClasses and Speaker Journeys</div>
+        <div class="prog-feature">Career training — higher education and job readiness</div>
+        <div class="prog-feature">Interaction with global STEM leaders</div>
+        <div class="prog-feature">CV and materials for Masters applications globally</div>
+      </div>
+      <div class="prog-detail-card">
+        <h4><i class="fas fa-rocket"></i> Kalpana Accelerator · 4 months · Selected fellows</h4>
+        <div class="prog-feature">Expert training from top 1% global mentors</div>
+        <div class="prog-feature">Hands-on projects — guaranteed internship entry</div>
+        <div class="prog-feature">Personalised mentoring + WhatsApp peer integration</div>
+        <div class="prog-feature">Thematic bootcamps for deep specialisation</div>
+        <div class="prog-feature">CV and Masters application reviewed by top professionals</div>
+        <div class="prog-feature">STEM Fellowship opportunities</div>
+        <div class="prog-feature">National and international exposure and sponsored research</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING JOURNEY -->
+<section id="learning">
+  <div class="container">
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <span class="section-eyebrow">What You Will Do</span>
+        <h2 class="section-title">The Learning Journey</h2>
+        <div class="section-rule"></div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <p class="section-lead">Highly practical, not just theoretical — every activity is designed to help students think deeply about their future and take informed decisions with confidence.</p>
+      </div>
+    </div>
+    <div class="learning-grid" data-aos="fade-up">
+      <div class="learning-cell">
+        <div class="l-num">01</div>
+        <div class="l-icon"><i class="fas fa-chart-bar"></i></div>
+        <div class="l-title">SWOT Analysis</div>
+        <p class="l-desc">Identify strengths, weaknesses, opportunities, and threats with structured exercises that build honest self-awareness as the foundation of career decisions.</p>
+      </div>
+      <div class="learning-cell">
+        <div class="l-num">02</div>
+        <div class="l-icon"><i class="fas fa-map-marked-alt"></i></div>
+        <div class="l-title">Career Planning</div>
+        <p class="l-desc">Guided activities that help students set realistic, achievable career goals — whether in academia, industry, or research.</p>
+      </div>
+      <div class="learning-cell">
+        <div class="l-num">03</div>
+        <div class="l-icon"><i class="fab fa-linkedin"></i></div>
+        <div class="l-title">LinkedIn Profile Creation</div>
+        <p class="l-desc">Build a compelling professional online presence. Connect with industry leaders and attract global opportunities.</p>
+      </div>
+      <div class="learning-cell">
+        <div class="l-num">04</div>
+        <div class="l-icon"><i class="fas fa-search-plus"></i></div>
+        <div class="l-title">Self Assessment</div>
+        <p class="l-desc">Deep-dive exercises to understand interests, values, skills, and learning style — the foundation of meaningful career choices.</p>
+      </div>
+      <div class="learning-cell">
+        <div class="l-num">05</div>
+        <div class="l-icon"><i class="fas fa-compass"></i></div>
+        <div class="l-title">Career Exploration</div>
+        <p class="l-desc">Exposure to multiple STEM paths through masterclasses, expert talks, and immersive industry interactions.</p>
+      </div>
+      <div class="learning-cell">
+        <div class="l-num">06</div>
+        <div class="l-icon"><i class="fas fa-star"></i></div>
+        <div class="l-title">Masterclasses &amp; Speaker Series</div>
+        <p class="l-desc">Real career journeys shared by inspiring STEM professionals — providing a grounded understanding of professional life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTORS -->
+<section id="mentors">
+  <div class="container">
+    <div class="row align-items-end mb-4">
+      <div class="col-lg-7" data-aos="fade-right">
+        <span class="section-eyebrow" style="color:rgba(192,57,43,.8)">The Faces Behind the Program</span>
+        <h2 class="section-title">Mentors &amp; Experts</h2>
+        <div class="section-rule"></div>
+      </div>
+      <div class="col-lg-5" data-aos="fade-left">
+        <p style="color:rgba(255,255,255,.4);font-size:.9rem;line-height:1.8;">Top-notch industry experts with a friendly, supportive teaching style — creating a learning environment that is positive, inclusive, and empowering.</p>
+      </div>
+    </div>
+    <div class="mentor-grid" data-aos="fade-up">
+      <div class="mentor-card-v2">
+        <div class="mentor-photo-wrap">
+          <div class="mentor-initials-bg" style="background:linear-gradient(135deg,#1a0a0a,var(--crimson));"></div>
+          SS
+        </div>
+        <h5>Ms. Shalini Senthil</h5>
+        <div class="m-role">Associate · Education Training Specialist</div>
+        <p>An inspiring personality who shared her real-life experiences and career journey — motivating students with a realistic view of professional life in STEM.</p>
+        <div class="mentor-links">
+          <a href="#" class="mentor-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="mentor-link"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="mentor-card-v2">
+        <div class="mentor-photo-wrap">
+          <div class="mentor-initials-bg" style="background:linear-gradient(135deg,var(--crimson),#6a0a0a);"></div>
+          DJ
+        </div>
+        <h5>Dr. Darshana Joshi</h5>
+        <div class="m-role">Founder · VigyanShaala · PhD Cambridge</div>
+        <p>First-generation learner who became the first South Asian woman elected President of the Cambridge Graduate Students Union. A living proof of mentorship's power.</p>
+        <div class="mentor-links">
+          <a href="#" class="mentor-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="mentor-link"><i class="fas fa-globe"></i></a>
+        </div>
+      </div>
+      <div class="mentor-card-v2">
+        <div class="mentor-photo-wrap">
+          <div class="mentor-initials-bg" style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);"></div>
+          GE
+        </div>
+        <h5>Global STEM Experts</h5>
+        <div class="m-role">Scientists &amp; Technologists · Leading Universities</div>
+        <p>A diverse panel from academia, industry, and research institutions worldwide — delivering masterclasses, career guidance, and personalised mentorship to every cohort.</p>
+        <div class="mentor-links">
+          <a href="#" class="mentor-link"><i class="fas fa-globe"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="mentor-note" data-aos="fade-up">
+      <div class="mentor-note-text">
+        <i class="fas fa-comments" style="color:var(--crimson);margin-right:.5rem;"></i>
+        Doubt clearance was available not only during live classes but through <strong>WhatsApp support groups</strong> — ensuring continuous guidance throughout every stage of the program.
+      </div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+        <div class="mentor-pill">100% Online</div>
+        <div class="mentor-pill">Zero Cost</div>
+        <div class="mentor-pill">Top 1% Mentors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT BAR -->
+<section id="impact">
+  <div class="container-fluid px-0">
+    <div class="impact-row">
+      <div class="impact-col" data-aos="fade-up" data-aos-delay="0">
+        <div class="impact-num"><span class="count-up-w" data-target="89">0</span><span class="impact-suffix">+</span></div>
+        <div class="impact-label">Students Participated</div>
+      </div>
+      <div class="impact-col" data-aos="fade-up" data-aos-delay="60">
+        <div class="impact-num"><span class="count-up-w" data-target="25">0</span><span class="impact-suffix">+</span></div>
+        <div class="impact-label">Accelerator Fellows</div>
+      </div>
+      <div class="impact-col" data-aos="fade-up" data-aos-delay="120">
+        <div class="impact-num"><span class="count-up-w" data-target="60">0</span><span class="impact-suffix">+</span></div>
+        <div class="impact-label">Learning Hours</div>
+      </div>
+      <div class="impact-col" data-aos="fade-up" data-aos-delay="180">
+        <div class="impact-num"><span>4</span></div>
+        <div class="impact-label">STEM Departments</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVERS -->
+<section id="achievers">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Accelerator Achievers</span>
+      <h2 class="section-title">The 25 CNC Girls Who Made It</h2>
+      <div class="section-rule centered"></div>
+      <p class="section-lead mx-auto text-center">These exceptional young women from Christ Nagar College completed the rigorous Incubator Stage and earned their place in the prestigious Accelerator — a testament to their commitment and the program's quality.</p>
+    </div>
+
+    <!-- Psychology -->
+    <div class="dept-block" data-aos="fade-up">
+      <div class="dept-header">
+        <span class="dept-icon"><i class="fas fa-brain"></i></span>
+        <span class="dept-header-name">Department of Psychology</span>
+      </div>
+      <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-9 g-2">
+        <script>
+          ['Nayana Prem','Niranjana A.P','Meena S. Nair','Gokila R','Aparna S. Pradeep','B.J. Shivani','Adithya R.S','Amrita D.R','Angelina P.G'].forEach(n=>{
+            const i=n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+            document.write(`<div class="col"><div class="student-card-v2"><div class="student-avatar">${i}</div><div class="student-name-v2">${n}</div></div></div>`);
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- CS -->
+    <div class="dept-block" data-aos="fade-up">
+      <div class="dept-header">
+        <span class="dept-icon"><i class="fas fa-laptop-code"></i></span>
+        <span class="dept-header-name">PG Department of Computer Science</span>
+      </div>
+      <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 row-cols-lg-7 g-2">
+        <script>
+          ['Shreya S.D','Shibina S','Arya','Asna R.M','Noufia S','Varsha R.S','S. Gouri'].forEach(n=>{
+            const i=n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+            document.write(`<div class="col"><div class="student-card-v2"><div class="student-avatar">${i}</div><div class="student-name-v2">${n}</div></div></div>`);
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- Physics -->
+    <div class="dept-block" data-aos="fade-up">
+      <div class="dept-header">
+        <span class="dept-icon"><i class="fas fa-atom"></i></span>
+        <span class="dept-header-name">Department of Physics &amp; Computer Application</span>
+      </div>
+      <div class="row row-cols-3 row-cols-sm-5 g-2">
+        <script>
+          ['A. Gopika Krishnan','Devika H.C','Rosin Joseph','Janani A.J','Shikha T.L'].forEach(n=>{
+            const i=n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+            document.write(`<div class="col"><div class="student-card-v2"><div class="student-avatar">${i}</div><div class="student-name-v2">${n}</div></div></div>`);
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- Mathematics -->
+    <div class="dept-block" data-aos="fade-up">
+      <div class="dept-header">
+        <span class="dept-icon"><i class="fas fa-calculator"></i></span>
+        <span class="dept-header-name">Department of Mathematics</span>
+      </div>
+      <div class="row row-cols-3 g-2" style="max-width:380px;">
+        <script>
+          ['A.S. Devi Neeraja','Divya Rose M.R','Abhirami J.L'].forEach(n=>{
+            const i=n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+            document.write(`<div class="col"><div class="student-card-v2"><div class="student-avatar">${i}</div><div class="student-name-v2">${n}</div></div></div>`);
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS STORIES -->
+<section id="stories">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow" style="color:rgba(192,57,43,.8)">Impact &amp; Outcomes</span>
+      <h2 class="section-title" style="color:#fff;">Success Stories</h2>
+      <div class="section-rule centered"></div>
+    </div>
+    <div class="stories-grid" data-aos="fade-up">
+      <div class="story-batch-panel">
+        <div class="story-batch-card">
+          <div class="story-batch-year">2024</div>
+          <div class="story-batch-title">Batch Highlights</div>
+          <div class="story-batch-sub">Incubator Cohort · Christ Nagar College</div>
+          <div class="story-achievement">89 female STEM students enrolled across 4 departments</div>
+          <div class="story-achievement">60+ hours of intensive live and recorded sessions</div>
+          <div class="story-achievement">SWOT, career planning, and LinkedIn workshops completed</div>
+          <div class="story-achievement">Masterclasses with global STEM leaders attended</div>
+          <div class="story-achievement">25+ students selected for the Accelerator Stage</div>
+        </div>
+        <div class="story-batch-card">
+          <div class="story-batch-year">2025</div>
+          <div class="story-batch-title">Batch Highlights</div>
+          <div class="story-batch-sub">July–October 2025 Cohort</div>
+          <div class="story-achievement">Transformational learning journey July–October 2025</div>
+          <div class="story-achievement">Expanded Accelerator with thematic bootcamps</div>
+          <div class="story-achievement">Hands-on projects with guaranteed internship entry</div>
+          <div class="story-achievement">CV and Masters application professional review</div>
+          <div class="story-achievement">National and international exposure opportunities</div>
+        </div>
+      </div>
+      <div class="story-quote-panel">
+        <div class="big-quote-mark">"</div>
+        <p class="big-quote-text">The program not only enhanced technical and career-related knowledge but also improved communication skills, confidence, decision-making ability, and self-belief. We felt completely free to ask questions — doubts were cleared live and through WhatsApp groups.</p>
+        <div class="big-quote-author">CNC Student, 2025 Cohort</div>
+        <div class="big-quote-role">Accelerator Achiever · Christ Nagar College, Thiruvananthapuram</div>
+        <div class="story-award">
+          <div class="story-award-label">Program Award</div>
+          <div class="story-award-title">100% Online · Completely Free</div>
+          <div class="story-award-desc">Making world-class STEM mentoring accessible to all students, regardless of background.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="text-center mb-4" data-aos="fade-up">
+      <span class="section-eyebrow" style="color:rgba(192,57,43,.8)">Moments &amp; Memories</span>
+      <h2 class="section-title">Gallery</h2>
+      <div class="section-rule centered"></div>
+    </div>
+    <div class="gallery-filters justify-content-center" data-aos="fade-up">
+      <button class="gal-btn active">All</button>
+      <button class="gal-btn">Workshops</button>
+      <button class="gal-btn">Mentoring</button>
+      <button class="gal-btn">Events</button>
+      <button class="gal-btn">Certification</button>
+    </div>
+    <div class="gallery-masonry" data-aos="fade-up">
+      <div class="g-item"><div class="g-placeholder tall"><i class="fas fa-users-class"></i><span>Incubator Session<br>Live Masterclass</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder short"><i class="fas fa-certificate"></i><span>Certification Ceremony</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder tall"><i class="fas fa-atom"></i><span>STEM Workshop<br>Hands-on Activities</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder short"><i class="fas fa-chalkboard-teacher"></i><span>Speaker Journey<br>Industry Expert</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder tall"><i class="fas fa-female"></i><span>Accelerator Group<br>Field Visit</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder short"><i class="fas fa-laptop"></i><span>Online Learning Session</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder tall"><i class="fas fa-microscope"></i><span>Science Exploration<br>Student Activities</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder short"><i class="fas fa-trophy"></i><span>Achievement Celebration</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="g-item"><div class="g-placeholder tall"><i class="fas fa-network-wired"></i><span>Mentoring Session<br>One-on-One</span></div><div class="g-overlay"><i class="fas fa-expand"></i></div></div>
+    </div>
+    <p class="gallery-note"><i class="fas fa-info-circle me-1"></i>Gallery placeholders shown — upload actual program photos to display here.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Get In Touch</span>
+      <h2 class="section-title">Contact Us</h2>
+      <div class="section-rule centered"></div>
+    </div>
+    <div class="contact-grid" data-aos="fade-up">
+      <div class="contact-panel">
+        <h4>Christ Nagar College</h4>
+        <div class="c-item">
+          <div class="c-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="c-label">Address</div>
+            <div class="c-value">Christ Nagar College, Maranalloor, Thiruvananthapuram, Kerala</div>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-value">kalpana@christnagarcollege.edu.in</div>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <div class="c-label">Phone</div>
+            <div class="c-value">Contact Christ Nagar College Main Office</div>
+          </div>
+        </div>
+        <div class="c-social">
+          <a href="#" class="c-social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="c-social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="c-social-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="c-social-btn"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="contact-panel">
+        <h4>VigyanShaala International</h4>
+        <div class="c-item">
+          <div class="c-icon" style="background:var(--crimson);color:#fff;"><i class="fas fa-globe"></i></div>
+          <div>
+            <div class="c-label">Website</div>
+            <div class="c-value">www.vigyanshaala.com</div>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon" style="background:var(--crimson);color:#fff;"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-value">kalpana@vigyanshaala.com</div>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon" style="background:var(--crimson);color:#fff;"><i class="fas fa-user-tie"></i></div>
+          <div>
+            <div class="c-label">Program Coordinator</div>
+            <div class="c-value">Contact VigyanShaala for program enrollment and enquiries about the Kalpana initiative.</div>
+          </div>
+        </div>
+        <div class="cohort-note">
+          <div class="cohort-note-label">Next Cohort</div>
+          <div class="cohort-note-text">Applications open for new batches each academic year. The program is fully free and online.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">KALPANA <span>She For STEM</span></div>
+        <p class="footer-tagline">A transformational career development and mentoring program — empowering the next generation of women STEM innovators.</p>
+        <p class="footer-partner">Conducted by VigyanShaala International<br>in partnership with Christ Nagar College</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Program</div>
+        <a href="#about">About Kalpana</a>
+        <a href="#program">Incubator</a>
+        <a href="#program">Accelerator</a>
+        <a href="#learning">Learning Journey</a>
+        <a href="#mentors">Mentors</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Explore</div>
+        <a href="#vigyanshaala">VigyanShaala</a>
+        <a href="#achievers">Achievers</a>
+        <a href="#stories">Stories</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Kalpana She For STEM · VigyanShaala International · Christ Nagar College. All rights reserved.</div>
+      <div class="footer-since">Empowering women in STEM since 2015</div>
+    </div>
+  </div>
+</footer>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const l = document.getElementById('loader');
+    l.classList.add('fade-out');
+    setTimeout(() => l.style.display = 'none', 800);
+  }, 2200);
+});
+
+// ── AOS ──
+AOS.init({ duration: 800, once: true, offset: 60, easing: 'ease-out-cubic' });
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const prog = document.getElementById('scroll-progress');
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.width = (window.scrollY / total * 100) + '%';
+});
+
+// ── NAVBAR active section ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+  // compact nav on scroll
+  const nav = document.getElementById('mainNav');
+  nav.style.borderBottomColor = window.scrollY > 80 ? 'rgba(192,57,43,.3)' : 'rgba(255,255,255,.1)';
+  // scroll top btn
+  document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none';
+}, { passive: true });
+
+// ── MOBILE MENU ──
+document.getElementById('navToggler').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+// Close menu when a link is tapped
+document.querySelectorAll('#navLinks a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// ── COUNTER ANIMATION ──
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1600;
+  const step = target / (duration / 16);
+  let current = 0;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current);
+    if (current >= target) clearInterval(timer);
+  }, 16);
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.count-up, .count-up-w').forEach(animateCounter);
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('#glance, #impact').forEach(el => countObserver.observe(el));
+
+// ── GALLERY FILTER (visual) ──
+document.querySelectorAll('.gal-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gal-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// ── PARALLAX on hero ──
+window.addEventListener('scroll', () => {
+  const heroRight = document.querySelector('.hero-right');
+  if (heroRight) {
+    heroRight.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+  }
+}, { passive: true });
+</script>
+</body>
+</html>

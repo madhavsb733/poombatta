@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS PO — 50-Day Study Ledger</title>
+<style>
+  :root{
+    --ink-navy:#16233F;
+    --ink-light:#5B6472;
+    --paper:#F3EEE1;
+    --paper-deep:#EAE2CC;
+    --line:#D5CAA6;
+    --brass:#A6822C;
+    --brass-soft:#C9AE6C;
+    --stamp-red:#AE3A2C;
+    --sage:#4C6A52;
+    --white:#FBF9F2;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #1c2c4d 0%, #101a30 55%, #0b1322 100%);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color:var(--ink-navy);
+    padding:32px 16px 64px;
+  }
+  .book{
+    max-width:760px;
+    margin:0 auto;
+    background:
+      linear-gradient(var(--paper), var(--paper)) padding-box,
+      repeating-linear-gradient(180deg, transparent 0 37px, var(--line) 37px 38px);
+    background-color:var(--paper);
+    border-radius:6px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(166,130,44,.25);
+    overflow:hidden;
+    position:relative;
+  }
+  .book::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:10px;
+    background: linear-gradient(90deg, var(--ink-navy), #24365e);
+  }
+  header.cover{
+    padding:34px 34px 22px 46px;
+    background:linear-gradient(180deg, var(--ink-navy), #1d2e52);
+    color:var(--white);
+    position:relative;
+  }
+  header.cover .eyebrow{
+    font-family: Georgia, "Iowan Old Style", serif;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--brass-soft);
+    margin:0 0 6px;
+  }
+  header.cover h1{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-weight:400;
+    font-size:30px;
+    margin:0 0 4px;
+    letter-spacing:.01em;
+  }
+  header.cover p.sub{
+    margin:0;
+    font-size:13px;
+    color:#B9C2D6;
+    font-family: "Courier New", monospace;
+  }
+  .holder-row{
+    display:flex; gap:10px; align-items:baseline; margin-top:16px;
+    font-family:"Courier New", monospace; font-size:13px; color:#C9D0E0;
+  }
+  .holder-row input{
+    background:transparent; border:none; border-bottom:1px dashed #5A6C93;
+    color:var(--white); font-family:inherit; font-size:13px; padding:2px 4px;
+    flex:1; outline:none;
+  }
+  .holder-row input::placeholder{color:#7887A8;}
+
+  .sync-row{
+    display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap;
+    font-family:"Courier New", monospace; font-size:12px; color:#C9D0E0;
+  }
+  .sync-row input[type=text]{
+    background:rgba(255,255,255,.06); border:1px solid #3B4C74; border-radius:4px;
+    color:var(--white); font-family:inherit; font-size:12px; padding:6px 8px;
+    flex:1; min-width:160px; outline:none;
+  }
+  .sync-row input::placeholder{ color:#7887A8; }
+  .sync-row button{
+    background:var(--brass); border:none; color:var(--ink-navy); font-weight:600;
+    font-size:11px; padding:7px 12px; border-radius:4px; cursor:pointer; letter-spacing:.02em;
+    font-family:"Segoe UI", sans-serif;
+  }
+  .sync-row button.secondary{
+    background:transparent; border:1px solid #3B4C74; color:#C9D0E0; font-weight:400;
+  }
+  .sync-row .syncstat{ font-size:10.5px; color:#8792AC; width:100%; }
+
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    padding:18px 34px 18px 46px; gap:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .stat{ text-align:left; }
+  .stat .num{
+    font-family: Georgia, serif; font-size:26px; color:var(--ink-navy); line-height:1;
+  }
+  .stat .num.red{ color:var(--stamp-red); }
+  .stat .lbl{
+    font-size:10px; text-transform:uppercase; letter-spacing:.09em; color:var(--ink-light);
+    margin-top:4px;
+  }
+
+  .grid-wrap{ padding:22px 34px 8px 46px; }
+  .grid-wrap h2{
+    font-family:Georgia, serif; font-weight:400; font-size:15px; margin:0 0 4px;
+    color:var(--ink-navy);
+  }
+  .grid-wrap .hint{ font-size:11.5px; color:var(--ink-light); margin:0 0 14px; }
+
+  .daygrid{
+    display:grid; grid-template-columns:repeat(10, 1fr); gap:6px;
+  }
+  .cell{
+    position:relative;
+    aspect-ratio:1/1;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Courier New", monospace; font-size:11px; color:var(--ink-light);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .cell:hover{ transform:translateY(-2px); box-shadow:0 4px 10px rgba(0,0,0,.15); }
+  .cell.today{ box-shadow:0 0 0 2px var(--brass); }
+  .cell.selected{ box-shadow:0 0 0 2px var(--ink-navy); }
+  .cell.sunday{ background:repeating-linear-gradient(135deg, var(--white) 0 4px, #EFE9D8 4px 8px); }
+  .cell .fill{
+    position:absolute; inset:0; background:var(--brass-soft); opacity:.35;
+    border-radius:2px; z-index:0;
+  }
+  .cell span{ position:relative; z-index:1; font-weight:600; }
+  .cell.complete{ background:var(--white); color:var(--stamp-red); }
+  .cell.complete .stamp{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    z-index:2;
+  }
+  .cell.complete .stamp svg{ width:88%; height:88%; opacity:.92; }
+  .cell.complete span{ opacity:0; }
+
+  .legend{
+    display:flex; gap:16px; flex-wrap:wrap; padding:14px 34px 26px 46px;
+    font-size:11px; color:var(--ink-light);
+  }
+  .legend .dot{ display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+
+  .detail{
+    border-top:2px solid var(--ink-navy);
+    padding:26px 34px 34px 46px;
+    background:var(--paper-deep);
+  }
+  .detail h3{
+    font-family:Georgia, serif; font-weight:400; font-size:19px; margin:0 0 2px;
+    color:var(--ink-navy);
+  }
+  .detail .datestr{
+    font-family:"Courier New", monospace; font-size:12px; color:var(--ink-light); margin:0 0 18px;
+  }
+  .tasklist{ display:flex; flex-direction:column; gap:0; }
+  .task-row{
+    padding:10px 0; border-bottom:1px dashed var(--line);
+  }
+  .task-row:last-child{ border-bottom:none; }
+  .task input[type=checkbox]{
+    width:17px; height:17px; margin-top:2px; accent-color:var(--sage); cursor:pointer; flex-shrink:0;
+  }
+  .task .time{
+    font-family:"Courier New", monospace; font-size:11.5px; color:var(--brass); width:98px; flex-shrink:0; padding-top:1px;
+  }
+  .task .label{ font-size:14px; color:var(--ink-navy); }
+  .task-row.checked .label{ color:var(--sage); text-decoration:line-through; text-decoration-color:#9CB09F; }
+  .task-row{ display:flex; flex-direction:column; width:100%; }
+  .task-main{ display:flex; align-items:flex-start; gap:12px; }
+  .topic-note{
+    display:none; margin:8px 0 4px 29px; width:calc(100% - 29px);
+    border:1px solid var(--line); border-radius:4px; padding:7px 9px;
+    font-family:"Segoe UI", sans-serif; font-size:12.5px; background:var(--white);
+    outline:none; color:var(--ink-navy);
+  }
+  .topic-note::placeholder{ color:#9AA0AC; }
+  .task-row.checked .topic-note{ display:block; }
+  .topic-note.locked{
+    border:none; background:transparent; padding:6px 0 4px 0;
+    color:var(--ink-navy); font-style:italic; cursor:default;
+    box-shadow:none;
+  }
+
+  .sunday-card{
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .sunday-card label.toggle{
+    display:flex; align-items:center; gap:10px; font-size:14px; cursor:pointer;
+  }
+  .sunday-card textarea{
+    width:100%; min-height:64px; resize:vertical;
+    border:1px solid var(--line); border-radius:4px; padding:8px 10px;
+    font-family:"Segoe UI", sans-serif; font-size:13px; background:var(--white);
+    outline:none;
+  }
+
+  .daystamp{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:14px; font-family:Georgia, serif; font-size:12px;
+    color:var(--stamp-red); border:1px solid var(--stamp-red); border-radius:20px;
+    padding:4px 12px; letter-spacing:.05em;
+  }
+
+  footer.actions{
+    padding:18px 34px 30px 46px; display:flex; justify-content:space-between; align-items:center;
+    gap:12px; flex-wrap:wrap;
+  }
+  .resetbtn{
+    background:none; border:1px solid var(--ink-light); color:var(--ink-light);
+    font-size:11px; padding:7px 14px; border-radius:20px; cursor:pointer;
+    letter-spacing:.03em;
+  }
+  .resetbtn:hover{ border-color:var(--stamp-red); color:var(--stamp-red); }
+  .status{ font-size:11px; color:var(--ink-light); font-family:"Courier New", monospace; }
+
+  @media (max-width:520px){
+    header.cover, .stats, .grid-wrap, .legend, .detail, footer.actions{ padding-left:20px; padding-right:20px; }
+    .daygrid{ grid-template-columns:repeat(7,1fr); }
+    .stats{ grid-template-columns:repeat(2,1fr); }
+    .task .time{ width:76px; font-size:10.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="book">
+    <header class="cover">
+      <p class="eyebrow">Study Passbook</p>
+      <h1>IBPS PO — 50-Day Ledger</h1>
+      <p class="sub" id="dateRange">— loading —</p>
+      <div class="holder-row">
+        <span>Candidate:</span>
+        <input id="nameInput" placeholder="Enter your name" maxlength="40">
+      </div>
+      <div class="sync-row">
+        <input type="text" id="sheetUrlInput" placeholder="Paste your Google Apps Script Web app URL here">
+        <button id="sheetConnectBtn">Connect</button>
+        <button id="sheetSyncBtn" class="secondary">Sync now</button>
+        <div class="syncstat" id="syncStat">Not connected — data is saved to this account only.</div>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="num red" id="statBanked">0</div><div class="lbl">Days Banked</div></div>
+      <div class="stat"><div class="num" id="statStreak">0</div><div class="lbl">Current Streak</div></div>
+      <div class="stat"><div class="num" id="statBest">0</div><div class="lbl">Best Streak</div></div>
+      <div class="stat"><div class="num" id="statPct">0%</div><div class="lbl">Overall Progress</div></div>
+    </div>
+
+    <div class="grid-wrap">
+      <h2>50-Day Overview</h2>
+      <p class="hint">Tap a day to open its ledger and mark today's blocks. Weekday cells hold 10 study blocks; Sundays are rest &amp; revision.</p>
+      <div class="daygrid" id="daygrid"></div>
+    </div>
+
+    <div class="legend">
+      <span><span class="dot" style="background:var(--white); border:1px solid var(--line);"></span>Not started</span>
+      <span><span class="dot" style="background:var(--brass-soft);"></span>In progress</span>
+      <span><span class="dot" style="background:var(--stamp-red);"></span>Complete</span>
+      <span><span class="dot" style="background:#EFE9D8; border:1px solid var(--line);"></span>Sunday</span>
+      <span><span class="dot" style="box-shadow:0 0 0 2px var(--brass); background:var(--white);"></span>Today</span>
+    </div>
+
+    <div class="detail" id="detail"><!-- rendered by JS --></div>
+
+    <footer class="actions">
+      <span class="status" id="statusMsg">Ready.</span>
+      <button class="resetbtn" id="resetBtn">Reset all data</button>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  // Polyfill window.storage with localStorage when running outside Claude's
+  // artifact environment (e.g. hosted on GitHub Pages). If a real
+  // window.storage already exists (inside claude.ai), it's left untouched.
+  if(!window.storage){
+    window.storage = {
+      async get(key){
+        const v = localStorage.getItem(key);
+        if(v===null) throw new Error('not found');
+        return { key, value: v, shared:false };
+      },
+      async set(key, value){
+        localStorage.setItem(key, value);
+        return { key, value, shared:false };
+      },
+      async delete(key){
+        localStorage.removeItem(key);
+        return { key, deleted:true, shared:false };
+      },
+      async list(prefix){
+        const keys = [];
+        for(let i=0;i<localStorage.length;i++){
+          const k = localStorage.key(i);
+          if(!prefix || (k && k.indexOf(prefix)===0)) keys.push(k);
+        }
+        return { keys, prefix, shared:false };
+      }
+    };
+  }
+
+  const TASKS = [
+    {t:"4:00–4:20 AM",  l:"Wake up, freshen up, water, light stretching"},
+    {t:"4:20–6:20 AM",  l:"Quantitative Aptitude — New Concepts"},
+    {t:"6:40–8:40 AM",  l:"Reasoning Ability — New Concepts"},
+    {t:"9:30–11:00 AM", l:"English"},
+    {t:"11:15–12:45 PM",l:"Banking Awareness / Current Affairs"},
+    {t:"2:00–4:00 PM",  l:"Practice Session (Quant + Reasoning)"},
+    {t:"4:30–6:30 PM",  l:"Topic Tests / Mixed Practice"},
+    {t:"7:15–8:45 PM",  l:"Revision + Error Notebook"},
+    {t:"8:45–9:30 PM",  l:"Vocabulary + Reading"},
+    {t:"9:30–10:00 PM", l:"Plan next day & wind down"},
+  ];
+  const TOTAL_DAYS = 50;
+  const MS_DAY = 86400000;
+
+  function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
+  const TODAY = startOfDay(new Date());
+
+  const days = [];
+  for(let i=0;i<TOTAL_DAYS;i++){
+    const d = new Date(TODAY.getTime() + i*MS_DAY);
+    days.push({
+      index:i+1,
+      date:d,
+      iso: d.toISOString().slice(0,10),
+      isSunday: d.getDay()===0,
+      label: d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'})
+    });
+  }
+
+  let dayData = {};   // iso -> {checks:[bool*10], rest:bool, note:''}
+  let candidateName = '';
+  let selectedIso = null;
+  let sheetUrl = '';
+
+  const fmtRange = `${days[0].date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})} — ${days[49].date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}`;
+
+  function escAttr(s){
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function emptyDay(){ return {checks:new Array(TASKS.length).fill(false), topics:new Array(TASKS.length).fill(''), rest:false, note:''}; }
+
+  function pctFor(iso, isSunday){
+    const rec = dayData[iso];
+    if(!rec) return 0;
+    if(isSunday) return rec.rest ? 100 : 0;
+    const done = rec.checks.filter(Boolean).length;
+    return Math.round((done/TASKS.length)*100);
+  }
+
+  async function loadAll(){
+    setStatus('Loading your ledger…');
+    try{
+      const nameRes = await window.storage.get('meta:name', false).catch(()=>null);
+      candidateName = nameRes ? JSON.parse(nameRes.value) : '';
+    }catch(e){ candidateName=''; }
+    document.getElementById('nameInput').value = candidateName;
+
+    try{
+      const urlRes = await window.storage.get('meta:sheetUrl', false).catch(()=>null);
+      sheetUrl = urlRes ? JSON.parse(urlRes.value) : '';
+    }catch(e){ sheetUrl=''; }
+    document.getElementById('sheetUrlInput').value = sheetUrl;
+
+    try{
+      const listRes = await window.storage.list('day:', false);
+      const keys = (listRes && listRes.keys) ? listRes.keys : [];
+      for(const k of keys){
+        try{
+          const r = await window.storage.get(k, false);
+          if(r) dayData[k.slice(4)] = JSON.parse(r.value);
+        }catch(e){ /* skip unreadable key */ }
+      }
+    }catch(e){ /* no days saved yet */ }
+
+    setStatus('Ready.');
+  }
+
+  async function saveDay(iso){
+    try{
+      const res = await window.storage.set('day:'+iso, JSON.stringify(dayData[iso]), false);
+      if(!res) setStatus('Could not save — try again.');
+      else setStatus('Saved.');
+    }catch(e){ setStatus('Save failed.'); }
+    if(sheetUrl) pushDayToSheet(iso);
+  }
+
+  async function saveName(){
+    try{ await window.storage.set('meta:name', JSON.stringify(candidateName), false); }
+    catch(e){ /* non-critical */ }
+  }
+
+  async function saveSheetUrl(){
+    try{ await window.storage.set('meta:sheetUrl', JSON.stringify(sheetUrl), false); }
+    catch(e){ /* non-critical */ }
+  }
+
+  function setSyncStat(msg){
+    const el = document.getElementById('syncStat');
+    if(el) el.textContent = msg;
+  }
+
+  async function pushDayToSheet(iso){
+    if(!sheetUrl) return;
+    const day = days.find(d=>d.iso===iso);
+    const rec = dayData[iso];
+    if(!day || !rec) return;
+    const payload = { date: iso, dayIndex: day.index, checks: rec.checks, topics: rec.topics, rest: rec.rest, note: rec.note };
+    try{
+      await fetch(sheetUrl, { method:'POST', body: JSON.stringify(payload) });
+      setSyncStat('Synced to sheet — ' + new Date().toLocaleTimeString());
+    }catch(e){
+      setSyncStat('Could not reach the sheet (saved locally only). ' + (e && e.message ? e.message : ''));
+    }
+  }
+
+  async function pullFromSheet(){
+    if(!sheetUrl) return false;
+    setSyncStat('Pulling from sheet…');
+    try{
+      const res = await fetch(sheetUrl + (sheetUrl.includes('?') ? '&' : '?') + 'cachebust=' + Date.now());
+      const json = await res.json();
+      if(json && json.ok && Array.isArray(json.days)){
+        json.days.forEach(d=>{
+          dayData[d.date] = {
+            checks: Array.isArray(d.checks) ? d.checks : new Array(TASKS.length).fill(false),
+            topics: Array.isArray(d.topics) ? d.topics : new Array(TASKS.length).fill(''),
+            rest: !!d.rest,
+            note: d.note || ''
+          };
+        });
+        for(const iso in dayData){
+          try{ await window.storage.set('day:'+iso, JSON.stringify(dayData[iso]), false); }catch(e){}
+        }
+        setSyncStat('Synced — ' + new Date().toLocaleTimeString());
+        return true;
+      }
+      setSyncStat('Sheet responded but sent no data.');
+      return false;
+    }catch(e){
+      setSyncStat('Could not reach the sheet. It may not allow requests from here — ' + (e && e.message ? e.message : 'unknown error'));
+      return false;
+    }
+  }
+
+  async function pushAllToSheet(){
+    if(!sheetUrl) return;
+    setSyncStat('Pushing local data to sheet…');
+    const isoList = Object.keys(dayData);
+    for(const iso of isoList){
+      await pushDayToSheet(iso);
+    }
+  }
+
+  function setStatus(msg){ document.getElementById('statusMsg').textContent = msg; }
+
+  function stampSVG(){
+    return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="50" y="55" text-anchor="middle" font-size="26" font-family="Georgia, serif" fill="currentColor">✓</text></svg>`;
+  }
+
+  function renderGrid(){
+    const grid = document.getElementById('daygrid');
+    grid.innerHTML = '';
+    days.forEach(day=>{
+      const pct = pctFor(day.iso, day.isSunday);
+      const cell = document.createElement('div');
+      cell.className = 'cell' + (day.isSunday?' sunday':'') + (day.iso===TODAY.toISOString().slice(0,10)?' today':'') + (day.iso===selectedIso?' selected':'') + (pct===100?' complete':'');
+      cell.title = `Day ${day.index} — ${day.label} — ${pct}%`;
+      if(pct>0 && pct<100){
+        const fill = document.createElement('div');
+        fill.className='fill';
+        fill.style.opacity = (0.15 + (pct/100)*0.55).toFixed(2);
+        cell.appendChild(fill);
+      }
+      if(pct===100){
+        const st = document.createElement('div');
+        st.className='stamp';
+        st.innerHTML = stampSVG();
+        cell.appendChild(st);
+      }
+      const span = document.createElement('span');
+      span.textContent = day.index;
+      cell.appendChild(span);
+      cell.addEventListener('click', ()=>{ selectedIso = day.iso; renderGrid(); renderDetail(); });
+      grid.appendChild(cell);
+    });
+  }
+
+  function renderDetail(){
+    const day = days.find(d=>d.iso===selectedIso) || days[0];
+    if(!selectedIso) selectedIso = day.iso;
+    if(!dayData[day.iso]) dayData[day.iso] = emptyDay();
+    const rec = dayData[day.iso];
+    if(!rec.topics) rec.topics = new Array(TASKS.length).fill('');
+    const detail = document.getElementById('detail');
+    const pct = pctFor(day.iso, day.isSunday);
+
+    let html = `<h3>Day ${day.index} of 50</h3>
+      <p class="datestr">${day.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'})}</p>`;
+
+    if(day.isSunday){
+      html += `<div class="sunday-card">
+        <label class="toggle">
+          <input type="checkbox" id="restCheck" ${rec.rest?'checked':''}>
+          Rested / did weekly revision as planned
+        </label>
+        <textarea id="sundayNote" placeholder="Optional notes for the week — weak topics, mock test scores, adjustments for next week…">${escAttr(rec.note||'')}</textarea>
+      </div>`;
+    } else {
+      html += `<div class="tasklist">`;
+      TASKS.forEach((task, i)=>{
+        const checked = !!rec.checks[i];
+        const topicVal = rec.topics[i] || '';
+        const isLocked = topicVal.trim().length > 0;
+        html += `<div class="task-row ${checked?'checked':''}" id="row${i}">
+          <div class="task-main">
+            <input type="checkbox" data-idx="${i}" id="chk${i}" ${checked?'checked':''}>
+            <div class="time">${task.t}</div>
+            <label class="label" for="chk${i}">${task.l}</label>
+          </div>
+          <input type="text" class="topic-note ${isLocked?'locked':''}" id="topic${i}" value="${escAttr(topicVal)}" placeholder="What did you study? e.g. Time &amp; Work, Puzzles — Circular Arrangement" ${isLocked?'readonly':''}>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if(pct===100){
+      html += `<div class="daystamp">✓ LEDGER BALANCED — DAY COMPLETE</div>`;
+    }
+
+    detail.innerHTML = html;
+
+    if(day.isSunday){
+      document.getElementById('restCheck').addEventListener('change', async (e)=>{
+        rec.rest = e.target.checked;
+        await saveDay(day.iso);
+        renderGrid(); renderStats(); renderDetail();
+      });
+      let noteTimer;
+      document.getElementById('sundayNote').addEventListener('input', (e)=>{
+        rec.note = e.target.value;
+        clearTimeout(noteTimer);
+        noteTimer = setTimeout(()=>saveDay(day.iso), 500);
+      });
+    } else {
+      TASKS.forEach((_, i)=>{
+        document.getElementById('chk'+i).addEventListener('change', async (e)=>{
+          rec.checks[i] = e.target.checked;
+          document.getElementById('row'+i).classList.toggle('checked', e.target.checked);
+          if(e.target.checked){
+            const tEl = document.getElementById('topic'+i);
+            if(!tEl.readOnly) tEl.focus();
+          }
+          await saveDay(day.iso);
+          renderGrid(); renderStats();
+          const pctNow = pctFor(day.iso, day.isSunday);
+          if(pctNow===100 && !detail.querySelector('.daystamp')) renderDetail();
+          else if(pctNow<100 && detail.querySelector('.daystamp')) renderDetail();
+        });
+        let topicTimer;
+        const topicEl = document.getElementById('topic'+i);
+        topicEl.addEventListener('input', (e)=>{
+          rec.topics[i] = e.target.value;
+          clearTimeout(topicTimer);
+          topicTimer = setTimeout(()=>saveDay(day.iso), 500);
+        });
+        function lockIfWritten(){
+          if(topicEl.readOnly) return;
+          const val = topicEl.value.trim();
+          if(val.length>0){
+            clearTimeout(topicTimer);
+            rec.topics[i] = topicEl.value;
+            topicEl.readOnly = true;
+            topicEl.classList.add('locked');
+            saveDay(day.iso);
+          }
+        }
+        topicEl.addEventListener('blur', lockIfWritten);
+        topicEl.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter'){ e.preventDefault(); topicEl.blur(); }
+        });
+      });
+    }
+  }
+
+  function renderStats(){
+    let banked=0, sumPct=0, elapsed=0;
+    let streak=0, best=0, running=0, brokenYet=false;
+    const todayIso = TODAY.toISOString().slice(0,10);
+
+    days.forEach(day=>{
+      const pct = pctFor(day.iso, day.isSunday);
+      if(pct===100) banked++;
+      if(day.date <= TODAY){
+        elapsed++; sumPct += pct;
+      }
+      if(pct===100){ running++; best = Math.max(best, running); }
+      else { running = 0; }
+    });
+
+    // current streak: consecutive complete days ending at the most recent elapsed day
+    for(let i=days.length-1;i>=0;i--){
+      const day = days[i];
+      if(day.date > TODAY) continue;
+      const pct = pctFor(day.iso, day.isSunday);
+      if(pct===100){ streak++; } else { break; }
+    }
+
+    document.getElementById('statBanked').textContent = banked;
+    document.getElementById('statStreak').textContent = streak;
+    document.getElementById('statBest').textContent = best;
+    document.getElementById('statPct').textContent = elapsed>0 ? Math.round(sumPct/elapsed)+'%' : '0%';
+  }
+
+  document.getElementById('dateRange').textContent = fmtRange;
+
+  document.getElementById('nameInput').addEventListener('input', (e)=>{
+    candidateName = e.target.value;
+    clearTimeout(window.__nameTimer);
+    window.__nameTimer = setTimeout(saveName, 500);
+  });
+
+  document.getElementById('sheetConnectBtn').addEventListener('click', async ()=>{
+    const val = document.getElementById('sheetUrlInput').value.trim();
+    if(!val){ setSyncStat('Paste your Apps Script Web app URL first.'); return; }
+    sheetUrl = val;
+    await saveSheetUrl();
+    const ok = await pullFromSheet();
+    if(ok){ await pushAllToSheet(); renderGrid(); renderStats(); renderDetail(); }
+  });
+
+  document.getElementById('sheetSyncBtn').addEventListener('click', async ()=>{
+    if(!sheetUrl){ setSyncStat('Connect a sheet first.'); return; }
+    await pushAllToSheet();
+    const ok = await pullFromSheet();
+    if(ok){ renderGrid(); renderStats(); renderDetail(); }
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', async ()=>{
+    if(!confirm('This clears all 50 days of attendance data. This cannot be undone. Continue?')) return;
+    setStatus('Resetting…');
+    try{
+      const listRes = await window.storage.list('day:', false);
+      const keys = (listRes && listRes.keys) ? listRes.keys : [];
+      for(const k of keys){
+        try{ await window.storage.delete(k, false); }catch(e){}
+      }
+      dayData = {};
+      setStatus('All data cleared.');
+      renderGrid(); renderStats(); renderDetail();
+    }catch(e){ setStatus('Reset failed — try again.'); }
+  });
+
+  (async function init(){
+    await loadAll();
+    selectedIso = TODAY.toISOString().slice(0,10);
+    if(!days.find(d=>d.iso===selectedIso)) selectedIso = days[0].iso;
+    renderGrid();
+    renderStats();
+    renderDetail();
+    if(sheetUrl){
+      const ok = await pullFromSheet();
+      if(ok){ renderGrid(); renderStats(); renderDetail(); }
+    }
+  })();
+})();
+</script>
+</body>
+</html>

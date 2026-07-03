@@ -2,30 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>IBPS PO — 50-Day Study Ledger</title>
 <style>
   :root{
-    --ink-navy:#16233F;
-    --ink-light:#5B6472;
-    --paper:#F3EEE1;
-    --paper-deep:#EAE2CC;
-    --line:#D5CAA6;
-    --brass:#A6822C;
-    --brass-soft:#C9AE6C;
-    --stamp-red:#AE3A2C;
-    --sage:#4C6A52;
-    --white:#FBF9F2;
+    /* Ledger-ink palette: deep pine-teal ink, aged paper, brass, oxide-red seal */
+    --ink:#182623;
+    --ink-light:#5B6E67;
+    --paper:#F6F1E3;
+    --paper-deep:#ECE2C8;
+    --line:#D9C99C;
+    --brass:#B07F2E;
+    --brass-soft:#D7B876;
+    --pine:#1E3B37;
+    --pine-deep:#122522;
+    --oxide:#A3402A;
+    --sage:#3F6B54;
+    --rust:#96503A;
+    --rust-soft:#E7CBB6;
+    --white:#FCFAF3;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html{-webkit-text-size-adjust:100%;}
   body{
     margin:0;
     min-height:100vh;
     background:
-      radial-gradient(1200px 600px at 50% -10%, #1c2c4d 0%, #101a30 55%, #0b1322 100%);
+      radial-gradient(1200px 600px at 50% -10%, #24352f 0%, #16221e 55%, #0d1613 100%);
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    color:var(--ink-navy);
+    color:var(--ink);
     padding:32px 16px 64px;
   }
   .book{
@@ -36,18 +41,18 @@
       repeating-linear-gradient(180deg, transparent 0 37px, var(--line) 37px 38px);
     background-color:var(--paper);
     border-radius:6px;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(166,130,44,.25);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(176,127,46,.22);
     overflow:hidden;
     position:relative;
   }
   .book::before{
     content:"";
     position:absolute; left:0; top:0; bottom:0; width:10px;
-    background: linear-gradient(90deg, var(--ink-navy), #24365e);
+    background: linear-gradient(180deg, var(--pine-deep), var(--pine));
   }
   header.cover{
     padding:34px 34px 22px 46px;
-    background:linear-gradient(180deg, var(--ink-navy), #1d2e52);
+    background:linear-gradient(165deg, var(--pine-deep), var(--pine) 65%, #24443f);
     color:var(--white);
     position:relative;
   }
@@ -69,39 +74,39 @@
   header.cover p.sub{
     margin:0;
     font-size:13px;
-    color:#B9C2D6;
+    color:#C7D3CC;
     font-family: "Courier New", monospace;
   }
   .holder-row{
     display:flex; gap:10px; align-items:baseline; margin-top:16px;
-    font-family:"Courier New", monospace; font-size:13px; color:#C9D0E0;
+    font-family:"Courier New", monospace; font-size:13px; color:#CFDAD3;
   }
   .holder-row input{
-    background:transparent; border:none; border-bottom:1px dashed #5A6C93;
-    color:var(--white); font-family:inherit; font-size:13px; padding:2px 4px;
+    background:transparent; border:none; border-bottom:1px dashed #4E6A62;
+    color:var(--white); font-family:inherit; font-size:13px; padding:4px 4px;
     flex:1; outline:none;
   }
-  .holder-row input::placeholder{color:#7887A8;}
+  .holder-row input::placeholder{color:#7C948A;}
 
   .sync-row{
-    display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap;
-    font-family:"Courier New", monospace; font-size:12px; color:#C9D0E0;
+    display:flex; gap:8px; align-items:center; margin-top:12px; flex-wrap:wrap;
+    font-family:"Courier New", monospace; font-size:12px; color:#CFDAD3;
   }
   .sync-row input[type=text]{
-    background:rgba(255,255,255,.06); border:1px solid #3B4C74; border-radius:4px;
-    color:var(--white); font-family:inherit; font-size:12px; padding:6px 8px;
+    background:rgba(255,255,255,.07); border:1px solid #3A574F; border-radius:4px;
+    color:var(--white); font-family:inherit; font-size:12px; padding:9px 8px;
     flex:1; min-width:160px; outline:none;
   }
-  .sync-row input::placeholder{ color:#7887A8; }
+  .sync-row input::placeholder{ color:#7C948A; }
   .sync-row button{
-    background:var(--brass); border:none; color:var(--ink-navy); font-weight:600;
-    font-size:11px; padding:7px 12px; border-radius:4px; cursor:pointer; letter-spacing:.02em;
-    font-family:"Segoe UI", sans-serif;
+    background:var(--brass); border:none; color:var(--pine-deep); font-weight:600;
+    font-size:11.5px; padding:9px 14px; border-radius:4px; cursor:pointer; letter-spacing:.02em;
+    font-family:"Segoe UI", sans-serif; min-height:38px;
   }
   .sync-row button.secondary{
-    background:transparent; border:1px solid #3B4C74; color:#C9D0E0; font-weight:400;
+    background:transparent; border:1px solid #3A574F; color:#CFDAD3; font-weight:400;
   }
-  .sync-row .syncstat{ font-size:10.5px; color:#8792AC; width:100%; }
+  .sync-row .syncstat{ font-size:10.5px; color:#87998F; width:100%; }
 
   .stats{
     display:grid; grid-template-columns:repeat(4,1fr);
@@ -110,9 +115,9 @@
   }
   .stat{ text-align:left; }
   .stat .num{
-    font-family: Georgia, serif; font-size:26px; color:var(--ink-navy); line-height:1;
+    font-family: Georgia, serif; font-size:26px; color:var(--pine); line-height:1;
   }
-  .stat .num.red{ color:var(--stamp-red); }
+  .stat .num.red{ color:var(--oxide); }
   .stat .lbl{
     font-size:10px; text-transform:uppercase; letter-spacing:.09em; color:var(--ink-light);
     margin-top:4px;
@@ -121,7 +126,7 @@
   .grid-wrap{ padding:22px 34px 8px 46px; }
   .grid-wrap h2{
     font-family:Georgia, serif; font-weight:400; font-size:15px; margin:0 0 4px;
-    color:var(--ink-navy);
+    color:var(--pine);
   }
   .grid-wrap .hint{ font-size:11.5px; color:var(--ink-light); margin:0 0 14px; }
 
@@ -131,6 +136,7 @@
   .cell{
     position:relative;
     aspect-ratio:1/1;
+    min-height:34px;
     border:1px solid var(--line);
     border-radius:3px;
     background:var(--white);
@@ -141,14 +147,15 @@
   }
   .cell:hover{ transform:translateY(-2px); box-shadow:0 4px 10px rgba(0,0,0,.15); }
   .cell.today{ box-shadow:0 0 0 2px var(--brass); }
-  .cell.selected{ box-shadow:0 0 0 2px var(--ink-navy); }
-  .cell.sunday{ background:repeating-linear-gradient(135deg, var(--white) 0 4px, #EFE9D8 4px 8px); }
+  .cell.selected{ box-shadow:0 0 0 2px var(--pine); }
+  .cell.testday{ background:repeating-linear-gradient(135deg, var(--white) 0 4px, var(--rust-soft) 4px 8px); color:var(--rust); }
   .cell .fill{
     position:absolute; inset:0; background:var(--brass-soft); opacity:.35;
     border-radius:2px; z-index:0;
   }
   .cell span{ position:relative; z-index:1; font-weight:600; }
-  .cell.complete{ background:var(--white); color:var(--stamp-red); }
+  .cell.complete{ background:var(--white); color:var(--oxide); }
+  .cell.complete.testday{ color:var(--oxide); }
   .cell.complete .stamp{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     z-index:2;
@@ -163,55 +170,85 @@
   .legend .dot{ display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; }
 
   .detail{
-    border-top:2px solid var(--ink-navy);
+    border-top:2px solid var(--pine);
     padding:26px 34px 34px 46px;
     background:var(--paper-deep);
   }
   .detail h3{
     font-family:Georgia, serif; font-weight:400; font-size:19px; margin:0 0 2px;
-    color:var(--ink-navy);
+    color:var(--pine);
   }
   .detail .datestr{
-    font-family:"Courier New", monospace; font-size:12px; color:var(--ink-light); margin:0 0 18px;
+    font-family:"Courier New", monospace; font-size:12px; color:var(--ink-light); margin:0 0 14px;
   }
+  .quotecard{
+    border-left:3px solid var(--brass);
+    padding:8px 0 8px 14px;
+    margin:0 0 20px;
+  }
+  .quotecard p.qtext{
+    font-family:Georgia, "Iowan Old Style", serif;
+    font-style:italic;
+    font-size:14.5px;
+    line-height:1.5;
+    color:var(--pine);
+    margin:0;
+  }
+  .quotecard p.qauthor{
+    font-family:"Courier New", monospace;
+    font-size:11px;
+    color:var(--ink-light);
+    margin:6px 0 0;
+  }
+  .quotecard.loading p.qtext{ color:var(--ink-light); font-style:normal; }
   .tasklist{ display:flex; flex-direction:column; gap:0; }
   .task-row{
-    padding:10px 0; border-bottom:1px dashed var(--line);
+    padding:12px 0; border-bottom:1px dashed var(--line);
   }
   .task-row:last-child{ border-bottom:none; }
   .task input[type=checkbox]{
-    width:17px; height:17px; margin-top:2px; accent-color:var(--sage); cursor:pointer; flex-shrink:0;
+    width:20px; height:20px; margin-top:1px; accent-color:var(--sage); cursor:pointer; flex-shrink:0;
   }
   .task .time{
-    font-family:"Courier New", monospace; font-size:11.5px; color:var(--brass); width:98px; flex-shrink:0; padding-top:1px;
+    font-family:"Courier New", monospace; font-size:11.5px; color:var(--brass); width:98px; flex-shrink:0; padding-top:2px;
   }
-  .task .label{ font-size:14px; color:var(--ink-navy); }
+  .task .label{ font-size:14px; color:var(--pine); }
   .task-row.checked .label{ color:var(--sage); text-decoration:line-through; text-decoration-color:#9CB09F; }
   .task-row{ display:flex; flex-direction:column; width:100%; }
   .task-main{ display:flex; align-items:flex-start; gap:12px; }
   .topic-note{
-    display:none; margin:8px 0 4px 29px; width:calc(100% - 29px);
-    border:1px solid var(--line); border-radius:4px; padding:7px 9px;
-    font-family:"Segoe UI", sans-serif; font-size:12.5px; background:var(--white);
-    outline:none; color:var(--ink-navy);
+    display:none; margin:8px 0 4px 32px; width:calc(100% - 32px);
+    border:1px solid var(--line); border-radius:4px; padding:8px 9px;
+    font-family:"Segoe UI", sans-serif; font-size:13px; background:var(--white);
+    outline:none; color:var(--pine);
   }
-  .topic-note::placeholder{ color:#9AA0AC; }
+  .topic-note::placeholder{ color:#9A9484; }
   .task-row.checked .topic-note{ display:block; }
   .topic-note.locked{
     border:none; background:transparent; padding:6px 0 4px 0;
-    color:var(--ink-navy); font-style:italic; cursor:default;
+    color:var(--pine); font-style:italic; cursor:default;
     box-shadow:none;
   }
 
-  .sunday-card{
-    display:flex; flex-direction:column; gap:12px;
+  .testday-card{
+    display:flex; flex-direction:column; gap:14px;
   }
-  .sunday-card label.toggle{
+  .testday-card .flagline{
+    font-family:Georgia, serif; font-size:12px; color:var(--rust); letter-spacing:.05em;
+    text-transform:uppercase; margin:0;
+  }
+  .testday-card label.toggle{
     display:flex; align-items:center; gap:10px; font-size:14px; cursor:pointer;
   }
-  .sunday-card textarea{
+  .testday-card label.toggle input[type=checkbox]{ width:20px; height:20px; accent-color:var(--oxide); }
+  .testday-card .scorerow{ display:flex; align-items:center; gap:10px; font-size:13.5px; }
+  .testday-card .scorerow input[type=number]{
+    width:90px; border:1px solid var(--line); border-radius:4px; padding:8px 9px;
+    font-family:"Segoe UI", sans-serif; font-size:13px; background:var(--white); outline:none;
+  }
+  .testday-card textarea{
     width:100%; min-height:64px; resize:vertical;
-    border:1px solid var(--line); border-radius:4px; padding:8px 10px;
+    border:1px solid var(--line); border-radius:4px; padding:9px 10px;
     font-family:"Segoe UI", sans-serif; font-size:13px; background:var(--white);
     outline:none;
   }
@@ -219,8 +256,8 @@
   .daystamp{
     display:inline-flex; align-items:center; gap:6px;
     margin-top:14px; font-family:Georgia, serif; font-size:12px;
-    color:var(--stamp-red); border:1px solid var(--stamp-red); border-radius:20px;
-    padding:4px 12px; letter-spacing:.05em;
+    color:var(--oxide); border:1px solid var(--oxide); border-radius:20px;
+    padding:5px 13px; letter-spacing:.05em;
   }
 
   footer.actions{
@@ -229,17 +266,30 @@
   }
   .resetbtn{
     background:none; border:1px solid var(--ink-light); color:var(--ink-light);
-    font-size:11px; padding:7px 14px; border-radius:20px; cursor:pointer;
-    letter-spacing:.03em;
+    font-size:11px; padding:8px 15px; border-radius:20px; cursor:pointer;
+    letter-spacing:.03em; min-height:36px;
   }
-  .resetbtn:hover{ border-color:var(--stamp-red); color:var(--stamp-red); }
+  .resetbtn:hover{ border-color:var(--oxide); color:var(--oxide); }
   .status{ font-size:11px; color:var(--ink-light); font-family:"Courier New", monospace; }
 
-  @media (max-width:520px){
+  @media (max-width:600px){
     header.cover, .stats, .grid-wrap, .legend, .detail, footer.actions{ padding-left:20px; padding-right:20px; }
-    .daygrid{ grid-template-columns:repeat(7,1fr); }
-    .stats{ grid-template-columns:repeat(2,1fr); }
-    .task .time{ width:76px; font-size:10.5px; }
+    header.cover{ padding-top:26px; padding-bottom:20px; }
+    header.cover h1{ font-size:24px; }
+    .daygrid{ grid-template-columns:repeat(7,1fr); gap:5px; }
+    .stats{ grid-template-columns:repeat(2,1fr); padding-top:16px; padding-bottom:16px; }
+    .stat .num{ font-size:22px; }
+    .task .time{ width:100%; order:3; margin-left:32px; font-size:11px; }
+    .task-main{ flex-wrap:wrap; }
+    .task .label{ font-size:14.5px; }
+    .sync-row{ flex-direction:column; align-items:stretch; }
+    .sync-row input[type=text]{ min-width:0; }
+    .sync-row button{ width:100%; }
+    footer.actions{ flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width:380px){
+    .daygrid{ grid-template-columns:repeat(5,1fr); }
+    .stats{ grid-template-columns:repeat(2,1fr); gap:10px; }
   }
 </style>
 </head>
@@ -270,15 +320,14 @@
 
     <div class="grid-wrap">
       <h2>50-Day Overview</h2>
-      <p class="hint">Tap a day to open its ledger and mark today's blocks. Weekday cells hold 10 study blocks; Sundays are rest &amp; revision.</p>
       <div class="daygrid" id="daygrid"></div>
     </div>
 
     <div class="legend">
       <span><span class="dot" style="background:var(--white); border:1px solid var(--line);"></span>Not started</span>
       <span><span class="dot" style="background:var(--brass-soft);"></span>In progress</span>
-      <span><span class="dot" style="background:var(--stamp-red);"></span>Complete</span>
-      <span><span class="dot" style="background:#EFE9D8; border:1px solid var(--line);"></span>Sunday</span>
+      <span><span class="dot" style="background:var(--oxide);"></span>Complete</span>
+      <span><span class="dot" style="background:var(--rust-soft); border:1px solid var(--line);"></span>Test Day</span>
       <span><span class="dot" style="box-shadow:0 0 0 2px var(--brass); background:var(--white);"></span>Today</span>
     </div>
 
@@ -333,40 +382,129 @@
     {t:"8:45–9:30 PM",  l:"Vocabulary + Reading"},
     {t:"9:30–10:00 PM", l:"Plan next day & wind down"},
   ];
-  const TOTAL_DAYS = 50;
+  const TOTAL_DAYS = 51; // Day 0 through Day 50
   const MS_DAY = 86400000;
+  const DEFAULT_SHEET_URL = "https://script.google.com/macros/s/AKfycbyw5yv6Mmyi-Kiwq1kCVWRopKDoSJjDjPs6MxsuEePQs4YowB4KALES6ks0T4mxzmq1/exec";
+
+  // One unique line for each day of the plan, Day 0 through Day 50.
+  const QUOTES = [
+    "Day 0 is not for doubt — it's for direction. Open the notebook.",
+    "Small blocks, done daily, outlast one big burst done rarely.",
+    "The syllabus doesn't care how you feel. Sit down anyway.",
+    "Every error you catch today is a mark you keep tomorrow.",
+    "Consistency is the only shortcut that actually works.",
+    "You're not behind. You're exactly on Day 5 of a plan you're keeping.",
+    "Test Day tells the truth. Let it.",
+    "Speed comes after accuracy, never before it.",
+    "Reread the mistake, not just the right answer.",
+    "The 4 AM version of you is who gets the seat.",
+    "Ten blocks a day. That's the whole secret.",
+    "Boring, repeated effort is what mastery is made of.",
+    "Don't chase every topic — chase the ones you keep missing.",
+    "A tired brain still learns, just slower. Show up anyway.",
+    "Test Day: grade the paper, not yourself.",
+    "Today's puzzle is tomorrow's two-minute solve.",
+    "You don't need motivation at 4 AM. You need the alarm and a plan.",
+    "Vocabulary compounds. So does silence during practice.",
+    "The error notebook is worth more than any new chapter.",
+    "Nobody feels ready. Ready is built by Day 20, not felt on Day 1.",
+    "Halfway to Day 20 — check the trend, not just today's score.",
+    "Rest your eyes, not your discipline.",
+    "Speed math is just familiar math done many times.",
+    "One weak section fixed is worth ten strong sections revised.",
+    "Fatigue lies about how much you have left. Check the ledger instead.",
+    "A quarter of the way through — the habit is the real win so far.",
+    "Test Day again. Compare this score to Day 6, not to perfection.",
+    "The current affairs you skim today is the marks you keep in the exam hall.",
+    "Reasoning rewards patience more than speed.",
+    "You've sat down thirty mornings in a row that mattered. That's the story.",
+    "Halfway. The syllabus is shrinking whether you notice or not.",
+    "Puzzles are just patience wearing a disguise.",
+    "Every topic note you write is a favor to future, tired you.",
+    "Third Test Day — trust the graph, not the mood.",
+    "English improves in silence, one passage at a time.",
+    "The plan doesn't need your enthusiasm. It needs your attendance.",
+    "Sixty percent through. Keep the mornings sacred.",
+    "Banking awareness rewards the boring five minutes daily, not one long cram.",
+    "A slower correct method beats a fast wrong one, every time.",
+    "You are closer to Day 50 than to Day 0 now.",
+    "Test Day: this is the one that matters most, and it's not this one.",
+    "Two-thirds done. The finish line is a date on a calendar, not a feeling.",
+    "Practice tired. The real exam won't ask if you slept well.",
+    "Errors you fix in week six don't return in week eight.",
+    "Almost there — don't let the last stretch get sloppy.",
+    "Speed and calm are the same skill, practiced daily.",
+    "Test Day: read every explanation, even for the ones you got right.",
+    "Five days out. Consolidate — don't start anything new.",
+    "The habit that got you to Day 47 is the one to trust on exam day.",
+    "Last stretch. Sleep, revise, repeat — nothing dramatic.",
+    "This is the day the other 49 were preparing you for.",
+  ];
 
   function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
   const TODAY = startOfDay(new Date());
 
+  // Fixed plan start: Day 0 = Sunday, July 5, 2026. Days are numbered 0–50.
+  // Day 0 itself is a normal study day (not a rest/test day) — Test Days
+  // land every 7th day after that: Day 6, 13, 20, 27, 34, 41, 48.
+  const START_DATE = startOfDay(new Date(2026, 6, 5));
+
   const days = [];
   for(let i=0;i<TOTAL_DAYS;i++){
-    const d = new Date(TODAY.getTime() + i*MS_DAY);
+    const d = new Date(START_DATE.getTime() + i*MS_DAY);
+    const cyclePos = i % 7; // 0..5 = study days, 6 = Test Day
     days.push({
-      index:i+1,
+      index:i,                 // 0..50
+      week: Math.floor(i/7)+1,
+      cyclePos,
       date:d,
       iso: d.toISOString().slice(0,10),
-      isSunday: d.getDay()===0,
+      isTestDay: cyclePos===6,
       label: d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'})
     });
   }
 
-  let dayData = {};   // iso -> {checks:[bool*10], rest:bool, note:''}
+  let dayData = {};   // iso -> {checks:[bool*10], topics:[...], testDone:bool, score:'', note:''}
   let candidateName = '';
   let selectedIso = null;
   let sheetUrl = '';
+  const quoteCache = {}; // iso -> {text, author}
+
+  // Fetches one quote for the given day and caches it (in memory + storage)
+  // so the same day always shows the same quote, even after a reload.
+  // Falls back to the local QUOTES bank if the network call fails.
+  async function fetchDayQuote(iso, indexFallback){
+    if(quoteCache[iso]) return quoteCache[iso];
+    try{
+      const r = await window.storage.get('quote:'+iso, false);
+      if(r){ const q = JSON.parse(r.value); quoteCache[iso] = q; return q; }
+    }catch(e){ /* not cached yet */ }
+    try{
+      const res = await fetch('https://dummyjson.com/quotes/random');
+      if(!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      const q = { text: data.quote, author: data.author || '' };
+      quoteCache[iso] = q;
+      try{ await window.storage.set('quote:'+iso, JSON.stringify(q), false); }catch(e){}
+      return q;
+    }catch(e){
+      const q = { text: QUOTES[indexFallback % QUOTES.length], author: '' };
+      quoteCache[iso] = q;
+      return q;
+    }
+  }
 
   const fmtRange = `${days[0].date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})} — ${days[49].date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}`;
 
   function escAttr(s){
     return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-  function emptyDay(){ return {checks:new Array(TASKS.length).fill(false), topics:new Array(TASKS.length).fill(''), rest:false, note:''}; }
+  function emptyDay(){ return {checks:new Array(TASKS.length).fill(false), topics:new Array(TASKS.length).fill(''), testDone:false, score:'', note:''}; }
 
-  function pctFor(iso, isSunday){
+  function pctFor(iso, isTestDay){
     const rec = dayData[iso];
     if(!rec) return 0;
-    if(isSunday) return rec.rest ? 100 : 0;
+    if(isTestDay) return rec.testDone ? 100 : 0;
     const done = rec.checks.filter(Boolean).length;
     return Math.round((done/TASKS.length)*100);
   }
@@ -383,6 +521,10 @@
       const urlRes = await window.storage.get('meta:sheetUrl', false).catch(()=>null);
       sheetUrl = urlRes ? JSON.parse(urlRes.value) : '';
     }catch(e){ sheetUrl=''; }
+    if(!sheetUrl && DEFAULT_SHEET_URL){
+      sheetUrl = DEFAULT_SHEET_URL;
+      await saveSheetUrl();
+    }
     document.getElementById('sheetUrlInput').value = sheetUrl;
 
     try{
@@ -428,7 +570,7 @@
     const day = days.find(d=>d.iso===iso);
     const rec = dayData[iso];
     if(!day || !rec) return;
-    const payload = { date: iso, dayIndex: day.index, checks: rec.checks, topics: rec.topics, rest: rec.rest, note: rec.note };
+    const payload = { date: iso, dayIndex: day.index, cyclePos: day.cyclePos, checks: rec.checks, topics: rec.topics, testDone: rec.testDone, score: rec.score, note: rec.note };
     try{
       await fetch(sheetUrl, { method:'POST', body: JSON.stringify(payload) });
       setSyncStat('Synced to sheet — ' + new Date().toLocaleTimeString());
@@ -448,7 +590,8 @@
           dayData[d.date] = {
             checks: Array.isArray(d.checks) ? d.checks : new Array(TASKS.length).fill(false),
             topics: Array.isArray(d.topics) ? d.topics : new Array(TASKS.length).fill(''),
-            rest: !!d.rest,
+            testDone: !!d.testDone,
+            score: d.score || '',
             note: d.note || ''
           };
         });
@@ -484,11 +627,12 @@
   function renderGrid(){
     const grid = document.getElementById('daygrid');
     grid.innerHTML = '';
+    const todayIso = TODAY.toISOString().slice(0,10);
     days.forEach(day=>{
-      const pct = pctFor(day.iso, day.isSunday);
+      const pct = pctFor(day.iso, day.isTestDay);
       const cell = document.createElement('div');
-      cell.className = 'cell' + (day.isSunday?' sunday':'') + (day.iso===TODAY.toISOString().slice(0,10)?' today':'') + (day.iso===selectedIso?' selected':'') + (pct===100?' complete':'');
-      cell.title = `Day ${day.index} — ${day.label} — ${pct}%`;
+      cell.className = 'cell' + (day.isTestDay?' testday':'') + (day.iso===todayIso?' today':'') + (day.iso===selectedIso?' selected':'') + (pct===100?' complete':'');
+      cell.title = `Day ${day.index} — ${day.label} — ${day.isTestDay ? 'Test Day' : 'Study Day'} — ${pct}%`;
       if(pct>0 && pct<100){
         const fill = document.createElement('div');
         fill.className='fill';
@@ -515,19 +659,27 @@
     if(!dayData[day.iso]) dayData[day.iso] = emptyDay();
     const rec = dayData[day.iso];
     if(!rec.topics) rec.topics = new Array(TASKS.length).fill('');
+    if(rec.testDone===undefined) rec.testDone = false;
+    if(rec.score===undefined) rec.score = '';
     const detail = document.getElementById('detail');
-    const pct = pctFor(day.iso, day.isSunday);
+    const pct = pctFor(day.iso, day.isTestDay);
 
-    let html = `<h3>Day ${day.index} of 50</h3>
-      <p class="datestr">${day.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'})}</p>`;
+    let html = `<h3>Day ${day.index}${day.isTestDay ? ' — Test Day' : ''}</h3>
+      <p class="datestr">${day.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'})} · Week ${day.week} of the plan</p>
+      <div class="quotecard loading" id="quoteCard"><p class="qtext" id="quoteText">Fetching today's line…</p></div>`;
 
-    if(day.isSunday){
-      html += `<div class="sunday-card">
+    if(day.isTestDay){
+      html += `<div class="testday-card">
+        <p class="flagline">Day ${day.index} · Full-Length Mock &amp; Review</p>
         <label class="toggle">
-          <input type="checkbox" id="restCheck" ${rec.rest?'checked':''}>
-          Rested / did weekly revision as planned
+          <input type="checkbox" id="testCheck" ${rec.testDone?'checked':''}>
+          Completed today's mock test and analysis
         </label>
-        <textarea id="sundayNote" placeholder="Optional notes for the week — weak topics, mock test scores, adjustments for next week…">${escAttr(rec.note||'')}</textarea>
+        <div class="scorerow">
+          <span>Score</span>
+          <input type="number" id="scoreInput" value="${escAttr(rec.score||'')}" placeholder="e.g. 72">
+        </div>
+        <textarea id="sundayNote" placeholder="Sectional weak areas, mistakes to fix, adjustments for next week…">${escAttr(rec.note||'')}</textarea>
       </div>`;
     } else {
       html += `<div class="tasklist">`;
@@ -548,16 +700,36 @@
     }
 
     if(pct===100){
-      html += `<div class="daystamp">✓ LEDGER BALANCED — DAY COMPLETE</div>`;
+      html += `<div class="daystamp">✓ LEDGER BALANCED — ${day.isTestDay ? 'TEST LOGGED' : 'DAY COMPLETE'}</div>`;
     }
 
     detail.innerHTML = html;
 
-    if(day.isSunday){
-      document.getElementById('restCheck').addEventListener('change', async (e)=>{
-        rec.rest = e.target.checked;
+    fetchDayQuote(day.iso, day.index).then(q=>{
+      if(selectedIso !== day.iso) return; // user moved to another day meanwhile
+      const card = document.getElementById('quoteCard');
+      const textEl = document.getElementById('quoteText');
+      if(!card || !textEl) return;
+      card.classList.remove('loading');
+      textEl.textContent = q.text;
+      if(q.author){
+        const a = document.createElement('p');
+        a.className = 'qauthor';
+        a.textContent = '— ' + q.author;
+        card.appendChild(a);
+      }
+    });
+
+    if(day.isTestDay){
+      document.getElementById('testCheck').addEventListener('change', async (e)=>{
+        rec.testDone = e.target.checked;
         await saveDay(day.iso);
         renderGrid(); renderStats(); renderDetail();
+      });
+      document.getElementById('scoreInput').addEventListener('input', (e)=>{
+        rec.score = e.target.value;
+        clearTimeout(window.__scoreTimer);
+        window.__scoreTimer = setTimeout(()=>saveDay(day.iso), 500);
       });
       let noteTimer;
       document.getElementById('sundayNote').addEventListener('input', (e)=>{
@@ -576,7 +748,7 @@
           }
           await saveDay(day.iso);
           renderGrid(); renderStats();
-          const pctNow = pctFor(day.iso, day.isSunday);
+          const pctNow = pctFor(day.iso, day.isTestDay);
           if(pctNow===100 && !detail.querySelector('.daystamp')) renderDetail();
           else if(pctNow<100 && detail.querySelector('.daystamp')) renderDetail();
         });
@@ -608,11 +780,10 @@
 
   function renderStats(){
     let banked=0, sumPct=0, elapsed=0;
-    let streak=0, best=0, running=0, brokenYet=false;
-    const todayIso = TODAY.toISOString().slice(0,10);
+    let streak=0, best=0, running=0;
 
     days.forEach(day=>{
-      const pct = pctFor(day.iso, day.isSunday);
+      const pct = pctFor(day.iso, day.isTestDay);
       if(pct===100) banked++;
       if(day.date <= TODAY){
         elapsed++; sumPct += pct;
@@ -625,7 +796,7 @@
     for(let i=days.length-1;i>=0;i--){
       const day = days[i];
       if(day.date > TODAY) continue;
-      const pct = pctFor(day.iso, day.isSunday);
+      const pct = pctFor(day.iso, day.isTestDay);
       if(pct===100){ streak++; } else { break; }
     }
 
